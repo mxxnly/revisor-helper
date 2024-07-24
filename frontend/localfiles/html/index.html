@@ -1,0 +1,40 @@
+{% extends "base.html" %}
+{% load static%}
+{% block links %}
+    <link href="{% static 'css/index.css'%}" rel="stylesheet">
+{% endblock %}
+{% block title%}
+Revisor list
+{% endblock %}
+{% block maincont %}
+<main class="main container">
+    <div class="container text-center" id="formContainer">
+        <div class="formWrapper row row-cols-1 row-cols-md-4">
+            {% for revisor in revisors %}
+            <div class="card mb-3">
+                <div class="card-body">
+                    <h5 class="card-title">{{ revisor.firstname }} {{ revisor.lastname }}</h5>
+                    <p class="card-text">Email: {{ revisor.email }}</p>
+                    <p class="card-text">Номер телефону: {{ revisor.phone_number }}</p>
+                    <p class="card-text">Почав працювати з:<br>{{ revisor.date_hired }}</p>
+                    <p class="card-text">Зараз рахує: {{ revisor.now_shop }}</p>
+                    <p class="card-text">Порахував цього місяця: {{ revisor.shops }}</p>
+                    <p class="card-text">Дальні точки: {{ revisor.way_shops }}</p>
+                    <p class="card-text">Переводив магазини: {{ revisor.move_shops }}</p>
+                </div>
+                
+            </div>
+            {% endfor %}
+    </div>
+</main>
+{% endblock %}
+
+
+
+
+
+
+
+
+
+
