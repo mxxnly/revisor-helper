@@ -1,0 +1,51 @@
+{% extends "base.html" %}
+{% load static%}
+{% block links %}
+    <link href="{% static 'css/q.css'%}" rel="stylesheet">
+{% endblock %}
+{% block title%}
+Queue
+{% endblock %}
+{% block maincont %}
+<body>
+    <ul id="shop-list">
+        {% for shop in shops %}
+            <li data-id="{{ shop.id }}">{{ shop.name }}</li>
+        {% endfor %}
+    </ul>
+    <script>
+        var shopList = document.getElementById('shop-list');
+        new Sortable(shopList, {
+            animation: 150,
+            onEnd: function (evt) {
+                var order = [];
+                shopList.querySelectorAll('li').forEach(function (li, index) {
+                    order.push({
+                        id: li.getAttribute('data-id'),
+                        position: index + 1
+                    });
+                });
+
+                fetch('{% url "reorder_shops" %}', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'X-CSRFToken': '{{ csrf_token }}'
+                    },
+                    body: JSON.stringify({order: order})
+                });
+            }
+        });
+    </script>
+{% endblock %}
+{% block script %}<script src="https://cdn.jsdelivr.net/npm/sortablejs@latest/Sortable.min.js"></script>{% endblock %}
+
+
+
+
+
+
+
+
+
+

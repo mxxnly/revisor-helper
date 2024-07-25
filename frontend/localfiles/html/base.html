@@ -12,6 +12,7 @@
     {% load static %}
     <link href="{% static 'css/global.css' %}" rel="stylesheet">
     {%block links%}{%endblock%}
+    <script src="https://cdn.jsdelivr.net/npm/sortablejs@latest/Sortable.min.js"></script>
     <title>{% block title%}{% endblock %}</title>
 </head>
 
@@ -36,7 +37,7 @@
                         <a class="nav-link" href="#">Наступний магазин</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="#">Черга</a>
+                        <a class="nav-link" href="{% url 'shop_list' %}">Черга</a>
                     </li>
                 </ul>
                 <ul class="navbar-nav mb-2 mb-lg-0">

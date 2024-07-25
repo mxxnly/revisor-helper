@@ -8,7 +8,11 @@ class Shop(models.Model):
     name = models.CharField(max_length=100)
     address = models.CharField(max_length=255)
     last_counted_by = models.ForeignKey('Revisor', on_delete=models.SET_NULL, null=True, blank=True, related_name='last_counted_shops')
-    
+    position = models.PositiveIntegerField(default=0)
+
+    class Meta:
+        ordering = ['position']
+
 
     def __str__(self):
         return self.name
