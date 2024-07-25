@@ -1,0 +1,16 @@
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Delete Shop</title>
+</head>
+<body>
+    <h1>Delete Shop</h1>
+    <p>Are you sure you want to delete "{{ shop.name }}"?</p>
+    <form method="post">
+        {% csrf_token %}
+        <button type="submit">Yes, delete</button>
+    </form>
+    <a href="{% url 'shop_list' %}">Cancel</a>
+</body>
+</html>

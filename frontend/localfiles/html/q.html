@@ -8,9 +8,18 @@ Queue
 {% endblock %}
 {% block maincont %}
 <body>
+    <h1>Shop List</h1>
+    <a href="{% url 'shop_add' %}">Add Shop</a>
     <ul id="shop-list">
         {% for shop in shops %}
-            <li data-id="{{ shop.id }}">{{ shop.name }}</li>
+            <li data-id="{{ shop.id }}">
+                {{ shop.name }}
+                <a href="{% url 'shop_edit' shop.id %}">Edit</a>
+                <form action="{% url 'shop_delete' shop.id %}" method="post" style="display:inline;">
+                    {% csrf_token %}
+                    <button type="submit">Delete</button>
+                </form>
+            </li>
         {% endfor %}
     </ul>
     <script>
@@ -37,6 +46,7 @@ Queue
             }
         });
     </script>
+</body>
 {% endblock %}
 {% block script %}<script src="https://cdn.jsdelivr.net/npm/sortablejs@latest/Sortable.min.js"></script>{% endblock %}
 
