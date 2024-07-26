@@ -118,7 +118,7 @@ TEMPLATES = [
     },
 ]
 
-STATIC_URL = 'static/'
+STATIC_URL = '/static/'
 STATICFILES_DIRS = [
     BASE_DIR / 'frontend/localfiles',
     BASE_DIR / 'frontend/photos',
