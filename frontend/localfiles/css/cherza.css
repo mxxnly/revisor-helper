@@ -1,45 +1,66 @@
-/* Base styles for the shop list */
-/* Styles for the main heading */
-#name {
+#formdiv {
+    list-style: none;
+    padding: 0;
+    margin: 0;
     display: flex;
-    justify-content: center; /* Center horizontally */
-    margin: 10px 0; /* Add some margin for spacing */
+    flex-direction: column;
+    align-items: center;
 }
-
-#name h1 {
-    display: inline-block;
-    padding: 5px 10px;
-    font-size: 2em; /* Adjust the size of the heading */
-    font-weight: bold; /* Make the text bold */
-    color: #333; /* Dark gray color for the text */
-    background-color: #f2f2f2; /* Light gray background color */
-    border-radius: 8px; /* Rounded corners */
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Subtle shadow for a lifted effect */
-    text-align: center;
-}
-
-#add_button {
+.form-container {
+    margin: 20px 0;
+    padding: 15px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    background-color: #65636323;
+    max-width: 600px;
+    height: auto;
     display: flex;
-    justify-content: center; /* Center horizontally */
-    margin: 10px 0; /* Add some margin for spacing */
+    align-items: center;
 }
 
-#add_button a {
-    display: inline-block;
-    padding: 5px 10px;
-    border-radius: 4px;
-    font-size: 14px;
-    background-color: #34db34;
-    color: white;
-    text-decoration: none;
-    text-align: center;
-    transition: background-color 0.5s;
-}
-
-#add_button a:hover {
-    background-color: #28a428;
+.form-row {
+    display: flex;
     
 }
+
+.form-row > p {
+    flex: 1; /* This allows the form fields to take up available space */
+}
+
+input[type="text"] {
+    width: 100%;
+    padding: 10px;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+    box-sizing: border-box;
+}
+
+.submit-button {
+    background-color: #4CAF50;
+    color: white;
+    padding: 10px;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+    margin-left: 10px;
+    height: auto;
+}
+
+.submit-button:hover {
+    background-color: #45a049;
+}
+
+.button {
+    background-color: #007BFF;
+    color: white;
+    text-decoration: none;
+}
+
+.button:hover {
+    background-color: #0056b3;
+}
+
+
+
 
 #shop-list {
     list-style: none;
@@ -52,14 +73,14 @@
 
 #shop-list li {
     display: flex;
-    justify-content: space-between;
+    justify-content: flex-end;
     align-items: center;
     padding: 10px;
     margin-bottom: 10px;
     background-color: #00000046;
     border-radius: 4px;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-    max-width: 90%;
+    width: 70%;
 }
 
 #shop-list li a,
@@ -86,6 +107,7 @@
     background-color: #3498db;
     color: white;
     text-decoration: none;
+    cursor: pointer;
     padding: 5px 10px;
     border-radius: 4px;
     font-size: 14px;
@@ -95,18 +117,45 @@
 #shop-list li a:hover {
     background-color: #2980b9;
 }
+#shop-list li .shop-name {
+    margin-right: auto; 
+}
+.edit-form {
+    display: none;
+    flex: 1;
+    display: flex;
+    align-items: center;
+}
 
-/* Responsive styles for mobile devices */
+.edit-form input[type="text"] {
+    flex: 1;
+    margin-right: 10px;
+}
+
+.edit-form button {
+    margin-top: 5px;
+}
+
+.shop-name {
+    flex: 1;
+    display: inline-block;
+}
+
+
+
 @media (max-width: 600px) {
+    
     #shop-list li {
         flex-direction: column;
         align-items: flex-start;
+        width: 100%;
     }
 
     #shop-list li a,
     #shop-list li form {
         margin-left: 0;
         margin-top: 5px;
+        width: 100%;
     }
 
     #shop-list li form button,
@@ -115,3 +164,4 @@
         text-align: center;
     }
 }
+

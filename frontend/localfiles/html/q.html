@@ -1,33 +1,46 @@
 {% extends "base.html" %}
-{% load static%}
+{% load static %}
 {% block links %}
-    <link href="{% static 'css/cherza.css'%}" rel="stylesheet">
+<link href="{% static 'css/cherza.css' %}" rel="stylesheet">
 {% endblock %}
-{% block title%}
+{% block title %}
 Queue
 {% endblock %}
 {% block maincont %}
-<body>
-    <div id="name">
-        <h1>Shop List</h1>
-    </div>
-    <div id="add_button">
-        <a href="{% url 'shop_add' %}">Add Shop</a>
-    </div>
-    <ul id="shop-list">
-        {% for shop in shops %}
-            <li data-id="{{ shop.id }}">
-                {{ shop.name }}
-                <a href="{% url 'shop_edit' shop.id %}">Edit</a>
-                <form action="{% url 'shop_delete' shop.id %}" method="post" style="display:inline;">
-                    {% csrf_token %}
-                    <button type="submit">Delete</button>
-                </form>
-            </li>
-        {% endfor %}
-    </ul>
-    <script>
-        var shopList = document.getElementById('shop-list');
+<div id="formdiv">
+    <form action="/shops/add/" method="post" id="formAdd" class="form-container">
+        {% csrf_token %}
+        <div class="form-row">
+            {{ form.as_p }}
+            <input type="submit" value="Submit" class="submit-button">
+        </div>
+    </form>
+</div>
+
+<ul id="shop-list">
+    {% for shop in shops %}
+    <li id="shop-item-{{ shop.id }}" data-id="{{ shop.id }}">
+        <span class="shop-name">{{ shop.name }}</span>
+        
+        <form id="edit-form-{{ shop.id }}" class="edit-form" action="{% url 'shop_edit' shop.id %}" method="post" style="display: none;">
+            {% csrf_token %}
+            <input type="text" name="name" value="{{ shop.name }}">
+            <button type="submit">Save</button>
+            <button type="button" class="cancel-edit" data-shop-id="{{ shop.id }}">Cancel</button>
+        </form>
+        
+        <a href="#" class="edit-button" data-shop-id="{{ shop.id }}">Edit</a>
+        
+        <form action="{% url 'shop_delete' shop.id %}" method="post" style="display:inline;">
+            {% csrf_token %}
+            <button type="submit">Delete</button>
+        </form>
+    </li>
+    {% endfor %}
+</ul>
+
+<script>
+    var shopList = document.getElementById('shop-list');
         new Sortable(shopList, {
             animation: 150,
             onEnd: function (evt) {
@@ -49,17 +62,28 @@ Queue
                 });
             }
         });
-    </script>
-</body>
+    document.addEventListener('DOMContentLoaded', function() {
+        document.querySelectorAll('.edit-button').forEach(function(button) {
+            button.addEventListener('click', function(event) {
+                event.preventDefault();
+                const shopId = this.getAttribute('data-shop-id');
+                document.querySelector(`#shop-item-${shopId} .shop-name`).style.display = 'none';
+                document.querySelector(`#edit-form-${shopId}`).style.display = 'block';
+                this.style.display = 'none';
+            });
+        });
+
+        document.querySelectorAll('.cancel-edit').forEach(function(button) {
+            button.addEventListener('click', function() {
+                const shopId = this.getAttribute('data-shop-id');
+                document.querySelector(`#shop-item-${shopId} .shop-name`).style.display = 'block';
+                document.querySelector(`#edit-form-${shopId}`).style.display = 'none';
+                document.querySelector(`#shop-item-${shopId} .edit-button`).style.display = 'inline-block';
+            });
+        });
+    });
+</script>
 {% endblock %}
-{% block script %}<script src="https://cdn.jsdelivr.net/npm/sortablejs@latest/Sortable.min.js"></script>{% endblock %}
-
-
-
-
-
-
-
-
-
-
+{% block script %}
+<script src="https://cdn.jsdelivr.net/npm/sortablejs@latest/Sortable.min.js"></script>
+{% endblock %}

@@ -24,7 +24,7 @@ class Revisor(models.Model):
     email = models.EmailField(unique=True)
     phone_number = models.CharField(max_length=20, blank=True, null=True)
     date_hired = models.DateField()
-    now_shop = models.ForeignKey(Shop, on_delete=models.CASCADE)
+    now_shop = models.ForeignKey(Shop, on_delete=models.SET_NULL, null=True, blank=True)
     shops = models.IntegerField()
     way_shops = models.IntegerField()
     move_shops = models.IntegerField()

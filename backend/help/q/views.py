@@ -8,7 +8,9 @@ from .forms import ShopForm
 
 def shop_list(request):
     shops = Shop.objects.all()
-    return render(request, 'q.html', {'shops': shops})
+    form = ShopForm()
+
+    return render(request, 'q.html', {'shops': shops, 'form': form})
 
 
 
@@ -21,9 +23,7 @@ def reorder_shops(request):
         return JsonResponse({'status': 'ok'})
     
 
-def shop_list(request):
-    shops = Shop.objects.all()
-    return render(request, 'q.html', {'shops': shops})
+
 
 def shop_add(request):
     if request.method == 'POST':
@@ -33,7 +33,7 @@ def shop_add(request):
             return redirect('shop_list')
     else:
         form = ShopForm()
-    return render(request, 'shop_add.html', {'form': form})
+    return render(request, 'q.html', {'form': form})
 
 def shop_edit(request, shop_id):
     shop = Shop.objects.get(id=shop_id)
@@ -44,11 +44,11 @@ def shop_edit(request, shop_id):
             return redirect('shop_list')
     else:
         form = ShopForm(instance=shop)
-    return render(request, 'shop_edit.html', {'form': form})
+    return render(request, 'q.html', {'form': form})
 
 def shop_delete(request, shop_id):
     shop = Shop.objects.get(id=shop_id)
     if request.method == 'POST':
         shop.delete()
         return redirect('shop_list')
-    return render(request, 'shop_delete.html', {'shop': shop})
+    return render(request, 'q.html', {'shop': shop})
