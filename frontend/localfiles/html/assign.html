@@ -1,0 +1,29 @@
+{% extends "base.html" %}
+{% load static %}
+{% block links %}
+<link href="{% static 'css/assign.css' %}" rel="stylesheet">
+{% endblock %}
+{% block title %}
+Next shop
+{% endblock %}
+{% block maincont %}
+<body>
+    <h1>Assign Shop</h1>
+    <form method="post" action="{% url 'assign_shop' %}">
+        {% csrf_token %}
+        <label for="revisor">Select Revisor:</label>
+        <select id="revisor" name="revisor_id">
+            {% for revisor in revisors %}
+                <option value="{{ revisor.id }}">{{ revisor.firstname }} {{ revisor.lastname }}</option>
+            {% endfor %}
+        </select>
+        <button type="submit">Assign Shop</button>
+    </form>
+    {% if message %}
+        <p>{{ message }}</p>
+    {% endif %}
+</body>
+{% endblock %}
+{% block script %}
+<script src="https://cdn.jsdelivr.net/npm/sortablejs@latest/Sortable.min.js"></script>
+{% endblock %}
