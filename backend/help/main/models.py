@@ -1,4 +1,5 @@
 from django.db import models
+from django.utils import timezone
 
 
 
@@ -33,4 +34,14 @@ class Revisor(models.Model):
 
     def __str__(self):
         return f"{self.firstname} {self.lastname}"
+    
+class Task(models.Model):
+    shop = models.ForeignKey('Shop', on_delete=models.CASCADE)
+    revisor = models.ForeignKey('Revisor', on_delete=models.CASCADE)
+    assigned_at = models.DateTimeField(default=timezone.now)
+    completed_at = models.DateTimeField(null=True, blank=True)
+
+    def complete_task(self):
+        self.completed_at = timezone.now()
+        self.save()
 

@@ -1,13 +1,14 @@
 {% extends "base.html" %}
-{% load static%}
+{% load static %}
 {% block links %}
-    <link href="{% static 'css/index.css'%}" rel="stylesheet">
+    <link href="{% static 'css/index.css' %}" rel="stylesheet">
 {% endblock %}
-{% block title%}
+{% block title %}
 Revisor list
 {% endblock %}
 {% block maincont %}
 <main class="main container">
+    <h1 class="text-center">Revisor List</h1>
     <div class="container text-center" id="formContainer">
         <div class="formWrapper row row-cols-1 row-cols-md-4">
             {% for revisor in revisors %}
@@ -22,19 +23,9 @@ Revisor list
                     <p class="card-text">Дальні точки: {{ revisor.way_shops }}</p>
                     <p class="card-text">Переводив магазини: {{ revisor.move_shops }}</p>
                 </div>
-                
             </div>
             {% endfor %}
+        </div>
     </div>
 </main>
 {% endblock %}
-
-
-
-
-
-
-
-
-
-

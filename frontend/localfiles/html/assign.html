@@ -22,6 +22,20 @@ Next shop
     {% if message %}
         <p>{{ message }}</p>
     {% endif %}
+
+    <h1>Tasks</h1>
+    <ul class="tasks">
+        {% for task in tasks %}
+            <li class="task">
+                Shop: {{ task.shop }}  Revisor: {{ task.revisor }}  Assigned: {{ task.assigned_at }}
+                {% if task.completed_at %}
+                    (Completed: {{ task.completed_at }})
+                {% else %}
+                    <a href="{% url 'complete_task' task.id %}">Mark as Completed</a>
+                {% endif %}
+            </li>
+        {% endfor %}
+    </ul>
 </body>
 {% endblock %}
 {% block script %}
