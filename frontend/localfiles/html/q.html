@@ -11,7 +11,16 @@ Queue
     <form action="/shops/add/" method="post" id="formAdd" class="form-container">
         {% csrf_token %}
         <div class="form-row">
-            {{ form.as_p }}
+            <ul class="form-list">
+                <li>
+                    <label for="{{ form.name.id_for_label }}" class="form-label">{{ form.name.label }}</label>
+                    {{ form.name }}
+                </li>
+                <li>
+                    <label for="{{ form.status.id_for_label }}" class="form-label">{{ form.status.label }}</label>
+                    {{ form.status }}
+                </li>
+            </ul>
             <input type="submit" value="Submit" class="submit-button">
         </div>
     </form>
@@ -19,12 +28,25 @@ Queue
 
 <ul id="shop-list">
     {% for shop in shops %}
-    <li id="shop-item-{{ shop.id }}" data-id="{{ shop.id }}">
+    <li id="shop-item-{{ shop.id }}" data-id="{{ shop.id }}" class="{% if shop.status == 'new' %}new-shop{% elif shop.status == 'transported' %}transported-shop{% elif shop.status == 'c1' %}c1-shop{% elif shop.status == 'away' %}away-shop{% elif shop.status == 'normal' %}normal-shop{% endif %}">
         <span class="shop-name">{{ shop.name }}</span>
         
         <form id="edit-form-{{ shop.id }}" class="edit-form" action="{% url 'shop_edit' shop.id %}" method="post" style="display: none;">
             {% csrf_token %}
-            <input type="text" name="name" value="{{ shop.name }}">
+            <div class="edit-form-field">
+                <label for="name-{{ shop.id }}" class="form-label">Name</label>
+                <input type="text" id="name-{{ shop.id }}" name="name" value="{{ shop.name }}">
+            </div>
+            <div class="edit-form-field">
+                <label for="status-{{ shop.id }}" class="form-label">Status</label>
+                <select id="status-{{ shop.id }}" name="status">
+                    <option value="new" {% if shop.status == 'new' %}selected{% endif %}>New</option>
+                    <option value="transported" {% if shop.status == 'transported' %}selected{% endif %}>Transported</option>
+                    <option value="c1" {% if shop.status == 'c1' %}selected{% endif %}>C1</option>
+                    <option value="away" {% if shop.status == 'away' %}selected{% endif %}>Away</option>
+                    <option value="normal" {% if shop.status == 'normal' %}selected{% endif %}>Normal</option>
+                </select>
+            </div>
             <button type="submit">Save</button>
             <button type="button" class="cancel-edit" data-shop-id="{{ shop.id }}">Cancel</button>
         </form>
@@ -41,27 +63,28 @@ Queue
 
 <script>
     var shopList = document.getElementById('shop-list');
-        new Sortable(shopList, {
-            animation: 150,
-            onEnd: function (evt) {
-                var order = [];
-                shopList.querySelectorAll('li').forEach(function (li, index) {
-                    order.push({
-                        id: li.getAttribute('data-id'),
-                        position: index + 1
-                    });
+    new Sortable(shopList, {
+        animation: 150,
+        onEnd: function (evt) {
+            var order = [];
+            shopList.querySelectorAll('li').forEach(function (li, index) {
+                order.push({
+                    id: li.getAttribute('data-id'),
+                    position: index + 1
                 });
+            });
 
-                fetch('{% url "reorder_shops" %}', {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                        'X-CSRFToken': '{{ csrf_token }}'
-                    },
-                    body: JSON.stringify({order: order})
-                });
-            }
-        });
+            fetch('{% url "reorder_shops" %}', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'X-CSRFToken': '{{ csrf_token }}'
+                },
+                body: JSON.stringify({order: order})
+            });
+        }
+    });
+
     document.addEventListener('DOMContentLoaded', function() {
         document.querySelectorAll('.edit-button').forEach(function(button) {
             button.addEventListener('click', function(event) {
