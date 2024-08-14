@@ -1,58 +1,99 @@
-body {
-    background-color: #121212;
-    color: #e0e0e0;
-    font-family: Arial, sans-serif;
-    margin: 0;
-    padding: 0;
-}
+/* Global Styles */
 
-.main {
+/* Main Container */
+.main.container {
+    max-width: 100%;
+    margin: 0 auto;
     padding: 20px;
+    background-color: #121212;
+    color: #ffffff;
 }
 
+/* Title Styling */
+h1.text-center {
+    font-size: 32px;
+    margin-bottom: 40px;
+    color: #1e90ff;
+}
+
+/* Form Container */
+#formContainer {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+}
+
+/* Card Styles */
 .card {
     background-color: #1e1e1e;
-    border: 1px solid #333;
-    border-radius: 8px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.5);
-    transition: background-color 0.3s ease, box-shadow 0.3s ease;
+    border: none;
+    border-radius: 10px;
+    box-shadow: 0px 4px 8px rgba(255, 255, 255, 0.1);
+    transition: transform 0.2s, box-shadow 0.2s;
+    margin: 15px;
+    flex: 0 0 calc(33% - 30px); /* 25% width minus margin */
 }
 
 .card:hover {
-    background-color: #333;
-    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.7);
+    transform: translateY(-5px);
+    box-shadow: 0px 6px 12px rgba(255, 255, 255, 0.2);
 }
 
 .card-body {
-    padding: 15px;
+    padding: 20px;
+}
+
+.card-title, .card-text {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
 }
 
 .card-title {
+    font-size: 22px;
     color: #ffffff;
-    font-size: 1.2em;
-    margin-bottom: 10px;
+    margin-bottom: 15px;
+    font-weight: bold;
 }
 
 .card-text {
-    color: #b0b0b0;
-    margin-bottom: 5px;
+    font-size: 16px;
+    color: #cccccc;
+    margin-bottom: 10px;
 }
 
-.container {
-    max-width: 1200px;
-    margin: 0 auto;
+/* Responsive Styles */
+@media (max-width: 1200px) {
+    .card {
+        flex: 0 0 calc(33.33% - 30px); /* 3 cards per row on medium screens */
+    }
 }
 
-.text-center {
-    text-align: center;
+@media (max-width: 768px) {
+    h1.text-center {
+        font-size: 28px;
+    }
+
+    .card {
+        flex: 0 0 calc(50% - 30px); /* 2 cards per row on small screens */
+        margin: 15px auto;
+        max-width: 100%;
+    }
+
+    .card-title, .card-text {
+        white-space: normal; /* Allow text to wrap */
+        overflow: visible;
+        text-overflow: clip;
+    }
+
+    #formContainer {
+        flex-direction: column; /* Stack cards vertically on small screens */
+        align-items: center;
+    }
 }
 
-h1 {
-    color: #ffffff;
-    margin-bottom: 20px;
-}
-
-p {
-    color: #ff4d4d;
-    font-weight: bold;
+@media (max-width: 480px) {
+    .card {
+        flex: 0 0 calc(100% - 30px); /* 1 card per row on very small screens */
+    }
 }

@@ -24,10 +24,6 @@ def assign_shop_to_revisor(revisor: Revisor):
 
         revisor.now_shop = shop_to_assign
         revisor.save()
-        max_position = Shop.objects.aggregate(models.Max('position'))['position__max'] or 0
-        shop_to_assign.position = max_position + 1
-        shop_to_assign.last_counted_by = revisor
-        shop_to_assign.save()
 
         Task.objects.create(
             shop=shop_to_assign,

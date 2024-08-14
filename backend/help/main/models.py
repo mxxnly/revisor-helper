@@ -11,6 +11,7 @@ class Shop(models.Model):
     last_counted_by = models.ForeignKey('Revisor', on_delete=models.SET_NULL, null=True, blank=True, related_name='last_counted_shops')
     position = models.PositiveIntegerField(default=0)
     status = models.CharField(max_length=20, choices=[('new', 'New'), ('transported', 'Transported'),('c1', 'C1'),('away', 'Away'),('normal', 'Normal')], default="normal")
+    last_time = models.DateTimeField(null=True, blank=True)
 
     class Meta:
         ordering = ['position']
@@ -44,4 +45,7 @@ class Task(models.Model):
     def complete_task(self):
         self.completed_at = timezone.now()
         self.save()
+
+        self.shop.last_time = self.completed_at
+        self.shop.save()
 

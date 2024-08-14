@@ -9,16 +9,38 @@ Next shop
 {% block maincont %}
 <body>
     <h1>Assign Shop</h1>
-    <form method="post" action="{% url 'assign_shop' %}">
-        {% csrf_token %}
-        <label for="revisor">Select Revisor:</label>
-        <select id="revisor" name="revisor_id">
-            {% for revisor in revisors %}
-                <option value="{{ revisor.id }}">{{ revisor.firstname }} {{ revisor.lastname }}</option>
-            {% endfor %}
-        </select>
-        <button type="submit">Assign Shop</button>
-    </form>
+    <div class="forms-container">
+        <form method="post" action="{% url 'assign_shop' %}">
+            {% csrf_token %}
+            <label for="revisor">Select Revisor:</label>
+            <select id="revisor" name="revisor_id">
+                {% for revisor in revisors %}
+                    <option value="{{ revisor.id }}">{{ revisor.firstname }} {{ revisor.lastname }}</option>
+                {% endfor %}
+            </select>
+            <button type="submit">Assign Shop</button>
+        </form>
+
+        <form method="post" action="{% url 'assign_that' %}">
+            {% csrf_token %}
+            <label for="revisor">Select Revisor:</label>
+            <select id="revisor" name="revisor_id">
+                {% for revisor in revisors %}
+                    <option value="{{ revisor.id }}">{{ revisor.firstname }} {{ revisor.lastname }}</option>
+                {% endfor %}
+            </select>
+        
+            <label for="shop">Select Shop:</label>
+            <select id="shop" name="shop_id">
+                {% for shop in shops %}
+                    <option value="{{ shop.id }}">{{ shop.name }}</option>
+                {% endfor %}
+            </select>
+        
+            <button type="submit">Assign Shop</button>
+        </form>
+    </div>
+
     {% if message %}
         <p>{{ message }}</p>
     {% endif %}
@@ -27,7 +49,7 @@ Next shop
     <ul class="tasks">
         {% for task in tasks %}
             <li class="task">
-                Shop: {{ task.shop }}  Revisor: {{ task.revisor }}  Assigned: {{ task.assigned_at }}
+                Shop: {{ task.shop }} <br> Revisor: {{ task.revisor }} <br> Assigned: {{ task.assigned_at }}
                 {% if task.completed_at %}
                     (Completed: {{ task.completed_at }})
                 {% else %}
@@ -38,6 +60,7 @@ Next shop
     </ul>
 </body>
 {% endblock %}
+
 {% block script %}
 <script src="https://cdn.jsdelivr.net/npm/sortablejs@latest/Sortable.min.js"></script>
 {% endblock %}

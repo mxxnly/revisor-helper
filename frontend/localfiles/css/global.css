@@ -15,7 +15,10 @@ body {
     display: flex;
     flex-direction: column;
     min-height: 100vh;
+    background-color: #121212;
+    color: #ffffff;
 }
+
 
 .main {
     margin-top: 24px;

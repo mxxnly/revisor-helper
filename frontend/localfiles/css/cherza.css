@@ -1,4 +1,6 @@
-/* Общие стили для формы */
+.spaced {
+    margin-right: 20px; /* Adjust the value as needed */
+}
 #formdiv {
     display: flex;
     justify-content: center;
@@ -10,7 +12,7 @@
     padding: 20px;
     border: 1px solid rgba(255, 255, 255, 0.2);
     border-radius: 8px;
-    background-color: rgba(0, 0, 0, 0.6); /* Полупрозрачный черный фон */
+    background-color: rgba(0, 0, 0, 0.6);
     max-width: 500px;
     width: 100%;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.5);
@@ -38,7 +40,6 @@
     color: #ccc; 
     margin-bottom: 5px;
 }
-
 
 input[type="text"], select {
     width: 100%;
@@ -69,7 +70,6 @@ input[type="text"]:focus, select:focus {
     background-color: rgba(255, 255, 255, 0.3);
 }
 
-
 input[type="submit"] {
     background-color: #4CAF50;
     color: white;
@@ -91,7 +91,7 @@ input[type="submit"]:hover {
     margin: 0;
     display: flex;
     flex-direction: column;
-    align-items: center; /* Center items horizontally */
+    align-items: center;
 }
 
 #shop-list li {
@@ -100,8 +100,8 @@ input[type="submit"]:hover {
     align-items: center;
     padding: 10px;
     margin-bottom: 10px;
-    background-color: #00000046;
-    border-radius: 4px;
+    background-color: rgba(255, 255, 255, 0.1);
+    border-radius: 8px; /* Закруглені кути */
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
     width: 70%;
 }
@@ -147,24 +147,63 @@ input[type="submit"]:hover {
 
 /* Статусные классы */
 .new-shop {
-    background: linear-gradient(135deg, #0cb6ff 100%, #2c3e5048 0%); /* Тёмный фон с фиолетовым акцентом */
+    border: 5px solid transparent;
+    border-image: linear-gradient(135deg, #0cb6ff9a 0%, #2c3e5048 100%);
+    border-image-slice: 1;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.new-shop:hover {
+    transform: scale(1.05);
+    box-shadow: 0 0 10px #0cb6ff9a;
 }
 
 .transported-shop {
-    background: linear-gradient(135deg, #8a0dd2 0%, #2c3e5048 100%);
+    border: 5px solid transparent;
+    border-image: linear-gradient(135deg, #8a0dd2a9 0%, #2c3e5048 100%);
+    border-image-slice: 1;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.transported-shop:hover {
+    transform: scale(1.05);
+    box-shadow: 0 0 10px #8a0dd2a9;
 }
 
 .c1-shop {
-    background: linear-gradient(135deg, #fb7908 0%, #2c3e5048 100%);
+    border: 5px solid transparent;
+    border-image: linear-gradient(135deg, #fb7908af 0%, #2c3e5048 100%);
+    border-image-slice: 1;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.c1-shop:hover {
+    transform: scale(1.05);
+    box-shadow: 0 0 10px #fb7908af;
 }
 
 .away-shop {
-    background: linear-gradient(135deg, #00ff1e 0%, #2c3e5048 100%);
+    border: 5px solid transparent;
+    border-image: linear-gradient(135deg, #00ff1ea7 0%, #2c3e5048 100%);
+    border-image-slice: 1;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.away-shop:hover {
+    transform: scale(1.05);
+    box-shadow: 0 0 10px #00ff1ea7;
 }
 
 .normal-shop {
-    background: linear-gradient(135deg, #fefefe 0%, #2c3e5048 100%);
-    color: black;
+    border: 5px solid transparent;
+    border-image: linear-gradient(135deg, #fefefebd 0%, #2c3e5048 100%);
+    border-image-slice: 1;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.normal-shop:hover {
+    transform: scale(1.05);
+    box-shadow: 0 0 10px #fefefe;
 }
 
 /* Стили для формы редактирования */
@@ -173,7 +212,7 @@ input[type="submit"]:hover {
     flex: 1;
     display: flex;
     flex-direction: column;
-    background: rgba(0, 0, 0, 0.7); /* Полупрозрачный фон для формы редактирования */
+    background-color: rgba(255, 255, 255, 0.1);
     padding: 15px;
     border-radius: 8px;
     width: 100%;
@@ -182,8 +221,7 @@ input[type="submit"]:hover {
 .edit-form input[type="text"], .edit-form select {
     flex: 1;
     margin-right: 10px;
-    color: black;
-    background-color: rgba(255, 255, 255, 0.1); /* Полупрозрачный фон для полей ввода */
+    background-color: rgba(255, 255, 255, 0.1);
 }
 
 .edit-form button {

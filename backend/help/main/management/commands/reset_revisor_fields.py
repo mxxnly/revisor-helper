@@ -2,12 +2,13 @@ from django.core.management.base import BaseCommand
 from main.models import Revisor
 from django.utils import timezone
 
+
 class Command(BaseCommand):
     help = 'Resets shops, way_shops, and move_shops fields for all Revisors on the first day of the month'
 
     def handle(self, *args, **options):
         now = timezone.now()
-        if now.day == 14:
+        if now.day == 0:
             Revisors = Revisor.objects.all()
             for revisor in Revisors:
                 revisor.shops = 0
