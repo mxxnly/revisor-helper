@@ -16,11 +16,11 @@ def assign_that_view(request):
             revisor = get_object_or_404(Revisor, id=revisor_id)
             shop = get_object_or_404(Shop, id=shop_id)
             
-            # Check if the shop is already assigned
             if not Task.objects.filter(shop=shop, completed_at__isnull=True).exists():
-                # Create a new task for the shop and revisor
                 Task.objects.create(shop=shop, revisor=revisor, assigned_at=timezone.now())
                 message = f"{revisor.firstname} {revisor.lastname} був/-ла призначений/-a до {shop.name}"
+                revisor.now_shop = shop
+                revisor.save()
             else:
                 message = "Магазин вже призначено."
 
@@ -39,7 +39,7 @@ def assign_that_view(request):
 
     return render(request, 'assign.html', {
         'revisors': revisors,
-        'shops': shops,  # Correctly pass the list of shops
+        'shops': shops,
         'message': message,
         'tasks': tasks
     })
