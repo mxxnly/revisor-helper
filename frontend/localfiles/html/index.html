@@ -2,12 +2,21 @@
 {% load static %}
 {% block links %}
     <link href="{% static 'css/index.css' %}" rel="stylesheet">
+    <meta name="csrf-token" content="{% csrf_token %}">
 {% endblock %}
 {% block title %}
 Revisor list
 {% endblock %}
 {% block maincont %}
 <main class="main container">
+    <div class="form-container form-container--first">
+        <h1>Add a New Revisor</h1>
+        <form method="post" action="{% url 'add_revisor' %}">
+            {% csrf_token %}
+            {{ form.as_p }}
+            <button type="submit">Add Revisor</button>
+        </form>
+    </div>
     <h1 class="text-center">Revisor List</h1>
     <div class="container text-center" id="formContainer">
         <div class="formWrapper row row-cols-1 row-cols-md-4">
@@ -19,9 +28,34 @@ Revisor list
                     <p class="card-text">Номер телефону: {{ revisor.phone_number }}</p>
                     <p class="card-text">Почав працювати з:<br>{{ revisor.date_hired }}</p>
                     <p class="card-text">Зараз рахує: {{ revisor.now_shop }}</p>
-                    <p class="card-text">Порахував цього місяця: {{ revisor.shops }}</p>
-                    <p class="card-text">Дальні точки: {{ revisor.way_shops }}</p>
-                    <p class="card-text">Переводив магазини: {{ revisor.move_shops }}</p>
+                    <p class="card-text">
+                        Порахував цього місяця: {{ revisor.shops }}
+                        <a href="#" onclick="document.getElementById('addShopsForm{{ revisor.id }}').submit(); return false;">+</a>
+                        <form id="addShopsForm{{ revisor.id }}" action="{% url 'add_shops' revisor.id %}" method="post" style="display: none;">
+                            {% csrf_token %}
+                        </form>
+                    </p>
+                    
+                    <p class="card-text">
+                        Дальні точки: {{ revisor.way_shops }}
+                        <a href="#" onclick="document.getElementById('addWayShopsForm{{ revisor.id }}').submit(); return false;">+</a>
+                        <form id="addWayShopsForm{{ revisor.id }}" action="{% url 'add_way_shops' revisor.id %}" method="post" style="display: none;">
+                            {% csrf_token %}
+                        </form>
+                    </p>
+                    
+                    <p class="card-text">
+                        Переводив магазини: {{ revisor.move_shops }}
+                        <a href="#" onclick="document.getElementById('addMoveShopsForm{{ revisor.id }}').submit(); return false;">+</a>
+                        <form id="addMoveShopsForm{{ revisor.id }}" action="{% url 'add_move_shops' revisor.id %}" method="post" style="display: none;">
+                            {% csrf_token %}
+                        </form>
+                    </p>
+                    
+                    <form action="{% url 'delete_revisor' revisor.id %}" method="post" style="display:inline;">
+                        {% csrf_token %}
+                        <button type="submit">Delete</button>
+                    </form>
                 </div>
             </div>
             {% endfor %}

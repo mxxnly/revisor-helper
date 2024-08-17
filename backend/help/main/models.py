@@ -28,9 +28,9 @@ class Revisor(models.Model):
     phone_number = models.CharField(max_length=20, blank=True, null=True)
     date_hired = models.DateField()
     now_shop = models.ForeignKey(Shop, on_delete=models.SET_NULL, null=True, blank=True)
-    shops = models.IntegerField()
-    way_shops = models.IntegerField()
-    move_shops = models.IntegerField()
+    shops = models.IntegerField(default=0)
+    way_shops = models.IntegerField(default=0)
+    move_shops = models.IntegerField(default=0)
 
 
     def __str__(self):
