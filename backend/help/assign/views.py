@@ -4,7 +4,9 @@ from main.models import Revisor, Shop, Task
 from .utils import assign_shop_to_revisor
 from django.shortcuts import get_object_or_404
 from django.db import models
+from django.contrib.auth.decorators import login_required
 
+@login_required
 def assign_that_view(request):
     message = None
 
@@ -43,7 +45,7 @@ def assign_that_view(request):
         'message': message,
         'tasks': tasks
     })
-
+@login_required
 def assign_shop_view(request):
     message = None
 
@@ -70,7 +72,7 @@ def assign_shop_view(request):
         'message': message,
         'tasks': tasks
     })
-
+@login_required
 def complete_task(request, task_id):
     task = get_object_or_404(Task, id=task_id)
     revisor = task.revisor

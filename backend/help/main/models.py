@@ -1,9 +1,9 @@
 from django.db import models
 from django.utils import timezone
+from django.contrib.auth.models import User
+from django.db.models.signals import post_save
+from django.dispatch import receiver
 
-
-
-# Create your models here.
 
 class Shop(models.Model):
     name = models.CharField(max_length=100)
@@ -22,11 +22,12 @@ class Shop(models.Model):
 
     
 class Revisor(models.Model):
+    user = models.OneToOneField(User, on_delete=models.CASCADE, related_name='revisor', null=True, blank=True)
     firstname = models.CharField(max_length=255)
     lastname = models.CharField(max_length=255)
     email = models.EmailField(unique=True)
     phone_number = models.CharField(max_length=20, blank=True, null=True)
-    date_hired = models.DateField()
+    date_hired = models.DateField(default='2000-01-01')
     now_shop = models.ForeignKey(Shop, on_delete=models.SET_NULL, null=True, blank=True)
     shops = models.IntegerField(default=0)
     way_shops = models.IntegerField(default=0)
@@ -49,3 +50,12 @@ class Task(models.Model):
         self.shop.last_time = self.completed_at
         self.shop.save()
 
+@receiver(post_save, sender=User)
+def assign_revisor(sender, instance, created, **kwargs):
+    if created:
+        try:
+            revisor = Revisor.objects.get(email=instance.email)
+            revisor.user = instance
+            revisor.save()
+        except Revisor.DoesNotExist:
+            pass

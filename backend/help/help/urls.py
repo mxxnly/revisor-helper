@@ -10,5 +10,7 @@ urlpatterns = [
     path('', include('main.urls')),
     path('', include('q.urls')),
     path('', include('assign.urls')),
+    path('', include('counting.urls')),
+    path('', include('users.urls')),
 ]
 urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

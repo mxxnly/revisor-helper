@@ -5,7 +5,9 @@ from django.http import JsonResponse
 from django.views.decorators.csrf import csrf_exempt
 from main.models import Shop
 from .forms import ShopForm
+from django.contrib.auth.decorators import login_required
 
+@login_required
 def shop_list(request):
     shops = Shop.objects.all()
     form = ShopForm()

@@ -1,0 +1,53 @@
+{% extends "base.html" %}
+{% load static %}
+{% block links %}
+    <link href="{% static 'css/calendar.css' %}" rel="stylesheet">
+{% endblock %}
+{% block title %}
+Revisor List
+{% endblock %}
+{% block maincont %}
+<main class="maincont">
+    <h1>Work Log</h1>
+    <form method="post">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit">Submit</button>
+    </form>
+
+    <h2>Calendar for {{ month }}/{{ year }}</h2>
+    <table>
+        <thead>
+            <tr>
+                <th>Mon</th>
+                <th>Tue</th>
+                <th>Wed</th>
+                <th>Thu</th>
+                <th>Fri</th>
+                <th>Sat</th>
+                <th>Sun</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for week in calendar %}
+            <tr>
+                {% for day in week %}
+                <td>
+                    {% if day %}
+                        {{ day }}
+                        <ul>
+                            {% for log in work_logs %}
+                                {% if log.date.day == day %}
+                                    <li>{{ log.hours_worked }} hours</li>
+                                {% endif %}
+                            {% endfor %}
+                        </ul>
+                    {% endif %}
+                </td>
+                {% endfor %}
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</main>
+{% endblock %}

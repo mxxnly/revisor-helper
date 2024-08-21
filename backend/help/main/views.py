@@ -2,6 +2,7 @@ from django.shortcuts import render, redirect, get_object_or_404, HttpResponse
 from .models import Revisor
 from django.db.models import F
 from .forms import RevisorForm
+from django.contrib.auth.decorators import login_required
 
 
 def index(request):
@@ -14,7 +15,7 @@ def index(request):
         'form': form,
     }
     return render(request, 'index.html', context)
-
+@login_required
 def delete_revisor(request, revisor_id):
 
     revisor = get_object_or_404(Revisor, id=revisor_id)
@@ -28,7 +29,7 @@ def delete_revisor(request, revisor_id):
     }
     return render(request, 'index.html', context)
 
-
+@login_required
 def add_revisor(request):
     if request.method == "POST":
         form = RevisorForm(request.POST)
@@ -38,7 +39,7 @@ def add_revisor(request):
     else:
         form = RevisorForm()
     return render(request, 'index.html', {'form': form})
-    
+@login_required
 def update_revisor(request, revisor_id, attr):
     revisor = get_object_or_404(Revisor, id=revisor_id)
     if request.method == "POST":
@@ -48,13 +49,13 @@ def update_revisor(request, revisor_id, attr):
         revisor.save()
         return redirect('home')
 
-
+@login_required
 def add_shops(request, revisor_id):
     return update_revisor(request, revisor_id, 'shops')
-
+@login_required
 def add_way_shops(request, revisor_id):
     return update_revisor(request, revisor_id, 'way_shops')
-
+@login_required
 def add_move_shops(request, revisor_id):
     return update_revisor(request, revisor_id, 'move_shops')
 
