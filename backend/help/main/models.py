@@ -12,6 +12,7 @@ class Shop(models.Model):
     position = models.PositiveIntegerField(default=0)
     status = models.CharField(max_length=20, choices=[('new', 'New'), ('transported', 'Transported'),('c1', 'C1'),('away', 'Away'),('normal', 'Normal')], default="normal")
     last_time = models.DateTimeField(null=True, blank=True)
+    last_revision = models.IntegerField(null=True, blank=True)
 
     class Meta:
         ordering = ['position']
@@ -42,6 +43,8 @@ class Task(models.Model):
     revisor = models.ForeignKey('Revisor', on_delete=models.CASCADE)
     assigned_at = models.DateTimeField(default=timezone.now)
     completed_at = models.DateTimeField(null=True, blank=True)
+    plus = models.IntegerField(default=0) 
+    minus = models.IntegerField(default=0)
 
     def complete_task(self):
         self.completed_at = timezone.now()

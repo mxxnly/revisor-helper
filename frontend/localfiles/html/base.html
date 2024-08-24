@@ -57,7 +57,7 @@
               >
             </li>
             <li class="nav-item">
-              <a class="nav-link" href="{% url 'assign_shop' %}"
+              <a class="nav-link" href="{% url 'assign_shop' %}"ц
                 >Наступний магазин</a>
             </li>
             <li class="nav-item">
@@ -66,14 +66,14 @@
             <li class="nav-item">
                 <a class="nav-link" href="{% url 'work_log' %}">Звіт</a>
               </li>
+              <li class="nav-item">
+                <a class="nav-link" href="{% url 'add_user' %}">Додати користувача</a>
+              </li>
           </ul>
           <ul class="navbar-nav mb-2 mb-lg-0">
             {% if user.is_authenticated %}
             <li class="nav-item">
-              <a class="nav-link" href="{% url 'logout' %}">logout</a>
-            </li>
-            <li>
-                {{user}}
+              <a class="nav-link" href="{% url 'logout' %}">logout, {{user}}</a>
             </li>
             {% else %}
             <li class="nav-item">
@@ -84,7 +84,8 @@
         </div>
       </div>
     </nav>
-    {% block maincont%}{% endblock %}
+    {% block maincont%}
+    {% endblock %}
 
     <footer class="py-3 my-4">
       <ul class="nav justify-content-center border-bottom pb-3 mb-3">

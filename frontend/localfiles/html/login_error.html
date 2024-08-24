@@ -1,0 +1,13 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block maincont %}
+<div style="text-align: center; margin-top: 50px;">
+    <h1>Заборонено доступ</h1>
+    <p>Вам не дозволено здійснювати таку операцію.</p>
+    <a href="{% url 'home' %}" style="text-decoration: none;">
+        <button style="padding: 10px 20px; font-size: 16px; background-color: #ff0000; color: #ffffff; border: none; border-radius: 5px; cursor: pointer;">
+            Повернутися на головну сторінку
+        </button>
+    </a>
+</div>
+{% endblock %}

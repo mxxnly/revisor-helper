@@ -2,12 +2,15 @@ from django.shortcuts import render, redirect
 from django.contrib.auth import login as auth_login, authenticate, logout as auth_logout
 from django.contrib import messages
 from main.models import Revisor
-from .forms import RegisterForm, LoginForm
+from .forms import AddUserForm, LoginForm
+from django.contrib.auth.decorators import login_required
+from decorators import group_required
 
-
-def register_view(request):
+@login_required
+@group_required('God')
+def add_user_view(request):
     if request.method == 'POST':
-        form = RegisterForm(request.POST)
+        form = AddUserForm(request.POST)
         if form.is_valid():
             user = form.save()
             try:
@@ -19,8 +22,8 @@ def register_view(request):
             messages.success(request, 'Registration successful.')
             return redirect('login')
     else:
-        form = RegisterForm()
-    return render(request, 'register.html', {'form': form})
+        form = AddUserForm()
+    return render(request, 'add_user.html', {'form': form})
 
 
 def login_view(request):
@@ -39,3 +42,5 @@ def logout_view(request):
     auth_logout(request)
     return redirect('login')
 
+def error_view(request):
+    return render(request, 'login_error.html')

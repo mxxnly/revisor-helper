@@ -3,8 +3,9 @@ from .models import Revisor
 from django.db.models import F
 from .forms import RevisorForm
 from django.contrib.auth.decorators import login_required
-
-
+from decorators import group_required
+from django.contrib.auth.models import User
+@login_required
 def index(request):
     revisors = Revisor.objects.annotate(
         total_shops=F('shops') + F('way_shops') + F('move_shops')
@@ -15,7 +16,9 @@ def index(request):
         'form': form,
     }
     return render(request, 'index.html', context)
+
 @login_required
+@group_required('Admin', 'God')
 def delete_revisor(request, revisor_id):
 
     revisor = get_object_or_404(Revisor, id=revisor_id)
@@ -30,16 +33,23 @@ def delete_revisor(request, revisor_id):
     return render(request, 'index.html', context)
 
 @login_required
+@group_required('Admin', 'God')
 def add_revisor(request):
     if request.method == "POST":
         form = RevisorForm(request.POST)
         if form.is_valid():
-            form.save()
+            email = form.cleaned_data['email']
+            user = User.objects.filter(email=email).first()   
+            new_revisor = form.save(commit=False)
+            if user:
+                new_revisor.user = user
+            new_revisor.save()
             return redirect('home')
     else:
         form = RevisorForm()
     return render(request, 'index.html', {'form': form})
 @login_required
+@group_required('Admin', 'God')
 def update_revisor(request, revisor_id, attr):
     revisor = get_object_or_404(Revisor, id=revisor_id)
     if request.method == "POST":
@@ -50,12 +60,15 @@ def update_revisor(request, revisor_id, attr):
         return redirect('home')
 
 @login_required
+@group_required('Admin', 'God')
 def add_shops(request, revisor_id):
     return update_revisor(request, revisor_id, 'shops')
 @login_required
+@group_required('Admin', 'God')
 def add_way_shops(request, revisor_id):
     return update_revisor(request, revisor_id, 'way_shops')
 @login_required
+@group_required('Admin', 'God')
 def add_move_shops(request, revisor_id):
     return update_revisor(request, revisor_id, 'move_shops')
 

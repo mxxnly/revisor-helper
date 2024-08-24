@@ -6,6 +6,7 @@ from django.views.decorators.csrf import csrf_exempt
 from main.models import Shop
 from .forms import ShopForm
 from django.contrib.auth.decorators import login_required
+from decorators import group_required
 
 @login_required
 def shop_list(request):
@@ -17,6 +18,7 @@ def shop_list(request):
 
 
 @csrf_exempt
+@group_required('Admin', 'God')
 def reorder_shops(request):
     if request.method == 'POST':
         data = json.loads(request.body)
@@ -26,7 +28,7 @@ def reorder_shops(request):
     
 
 
-
+@group_required('Admin', 'God')
 def shop_add(request):
     if request.method == 'POST':
         form = ShopForm(request.POST)
@@ -36,7 +38,7 @@ def shop_add(request):
     else:
         form = ShopForm()
     return render(request, 'q.html', {'form': form})
-
+@group_required('Admin', 'God')
 def shop_edit(request, shop_id):
     shop = Shop.objects.get(id=shop_id)
     if request.method == 'POST':
@@ -47,7 +49,7 @@ def shop_edit(request, shop_id):
     else:
         form = ShopForm(instance=shop)
     return render(request, 'q.html', {'form': form})
-
+@group_required('Admin', 'God')
 def shop_delete(request, shop_id):
     shop = Shop.objects.get(id=shop_id)
     if request.method == 'POST':

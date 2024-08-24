@@ -31,7 +31,8 @@ Queue
     <li id="shop-item-{{ shop.id }}" data-id="{{ shop.id }}" class="{% if shop.status == 'new' %}new-shop{% elif shop.status == 'transported' %}transported-shop{% elif shop.status == 'c1' %}c1-shop{% elif shop.status == 'away' %}away-shop{% elif shop.status == 'normal' %}normal-shop{% endif %}">
         <span class="shop-name">{{ shop.name }}</span>
         <span class="spaced">{{ shop.last_time }}</span>
-        <span>{{ shop.last_counted_by }}</span>
+        <span class="spaced">{{ shop.last_revision }}</span>
+        <span class="spaced">{{ shop.last_counted_by }}</span>
         
         <form id="edit-form-{{ shop.id }}" class="edit-form" action="{% url 'shop_edit' shop.id %}" method="post" style="display: none;">
             {% csrf_token %}

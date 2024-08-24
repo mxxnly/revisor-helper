@@ -11,7 +11,7 @@ class RevisorInline(admin.StackedInline):
 
 class UserAdmin(admin.ModelAdmin):
     model = User
-    fields = ["username", "password", "email"]
+    fields = ["username", "password", "email", "groups"]
 
 admin.site.unregister(User)
 

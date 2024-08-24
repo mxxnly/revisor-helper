@@ -5,8 +5,12 @@ from .utils import assign_shop_to_revisor
 from django.shortcuts import get_object_or_404
 from django.db import models
 from django.contrib.auth.decorators import login_required
+from decorators import group_required
+import json
+
 
 @login_required
+@group_required('Admin', 'God')
 def assign_that_view(request):
     message = None
 
@@ -34,7 +38,6 @@ def assign_that_view(request):
     active_revisors = Task.objects.filter(completed_at__isnull=True).values_list('revisor_id', flat=True)
     revisors = Revisor.objects.exclude(id__in=active_revisors)
     
-    # Retrieve all shops or apply any necessary filters
     shops = Shop.objects.all()
 
     tasks = Task.objects.filter(completed_at__isnull=True)
@@ -76,12 +79,31 @@ def assign_shop_view(request):
 def complete_task(request, task_id):
     task = get_object_or_404(Task, id=task_id)
     revisor = task.revisor
-    task.complete_task()
-    revisor.shops += 1
-    revisor.save()
-    shop = task.shop
-    max_position = Shop.objects.aggregate(models.Max('position'))['position__max'] or 0
-    shop.position = max_position + 1
-    shop.last_counted_by = revisor
-    shop.save()
+    
+    if (revisor.user != request.user and
+            not request.user.groups.filter(name__in=['Admin', 'God']).exists()):
+        return redirect('perm_error')
+
+    if request.method == 'POST':
+        plus = int(request.POST.get('plus', 0))
+        minus = int(request.POST.get('minus', 0))
+
+        last_revision_value = plus - minus
+
+        shop = task.shop
+        shop.last_revision = last_revision_value
+        shop.save()
+
+        task.plus = plus
+        task.minus = minus
+        task.complete_task()
+
+        revisor.shops += 1
+        revisor.save()
+
+        max_position = Shop.objects.aggregate(models.Max('position'))['position__max'] or 0
+        shop.position = max_position + 1
+        shop.last_counted_by = revisor
+        shop.save()
+
     return redirect('assign_shop')

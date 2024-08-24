@@ -1,5 +1,8 @@
 .spaced {
-    margin-right: 20px; /* Adjust the value as needed */
+    margin-right: 10px; 
+    border: 2px solid #1990dfad;
+    border-radius: 4px;
+    padding: 5px;
 }
 #formdiv {
     display: flex;
