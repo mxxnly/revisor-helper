@@ -25,7 +25,7 @@ SECRET_KEY = 'django-insecure-s@%h*%y#x4goqtzt&mf6essioxinx7xu@oyvvmlx6zgd%h0+(2
 DEBUG = True
 
 ALLOWED_HOSTS = [
-    '192.168.31.164', 'localhost','192.168.1.9'
+    '192.168.31.164', 'localhost','192.168.1.9', 'mxxnly.cloud', '62.72.22.94'
 ]
 
 
@@ -129,7 +129,7 @@ STATICFILES_DIRS = [
     BASE_DIR / 'frontend/localfiles',
     BASE_DIR / 'frontend/photos',
 ]
-
+STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 MEDIA_ROOT =BASE_DIR / 'frontend/photos',
 
 MEDIA_URL = '/photos/'

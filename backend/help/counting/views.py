@@ -12,16 +12,15 @@ def work_log_view(request):
         form = WorkLogForm(request.POST)
         if form.is_valid():
             work_log = form.save(commit=False)
-            work_log.revisor = request.user.revisor
+            work_log.user = request.user
             existing_log = WorkLog.objects.filter(
-                revisor=work_log.revisor,
+                user=work_log.user,
                 date=work_log.date
             ).first()
 
             if existing_log:
-
                 existing_log.delete()
-                
+
             work_log.save()
             return redirect('work_log')
     else:
@@ -32,7 +31,7 @@ def work_log_view(request):
     month = today.month
     cal = calendar.Calendar().monthdayscalendar(year, month)
 
-    work_logs = WorkLog.objects.filter(revisor=request.user.revisor, date__year=year, date__month=month)
+    work_logs = WorkLog.objects.filter(date__year=year, date__month=month, user=request.user)
 
     context = {
         'form': form,

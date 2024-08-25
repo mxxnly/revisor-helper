@@ -1,131 +1,124 @@
+/* Основные стили */
 .maincont {
-    max-width: 90%;
-    margin: 0 auto;        
-    display: flex;
-    flex-direction: column;
-    align-items: center;      
-    justify-content: center;  
-    padding: 20px;              
+    background-color: #1e1e2f;
+    color: #e0e0e0;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 0 15px rgba(0, 0, 0, 0.5);
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+h1 {
+    font-size: 2rem;
+    color: #f0f0f0;
+    text-align: center;
 }
 
 form {
-    background-color: #2c2c2c56;
-    border-radius: 8px;
+    background-color: #2e2e3f;
     padding: 20px;
-    margin: 20px 0;           
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    border-radius: 8px;
+    margin-bottom: 20px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
 }
 
-form button {
-    background-color: #4a4a4a;
-    border: none;
-    color: #e0e0e0;
+button[type="submit"] {
+    background-color: #3a3a4a;
+    color: #f0f0f0;
     padding: 10px 20px;
+    border: none;
     border-radius: 5px;
     cursor: pointer;
-    font-size: 16px;
+    transition: background-color 0.3s ease;
 }
 
-form button:hover {
-    background-color: #6a6a6a;
+button[type="submit"]:hover {
+    background-color: #4b4b5b;
+}
+
+h2 {
+    font-size: 1.5rem;
+    color: #f0f0f0;
+    text-align: center;
+    margin-bottom: 20px;
 }
 
 table {
-    background-color: rgba(0, 0, 0, 0.6);
-    width: 80%;
+    width: 100%;
     border-collapse: collapse;
-    margin: 20px 0;
-    table-layout: fixed;
-    border-radius: 10px;
-    overflow: hidden;
 }
 
-thead {
-    background-color: #444444;
-}
-
-th {
-    padding: 10px;
-    text-align: center;
-    background-color: #555555;
-    color: #e0e0e0;
-    font-weight: bold;
-}
-
-tbody {
-    background-color: rgba(46, 46, 46, 0.7);
+thead tr {
+    background-color: #3e3e50;
+    color: #f0f0f0;
 }
 
 td {
-    padding: 0;
+    border: 1px solid #4a4a5c;
     text-align: center;
-    vertical-align: top;
-    background-color: #21212181;
-    position: relative;
-    border: rgba(255, 255, 255, 0.251);
+    padding: 10px;
+    background-color: #2e2e3f;
+    color: #f0f0f0;
 }
 
-td::after {
-    content: '';
-    display: block;
-    padding-top: 100%;
+td.empty {
+    background-color: #1e1e2f;
+    color: #4a4a5c;
 }
 
-td > * {
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-}
-
-td ul {
+ul {
     list-style-type: none;
     padding: 0;
-    margin: 0;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    height: 100%;
+    margin: 10px 0 0;
 }
 
-td ul li {
-    background-color: #444444;
-    padding: 5px;
-    margin: 2px 0;
-    color: #e0e0e0;
-    font-size: 14px;
-    border-radius: 0;
-}
-
-@media (min-width: 601px) {
-    td {
-        width: 60px; 
-    }
-}
-
-@media (max-width: 600px) {
-    td {
-        width: 40vw;
-        height: 70px;
-        min-width: 60px;
-        min-height: 25vw; 
+/* Мобильная адаптация */
+@media (max-width: 768px) {
+    .maincont {
+        padding: 15px;
     }
 
-
-    th, td {
-        font-size: 14px;
-        padding: 8px;
+    h1 {
+        font-size: 1.5rem;
     }
 
     form {
-        margin: 10px;
         padding: 15px;
     }
-    td ul li {
-        margin-top: 19px;
 
-        transform: scale(0.66);
+    h2 {
+        font-size: 1.2rem;
+    }
+
+    table {
+        font-size: 0.9rem;
+    }
+
+    td {
+        padding: 8px;
+    }
+}
+
+@media (max-width: 480px) {
+    h1 {
+        font-size: 1.2rem;
+    }
+
+    h2 {
+        font-size: 1rem;
+    }
+
+    table {
+        font-size: 0.8rem;
+    }
+
+    td {
+        padding: 5px;
+    }
+
+    button[type="submit"] {
+        padding: 8px 15px;
+        font-size: 0.9rem;
     }
 }

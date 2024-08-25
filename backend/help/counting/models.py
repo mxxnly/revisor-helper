@@ -1,9 +1,10 @@
 from django.db import models
 from main.models import Revisor
 from django.utils import timezone
+from django.contrib.auth.models import User
 
 class WorkLog(models.Model):
-    revisor = models.ForeignKey(Revisor, on_delete=models.CASCADE)
+    user = models.ForeignKey(User, on_delete=models.CASCADE, default=1)
     date = models.DateField(default=timezone.now)
     hours_worked = models.DecimalField(max_digits=5, decimal_places=2)
 
