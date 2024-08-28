@@ -1,0 +1,124 @@
+/* Основные стили */
+.maincont {
+    background-color: #1e1e2f;
+    color: #e0e0e0;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 0 15px rgba(0, 0, 0, 0.5);
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+h1 {
+    font-size: 2rem;
+    color: #f0f0f0;
+    text-align: center;
+}
+
+form {
+    background-color: #2e2e3f;
+    padding: 20px;
+    border-radius: 8px;
+    margin-bottom: 20px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+}
+
+button[type="submit"] {
+    background-color: #3a3a4a;
+    color: #f0f0f0;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+button[type="submit"]:hover {
+    background-color: #4b4b5b;
+}
+
+h2 {
+    font-size: 1.5rem;
+    color: #f0f0f0;
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+thead tr {
+    background-color: #3e3e50;
+    color: #f0f0f0;
+}
+
+td {
+    border: 1px solid #4a4a5c;
+    text-align: center;
+    padding: 10px;
+    background-color: #2e2e3f;
+    color: #f0f0f0;
+}
+
+td.empty {
+    background-color: #1e1e2f;
+    color: #4a4a5c;
+}
+
+ul {
+    list-style-type: none;
+    padding: 0;
+    margin: 10px 0 0;
+}
+
+/* Мобильная адаптация */
+@media (max-width: 768px) {
+    .maincont {
+        padding: 15px;
+    }
+
+    h1 {
+        font-size: 1.5rem;
+    }
+
+    form {
+        padding: 15px;
+    }
+
+    h2 {
+        font-size: 1.2rem;
+    }
+
+    table {
+        font-size: 0.9rem;
+    }
+
+    td {
+        padding: 8px;
+    }
+}
+
+@media (max-width: 480px) {
+    h1 {
+        font-size: 1.2rem;
+    }
+
+    h2 {
+        font-size: 1rem;
+    }
+
+    table {
+        font-size: 0.8rem;
+    }
+
+    td {
+        padding: 5px;
+    }
+
+    button[type="submit"] {
+        padding: 8px 15px;
+        font-size: 0.9rem;
+    }
+}

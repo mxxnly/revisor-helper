@@ -1,5 +1,4 @@
 from django.db import models
-from main.models import Revisor
 from django.utils import timezone
 from django.contrib.auth.models import User
 
@@ -10,4 +9,4 @@ class WorkLog(models.Model):
 
 
     def __str__(self):
-        return f"{self.revisor.firstname} {self.revisor.lastname} - {self.date} - {self.hours_worked} hours"
+        return f"{self.user.username} - {self.date} - {self.hours_worked} hours"

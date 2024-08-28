@@ -1,7 +1,6 @@
 from django.shortcuts import render, redirect
 from .forms import WorkLogForm
 from .models import WorkLog
-from main.models import Revisor
 from django.utils import timezone
 import calendar
 from django.contrib.auth.decorators import login_required
@@ -42,3 +41,15 @@ def work_log_view(request):
     }
     return render(request, 'calendar.html', context)
     
+@login_required
+def delete_work_log(request, log_id):
+    if request.method == 'POST':
+        log = WorkLog.objects.filter(
+            id=log_id,
+            user=request.user
+        ).first()
+
+        if log:
+            log.delete()
+
+    return redirect('work_log_view')
