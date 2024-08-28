@@ -15,7 +15,7 @@ h1 {
     text-align: center;
 }
 
-form {
+.input-form {
     background-color: #2e2e3f;
     padding: 20px;
     border-radius: 8px;
@@ -33,9 +33,11 @@ button[type="submit"] {
     transition: background-color 0.3s ease;
 }
 
+
 button[type="submit"]:hover {
     background-color: #4b4b5b;
 }
+
 
 h2 {
     font-size: 1.5rem;
@@ -48,7 +50,10 @@ table {
     width: 100%;
     border-collapse: collapse;
 }
-
+.log-item {
+    display: flex;
+    align-items: center;
+}
 thead tr {
     background-color: #3e3e50;
     color: #f0f0f0;
@@ -73,7 +78,6 @@ ul {
     margin: 10px 0 0;
 }
 
-/* Мобильная адаптация */
 @media (max-width: 768px) {
     .maincont {
         padding: 15px;

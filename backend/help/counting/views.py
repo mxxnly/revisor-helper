@@ -52,4 +52,4 @@ def delete_work_log(request, log_id):
         if log:
             log.delete()
 
-    return redirect('work_log_view')
+    return redirect('work_log')

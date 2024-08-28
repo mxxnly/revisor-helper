@@ -4,18 +4,18 @@
     <link href="{% static 'css/calendar.css' %}" rel="stylesheet">
 {% endblock %}
 {% block title %}
-Work Log Calendar
+Revisor List
 {% endblock %}
 {% block maincont %}
 <main class="maincont">
     <h1>Work Log</h1>
-    <form method="post">
+    <form method="post" class="input-form">
         {% csrf_token %}
         {{ form.as_p }}
         <button type="submit">Submit</button>
     </form>
 
-    <h2>Calendar for {{ month }}/{{ year }}</h2>
+    <h2>Calendar for {{ month }}/{{ year}}</h2>
     <table>
         <thead>
             <tr>
@@ -34,17 +34,19 @@ Work Log Calendar
                 {% for day in week %}
                 <td>
                     {% if day %}
-                        {{ day.day }}
-                        {% if day.worklog %}
-                            <div>
-                                {{ day.worklog.hours }} hours
-                                <form method="post" action="{% url 'delete_work_log' day.worklog.id %}">
-                                    {% csrf_token %}
-                                    <button type="submit">Delete</button>
-                                </form>
-                            </div>
-                        {% endif %}
-                    {% else %}
+                        {{ day }}
+                        <ul>
+                            {% for log in work_logs %}
+                                {% if log.date.day == day %}
+                                    <li class="log-item">
+                                        <form method="POST" action="{% url 'delete_work_log' log.id %}" class="delete-form">
+                                            {% csrf_token %}
+                                            <button type="submit" class="delete-btn">{{ log.hours_worked }} год</button>
+                                        </form>
+                                    </li>
+                                {% endif %}
+                            {% endfor %}
+                        </ul>
                     {% endif %}
                 </td>
                 {% endfor %}
@@ -53,4 +55,4 @@ Work Log Calendar
         </tbody>
     </table>
 </main>
-{% endblock %}
+{% endblock %} 
