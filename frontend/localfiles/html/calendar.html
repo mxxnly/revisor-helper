@@ -38,12 +38,9 @@ Revisor List
                         <ul>
                             {% for log in work_logs %}
                                 {% if log.date.day == day %}
-                                    <li class="log-item">
-                                        <form method="POST" action="{% url 'delete_work_log' log.id %}" class="delete-form">
-                                            {% csrf_token %}
-                                            <button type="submit" class="delete-btn">{{ log.hours_worked }} год</button>
-                                        </form>
-                                    </li>
+                                <li class="log-item">
+                                    <a href="{% url 'delete_work_log' log.id %}" class="delete-link" data-method="delete">{{ log.hours_worked }} год</a>
+                                </li>
                                 {% endif %}
                             {% endfor %}
                         </ul>
@@ -54,5 +51,40 @@ Revisor List
             {% endfor %}
         </tbody>
     </table>
+    <div class="summary">
+        {% if is_full_month %}
+            <p>Повний місяць</p>
+        {% elif is_full_and_more %}
+            <p>Повний місяць + {{ hours_difference }} год</p>
+        {% else %}
+            <p>{{ total_hours }} / {{ hours_count }} год</p>
+        {% endif %}
+            <p>{{salary}}</p>
+    </div>
 </main>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        document.querySelectorAll('.delete-link').forEach(function(link) {
+            link.addEventListener('click', function(e) {
+                e.preventDefault();
+    
+                fetch(this.href, {
+                    method: 'POST',
+                    headers: {
+                        'X-CSRFToken': '{{ csrf_token }}',
+                        'Content-Type': 'application/x-www-form-urlencoded'
+                    },
+                    body: new URLSearchParams({ 'csrfmiddlewaretoken': '{{ csrf_token }}' })
+                }).then(response => {
+                    if (response.ok) {
+                        window.location.reload();
+                    } else {
+                        alert('Error deleting the log.');
+                    }
+                });
+            });
+        });
+    });
+    </script>
 {% endblock %} 

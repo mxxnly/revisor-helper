@@ -3,10 +3,18 @@ from .forms import WorkLogForm
 from .models import WorkLog
 from django.utils import timezone
 import calendar
+from .utils import calculate_salary
 from django.contrib.auth.decorators import login_required
+import datetime
 
 @login_required
 def work_log_view(request):
+    today = datetime.date.today()
+    year = today.year
+    month = today.month
+    first_day, last_day = calendar.monthrange(year, month)
+    salary_data = calculate_salary(request.user)
+    cal = calendar.Calendar().monthdayscalendar(year, month)
     if request.method == 'POST':
         form = WorkLogForm(request.POST)
         if form.is_valid():
@@ -25,22 +33,21 @@ def work_log_view(request):
     else:
         form = WorkLogForm()
 
-    today = timezone.now().date()
-    year = today.year
-    month = today.month
-    cal = calendar.Calendar().monthdayscalendar(year, month)
-
-    work_logs = WorkLog.objects.filter(date__year=year, date__month=month, user=request.user)
-
     context = {
         'form': form,
         'calendar': cal,
         'year': year,
         'month': month,
-        'work_logs': work_logs,
+        'work_logs': WorkLog.objects.filter(date__year=year, date__month=month, user=request.user),
+        'hours_count': salary_data['hours_count'],
+        'total_hours': salary_data['total_hours'],
+        'hours_difference': salary_data['hours_difference'],
+        'is_full_month': salary_data['is_full_month'],
+        'is_full_and_more': salary_data['is_full_and_more'],
+        'salary' : salary_data['salary']
     }
     return render(request, 'calendar.html', context)
-    
+
 @login_required
 def delete_work_log(request, log_id):
     if request.method == 'POST':

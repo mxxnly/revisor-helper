@@ -4,14 +4,10 @@ from django.contrib.auth.models import Group,User
 from main.models import Revisor, Shop, Task
 
 
-class RevisorInline(admin.StackedInline):
-    model = Revisor
-    can_delete = False
-    verbose_name_plural = 'Revisor'
 
 class UserAdmin(admin.ModelAdmin):
     model = User
-    fields = ["username", "password", "email", "groups"]
+    fields = ["username", "password", "email", "groups" ]
 
 admin.site.unregister(User)
 

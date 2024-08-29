@@ -1,4 +1,3 @@
-/* Основные стили */
 .maincont {
     background-color: #1e1e2f;
     color: #e0e0e0;
@@ -7,6 +6,7 @@
     box-shadow: 0 0 15px rgba(0, 0, 0, 0.5);
     max-width: 1200px;
     margin: 0 auto;
+    box-sizing: border-box;
 }
 
 h1 {
@@ -33,11 +33,9 @@ button[type="submit"] {
     transition: background-color 0.3s ease;
 }
 
-
 button[type="submit"]:hover {
     background-color: #4b4b5b;
 }
-
 
 h2 {
     font-size: 1.5rem;
@@ -50,10 +48,12 @@ table {
     width: 100%;
     border-collapse: collapse;
 }
+
 .log-item {
     display: flex;
     align-items: center;
 }
+
 thead tr {
     background-color: #3e3e50;
     color: #f0f0f0;
@@ -77,6 +77,93 @@ ul {
     padding: 0;
     margin: 10px 0 0;
 }
+
+.calendar-container {
+    max-width: 100%;
+    overflow-x: auto;
+    margin: 0 auto;
+    box-sizing: border-box;
+}
+
+.calendar {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.calendar td {
+    padding: 10px;
+    text-align: center;
+    border: 1px solid #4a4a5c;
+    background-color: #2e2e3f;
+    color: #f0f0f0;
+}
+
+form {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 15px;
+    box-sizing: border-box;
+}
+
+input, select, textarea {
+    width: 100%;
+    margin-bottom: 15px;
+    padding: 10px;
+    border: 1px solid #4a4a5c;
+    border-radius: 5px;
+    background-color: #2e2e3f;
+    color: #f0f0f0;
+    box-sizing: border-box;
+}
+
+input[type="submit"], button[type="submit"] {
+    margin: 0;
+    padding: 12px 20px;
+    font-size: 1rem;
+}
+
+.delete-link {
+    background-color: #3a3a4a;
+    color: #f0f0f0;
+    text-align: center;
+    text-decoration: none;
+    
+}
+
+.delete-link:hover {
+    background-color: #4b4b5b;
+}
+
+.delete-link:active {
+    background-color: #2e2e3f;
+}
+.summary {
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    padding: 10px;
+    background-color: #f9f9f9b0;
+    margin: 20px 0;
+}
+
+.summary p {
+    font-size: 16px;
+    margin: 0;
+    padding: 5px;
+}
+
+.summary p:first-of-type {
+    font-weight: bold;
+    color: #333;
+}
+
+.summary p:last-of-type {
+    color: #007BFF;
+}
+
+
 
 @media (max-width: 768px) {
     .maincont {
@@ -102,9 +189,15 @@ ul {
     td {
         padding: 8px;
     }
+
+    
 }
 
 @media (max-width: 480px) {
+    .maincont {
+        padding: 15px;
+    }
+
     h1 {
         font-size: 1.2rem;
     }
@@ -121,8 +214,5 @@ ul {
         padding: 5px;
     }
 
-    button[type="submit"] {
-        padding: 8px 15px;
-        font-size: 0.9rem;
-    }
+    
 }
