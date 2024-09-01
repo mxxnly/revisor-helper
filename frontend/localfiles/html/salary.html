@@ -1,0 +1,36 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block links %}
+    <link href="{% static 'css/salary.css' %}" rel="stylesheet">
+{% endblock %}
+{% block title%}Зарплата{% endblock %}
+{% block maincont %}
+<body>
+
+    <form method="get" action="">
+        <label for="month">Місяць:</label>
+        <select name="month" id="month">
+            {% for i in months %}
+            <option value="{{ i }}" {% if i == month %}selected{% endif %}>{{ i }}</option>
+            {% endfor %}
+        </select>
+
+        <label for="year">Рік:</label>
+        <input type="number" name="year" id="year" value="{{ year }}">
+
+        <button type="submit">Подивитись</button>
+    </form>
+
+    <h1>Список зарплат</h1>
+    <div class="salary-container">
+        {% for item in salary_data %}
+        <div class="salary-card">
+            <div>Ревізор: {{ item.first_name }} {{ item.last_name }}</div>
+            <div>К-сть годин: {{ item.total_hours }}</div>
+            <div>Різниця годин: {{ item.hours_difference }}</div>
+            <div>Зарплата: {{ item.salary }}</div>
+        </div>
+        {% endfor %}
+    </div>
+</body>
+{% endblock %}

@@ -3,6 +3,7 @@ from django.utils import timezone
 from django.contrib.auth.models import User
 from django.db.models.signals import post_save
 from django.dispatch import receiver
+from decimal import Decimal
 
 
 class Shop(models.Model):
@@ -33,6 +34,7 @@ class Revisor(models.Model):
     shops = models.IntegerField(default=0)
     way_shops = models.IntegerField(default=0)
     move_shops = models.IntegerField(default=0)
+    plus_or_minus = models.DecimalField(max_digits=10, decimal_places=2, default=Decimal('0.00'))
 
 
     def __str__(self):

@@ -4,7 +4,7 @@
     <link href="{% static 'css/index.css' %}" rel="stylesheet">
 {% endblock %}
 {% block title %}
-Revisor list
+Список ревізорів
 {% endblock %}
 {% block maincont %}
 <main class="main container">
@@ -50,7 +50,8 @@ Revisor list
                             {% csrf_token %}
                         </form>
                     </p>
-                    
+                    <p class="card-text">
+                        Плюс або мінус годин: {{ revisor.plus_or_minus }} год</p>
                     <form action="{% url 'delete_revisor' revisor.id %}" method="post" style="display:inline;">
                         {% csrf_token %}
                         <button type="submit">Delete</button>

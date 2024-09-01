@@ -4,7 +4,7 @@
 <link href="{% static 'css/cherza.css' %}" rel="stylesheet">
 {% endblock %}
 {% block title %}
-Queue
+Черга магазинів
 {% endblock %}
 {% block maincont %}
 <div id="formdiv">
@@ -37,28 +37,28 @@ Queue
         <form id="edit-form-{{ shop.id }}" class="edit-form" action="{% url 'shop_edit' shop.id %}" method="post" style="display: none;">
             {% csrf_token %}
             <div class="edit-form-field">
-                <label for="name-{{ shop.id }}" class="form-label">Name</label>
+                <label for="name-{{ shop.id }}" class="form-label">Ім'я</label>
                 <input type="text" id="name-{{ shop.id }}" name="name" value="{{ shop.name }}">
             </div>
             <div class="edit-form-field">
-                <label for="status-{{ shop.id }}" class="form-label">Status</label>
+                <label for="status-{{ shop.id }}" class="form-label">Статус</label>
                 <select id="status-{{ shop.id }}" name="status">
-                    <option value="new" {% if shop.status == 'new' %}selected{% endif %}>New</option>
-                    <option value="transported" {% if shop.status == 'transported' %}selected{% endif %}>Transported</option>
-                    <option value="c1" {% if shop.status == 'c1' %}selected{% endif %}>C1</option>
-                    <option value="away" {% if shop.status == 'away' %}selected{% endif %}>Away</option>
-                    <option value="normal" {% if shop.status == 'normal' %}selected{% endif %}>Normal</option>
+                    <option value="new" {% if shop.status == 'new' %}selected{% endif %}>Новий</option>
+                    <option value="transported" {% if shop.status == 'transported' %}selected{% endif %}>Перенесений</option>
+                    <option value="c1" {% if shop.status == 'c1' %}selected{% endif %}>1С</option>
+                    <option value="away" {% if shop.status == 'away' %}selected{% endif %}>Дальня точка</option>
+                    <option value="normal" {% if shop.status == 'normal' %}selected{% endif %}>Звичайний</option>
                 </select>
             </div>
-            <button type="submit">Save</button>
-            <button type="button" class="cancel-edit" data-shop-id="{{ shop.id }}">Cancel</button>
+            <button type="submit">Зберегти</button>
+            <button type="button" class="cancel-edit" data-shop-id="{{ shop.id }}">Відмініти</button>
         </form>
         
-        <a href="#" class="edit-button" data-shop-id="{{ shop.id }}">Edit</a>
+        <a href="#" class="edit-button" data-shop-id="{{ shop.id }}">Редагувати</a>
         
         <form action="{% url 'shop_delete' shop.id %}" method="post" style="display:inline;">
             {% csrf_token %}
-            <button type="submit">Delete</button>
+            <button type="submit">Видалити</button>
         </form>
     </li>
     {% endfor %}

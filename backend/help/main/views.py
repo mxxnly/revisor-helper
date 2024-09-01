@@ -1,5 +1,6 @@
-from django.shortcuts import render, redirect, get_object_or_404, HttpResponse
+from django.shortcuts import render, redirect, get_object_or_404
 from .models import Revisor
+from django.http import HttpResponseBadRequest
 from django.db.models import F
 from .forms import RevisorForm
 from django.contrib.auth.decorators import login_required
