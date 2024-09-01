@@ -39,21 +39,16 @@
                             {% for log in work_logs %}
                                 {% if log.date.day == day %}
                                 <li class="log-item">
-<<<<<<< HEAD
-                                    <div class="log-info">
-                                        <a href="{% url 'delete_work_log' log.id %}" class="delete-link" data-method="delete" title="Delete log for {{ log.hours_worked }} hours">
-                                            {{ log.hours_worked }} год
-                                        </a>
-                                    </div>
+
+                            
+                                    <a href="{% url 'delete_work_log' log.id %}" class="delete-link" data-method="delete">{{ log.hours_worked }} год</a>
                                     {% if log.hours_worked >= 8 %}
                                     <div class="bonus-row">
                                         <span>+15</span>
                                     </div>
                                     {% endif %}
-=======
-                                    <a href="{% url 'delete_work_log' log.id %}" class="delete-link" data-method="delete">{{ log.hours_worked }} год</a>
->>>>>>> 10e7a36d00468d036beeb94d45b86411e39c08b2
                                 </li>
+
                                 {% endif %}
                             {% endfor %}
                         </ul>
@@ -72,11 +67,9 @@
         {% else %}
             <p>{{ total_hours }} / {{ hours_count }} год</p>
         {% endif %}
-<<<<<<< HEAD
-            <p>{{ salary }}</p>
-=======
+
             <p>{{salary}}</p>
->>>>>>> 10e7a36d00468d036beeb94d45b86411e39c08b2
+
     </div>
 </main>
 
@@ -103,10 +96,6 @@
             });
         });
     });
-<<<<<<< HEAD
 </script>
 {% endblock %}
-=======
-    </script>
-{% endblock %} 
->>>>>>> 10e7a36d00468d036beeb94d45b86411e39c08b2
+
