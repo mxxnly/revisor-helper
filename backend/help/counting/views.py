@@ -6,12 +6,15 @@ import calendar
 from .utils import calculate_salary
 from django.contrib.auth.decorators import login_required
 import datetime
+<<<<<<< HEAD
 from django.contrib.auth.models import User
 from decimal import Decimal
 from main.models import Revisor
 from .forms import UpdatePlusMinusForm
 from django.http import JsonResponse
 from decorators import group_required
+=======
+>>>>>>> 10e7a36d00468d036beeb94d45b86411e39c08b2
 
 @login_required
 def work_log_view(request):
@@ -19,7 +22,11 @@ def work_log_view(request):
     year = today.year
     month = today.month
     first_day, last_day = calendar.monthrange(year, month)
+<<<<<<< HEAD
     salary_data = calculate_salary(request.user, year, month)
+=======
+    salary_data = calculate_salary(request.user)
+>>>>>>> 10e7a36d00468d036beeb94d45b86411e39c08b2
     cal = calendar.Calendar().monthdayscalendar(year, month)
     if request.method == 'POST':
         form = WorkLogForm(request.POST)
@@ -65,6 +72,7 @@ def delete_work_log(request, log_id):
         if log:
             log.delete()
 
+<<<<<<< HEAD
     return redirect('work_log')
 
 @login_required
@@ -112,3 +120,6 @@ def update_hours_difference(request):
     else:
         revisors = Revisor.objects.all()
         return render(request, 'difference.html', {'revisors': revisors})
+=======
+    return redirect('work_log')
+>>>>>>> 10e7a36d00468d036beeb94d45b86411e39c08b2

@@ -108,6 +108,7 @@ form {
     box-sizing: border-box;
 }
 
+<<<<<<< HEAD
 .bonus-row {
     background-color: blue;
     color: white;
@@ -116,6 +117,8 @@ form {
 }
 
 
+=======
+>>>>>>> 10e7a36d00468d036beeb94d45b86411e39c08b2
 input, select, textarea {
     width: 100%;
     margin-bottom: 15px;
