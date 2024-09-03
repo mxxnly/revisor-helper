@@ -1,0 +1,126 @@
+
+form {
+    background-color: #1e1e1e;
+    padding: 15px;
+    border-radius: 8px;
+    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.5);
+    margin-bottom: 20px;
+}
+
+form label {
+    margin-right: 10px;
+    font-weight: bold;
+}
+
+form select,
+form input[type="number"] {
+    background-color: #2e2e2e;
+    color: #e0e0e0;
+    border: 1px solid #555;
+    padding: 5px;
+    border-radius: 4px;
+    margin-right: 10px;
+    width: 100%;
+    box-sizing: border-box;
+}
+
+form button {
+    background-color: #6200ea;
+    color: #fff;
+    padding: 8px 12px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+    margin-top: 10px;
+}
+
+form button:hover {
+    background-color: #3700b3;
+}
+
+h1 {
+    text-align: center;
+    margin-bottom: 20px;
+    font-size: 2em;
+    color: #bb86fc;
+}
+
+.salary-container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+}
+
+.salary-card {
+    background-color: #222;
+    padding: 15px;
+    border-radius: 8px;
+    box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.3);
+    flex: 1 1 300px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.salary-card:hover {
+    background-color: #2a2a2a;
+}
+
+.salary-card div {
+    margin: 0 10px;
+}
+
+.salary-card div:first-child {
+    font-weight: bold;
+    color: #bb86fc;
+}
+
+
+@media (max-width: 768px) {
+    form {
+        padding: 10px;
+    }
+
+    form select,
+    form input[type="number"],
+    form button {
+        width: 100%;
+        margin-bottom: 10px;
+    }
+
+    .salary-card {
+        flex-direction: column;
+        align-items: flex-start;
+        padding: 10px;
+    }
+
+    .salary-card div {
+        margin: 5px 0;
+    }
+}
+
+@media (max-width: 480px) {
+    h1 {
+        font-size: 1.5em;
+        margin-bottom: 15px;
+    }
+
+    form {
+        padding: 8px;
+    }
+
+    form label {
+        display: block;
+        margin-bottom: 5px;
+    }
+
+    .salary-container {
+        gap: 5px;
+    }
+
+    .salary-card {
+        padding: 8px;
+        border-radius: 5px;
+    }
+}

@@ -1,0 +1,33 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block links %}
+    <link href="{% static 'css/diff.css' %}" rel="stylesheet">
+{% endblock %}
+{% block title %}
+Обновлення годин
+{% endblock %}
+{% block maincont %}
+<body>
+    <div class="container">
+        <h1>Обновити години</h1>
+        <form method="post" action="{% url 'update_hours' %}">
+            {% csrf_token %}
+
+            <label for="revisor">Виберіть ревізора:</label>
+            <select id="revisor" name="revisor_id" class="form-control">
+                {% for revisor in revisors %}
+                    <option value="{{ revisor.id }}">{{ revisor.firstname }} {{ revisor.lastname }}</option>
+                {% endfor %}
+            </select>
+
+            <label for="hours_difference">Різниця годин:</label>
+            <input type="number" id="hours_difference" name="hours_difference" step="0.01" class="form-control" placeholder="Enter hours difference">
+
+            <button type="submit" class="btn-submit">Обновити</button>
+        </form>
+        
+        <a href="{% url 'salary_list' %}" class="btn-back">Повернутись</a>
+    </div>
+</body>
+
+{% endblock %}
