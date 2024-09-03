@@ -39,9 +39,9 @@
                             {% for log in work_logs %}
                                 {% if log.date.day == day %}
                                 <li class="log-item">
-
-                            
-                                    <a href="{% url 'delete_work_log' log.id %}" class="delete-link" data-method="delete">{{ log.hours_worked }} год</a>
+                                    <div class="log-hours">
+                                        <a href="{% url 'delete_work_log' log.id %}" class="delete-link" data-method="delete">{{ log.hours_worked }} год</a>
+                                    </div>
                                     {% if log.hours_worked >= 8 %}
                                     <div class="bonus-row">
                                         <span>+15</span>

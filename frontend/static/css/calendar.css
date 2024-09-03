@@ -108,13 +108,26 @@ form {
     box-sizing: border-box;
 }
 
+.log-item {
+    display: flex;
+    flex-direction: column; /* Stack children vertically */
+    align-items: center; /* Center horizontally */
+    justify-content: center; /* Center vertically */
+    text-align: center; /* Center text inside children */
+    margin-bottom: 10px; /* Add space below the log item if needed */
+}
+
+.log-hours {
+    /* Optional styles for the log hours */
+}
+
 .bonus-row {
     background-color: blue;
     color: white;
     border-radius: 3px;
     font-weight: bold;
+    margin-top: 5px; /* Space between log hours and bonus row */
 }
-
 
 input, select, textarea {
     width: 100%;

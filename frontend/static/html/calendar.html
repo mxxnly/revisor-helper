@@ -4,7 +4,7 @@
     <link href="{% static 'css/calendar.css' %}" rel="stylesheet">
 {% endblock %}
 {% block title %}
-Revisor List
+Звіт
 {% endblock %}
 {% block maincont %}
 <main class="maincont">
@@ -39,10 +39,8 @@ Revisor List
                             {% for log in work_logs %}
                                 {% if log.date.day == day %}
                                 <li class="log-item">
-                                    <div class="log-info">
-                                        <a href="{% url 'delete_work_log' log.id %}" class="delete-link" data-method="delete" title="Delete log for {{ log.hours_worked }} hours">
-                                            {{ log.hours_worked }} год
-                                        </a>
+                                    <div class="log-hours">
+                                        <a href="{% url 'delete_work_log' log.id %}" class="delete-link" data-method="delete">{{ log.hours_worked }} год</a>
                                     </div>
                                     {% if log.hours_worked >= 8 %}
                                     <div class="bonus-row">
@@ -50,6 +48,7 @@ Revisor List
                                     </div>
                                     {% endif %}
                                 </li>
+
                                 {% endif %}
                             {% endfor %}
                         </ul>
@@ -68,7 +67,9 @@ Revisor List
         {% else %}
             <p>{{ total_hours }} / {{ hours_count }} год</p>
         {% endif %}
-            <p>{{ salary }}</p>
+
+            <p>{{salary}}</p>
+
     </div>
 </main>
 
@@ -97,3 +98,4 @@ Revisor List
     });
 </script>
 {% endblock %}
+
