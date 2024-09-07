@@ -18,7 +18,9 @@
       referrerpolicy="no-referrer"
     />
     {% load static %}
+    {% block globcss %}
     <link href="{% static 'css/global.css' %}" rel="stylesheet" />
+    {%endblock%}
     {%block links%}{%endblock%}
     <script src="https://cdn.jsdelivr.net/npm/sortablejs@latest/Sortable.min.js"></script>
     <title>{% block title%}{% endblock %}</title>
@@ -54,8 +56,12 @@
                 class="nav-link active"
                 aria-current="page"
                 href="{% url 'home' %}"
-                >Ревізори</a
+                >Домашня cторінка</a
               >
+            </li>
+            <li class="nav-item"></li>
+              <a class="nav-link" href="{% url 'revisors' %}"ц
+                >Ревізори</a>
             </li>
             <li class="nav-item">
               <a class="nav-link" href="{% url 'assign_shop' %}"ц

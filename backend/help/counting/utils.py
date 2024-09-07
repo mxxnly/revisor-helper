@@ -9,9 +9,6 @@ from main.models import Revisor
 
 
 def calculate_salary(user, year, month):
-    today = datetime.date.today()
-    year = today.year
-    month = today.month
     first_day, last_day = calendar.monthrange(year, month)
 
     weekdays_count = sum(1 for day in range(1, last_day + 1)

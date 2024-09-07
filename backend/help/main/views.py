@@ -6,8 +6,17 @@ from .forms import RevisorForm
 from django.contrib.auth.decorators import login_required
 from decorators import group_required
 from django.contrib.auth.models import User
+
+def welcome(request):
+    return render(request, 'welcome.html')
+
+
 @login_required
-def index(request):
+def home(request):
+    return render(request, 'home.html')
+
+@login_required
+def revisor(request):
     revisors = Revisor.objects.annotate(
         total_shops=F('shops') + F('way_shops') + F('move_shops')
     ).order_by('-total_shops')
@@ -16,7 +25,7 @@ def index(request):
         'revisors': revisors, 
         'form': form,
     }
-    return render(request, 'index.html', context)
+    return render(request, 'revisor.html', context)
 
 @login_required
 @group_required('Admin', 'God')
