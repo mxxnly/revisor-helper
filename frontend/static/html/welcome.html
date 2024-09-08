@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+{%load static%}
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>welcome!</title>
+    <link href="{% static 'css/welcome.css' %}" rel="stylesheet">
+</head>
+<body>
+    <header class="header">
+        <h1>Давайте почнемо працювати!</h1>
+    </header>
+    
+    <main class="main">
+        <h1>Ласкаво просимо на наш сайт!</h1>
+        <p>Ми пропонуємо вам чудову утиліту для відстеження процесу ревізій магазину.</p>
+
+        <section class="cards-container">
+            <div class="card">
+                <h3><i class="fas fa-user-plus feature-icon"></i> Легкий старт</h3>
+                <p>Щоб розпочати роботу, просто напишіть нам, і ми створимо ваш акаунт. Це швидко і легко!</p>
+            </div>
+            <div class="card">
+                <h3><i class="fas fa-shield-alt feature-icon"></i> Безпека та швидкість</h3>
+                <p>Наш сайт забезпечує високу безпеку і швидкість роботи, щоб ви могли зосередитись на важливих завданнях.</p>
+            </div>
+            <div class="card">
+                <h3><i class="fas fa-cogs feature-icon"></i> Функції сайту</h3>
+                <p>Наш сайт пропонує безліч функцій, включаючи управління обліковими записами, аналіз даних і інші корисні інструменти.</p>
+            </div>
+        </section>
+        <a href="{% url 'login' %}" class="button">Get Started</a>
+        <a href="https://t.me/whataboutsleep" target="_blank" class="button">Contact us</a>
+    </main>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/js/all.min.js"></script>
+</body>
+</html>

@@ -32,14 +32,27 @@ def login_view(request):
         if form.is_valid():
             user = form.get_user()
             auth_login(request, user)
+            
+            request.session['user_id'] = user.id
+            request.session['username'] = user.username
+            request.session['last_login'] = str(user.last_login)
+
             return redirect('home')
     else:
         form = LoginForm()
+
     return render(request, 'login.html', {'form': form})
 
 
 def logout_view(request):
+
+    request.session.pop('user_id', None)
+    request.session.pop('username', None)
+    request.session.pop('last_login', None)
+
     auth_logout(request)
+
+
     return redirect('login')
 
 def error_view(request):
