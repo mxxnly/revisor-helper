@@ -8,9 +8,11 @@ from decorators import group_required
 from django.contrib.auth.models import User
 
 def welcome(request):
-    return render(request, 'welcome.html')
-
-
+    if request.user.is_authenticated: 
+        return render(request, 'home.html')
+    else:
+        return render(request, 'welcome.html')
+      
 @login_required
 def home(request):
     return render(request, 'home.html')

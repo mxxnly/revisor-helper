@@ -85,8 +85,8 @@ def complete_task(request, task_id):
         return redirect('perm_error')
 
     if request.method == 'POST':
-        plus = int(request.POST.get('plus', 0))
-        minus = int(request.POST.get('minus', 0))
+        plus = float(request.POST.get('plus', 0))
+        minus = float(request.POST.get('minus', 0))
 
         last_revision_value = plus - minus
 
@@ -105,5 +105,8 @@ def complete_task(request, task_id):
         shop.position = max_position + 1
         shop.last_counted_by = revisor
         shop.save()
+        
+        
+        return redirect(f'/rate_shop/{shop.id}/')
 
     return redirect('assign_shop')

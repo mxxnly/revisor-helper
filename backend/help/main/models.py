@@ -14,6 +14,10 @@ class Shop(models.Model):
     status = models.CharField(max_length=20, choices=[('new', 'New'), ('transported', 'Transported'),('c1', 'C1'),('away', 'Away'),('normal', 'Normal')], default="normal")
     last_time = models.DateTimeField(null=True, blank=True)
     last_revision = models.IntegerField(null=True, blank=True)
+    avg_rating = models.FloatField(blank=True, null=True)
+    avg_personal = models.FloatField(blank=True, null=True)
+    avg_purity = models.FloatField(blank=True, null=True)
+    avg_sorting = models.FloatField(blank=True, null=True)
 
     class Meta:
         ordering = ['position']
@@ -21,6 +25,38 @@ class Shop(models.Model):
 
     def __str__(self):
         return self.name
+    
+    def upd_avg_rating(self):
+        ratings = self.ratings.all()
+        total_ratings = ratings.count()
+        if total_ratings > 0:
+            avg = sum([rating.get_average_score() for rating in ratings]) / total_ratings
+            self.avg_rating = round(avg, 2)
+            self.save()
+    
+    def upd_avg_ratings(self):
+        try:
+            ratings = self.ratings.all()
+            total_ratings = ratings.count()
+
+            if total_ratings > 0:
+                avg_personal = sum(rating.personal for rating in ratings) / total_ratings
+                avg_purity = sum(rating.purity for rating in ratings) / total_ratings
+                avg_sorting = sum(rating.sorting for rating in ratings) / total_ratings
+
+                self.avg_personal = round(avg_personal, 2)
+                self.avg_purity = round(avg_purity, 2)
+                self.avg_sorting = round(avg_sorting, 2)
+            else:
+                self.avg_personal = None
+                self.avg_purity = None
+                self.avg_sorting = None
+
+            self.save()
+        except Exception as e:
+            print(f"Error updating average ratings: {e}")
+            
+
 
     
 class Revisor(models.Model):

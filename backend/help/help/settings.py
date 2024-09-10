@@ -44,6 +44,7 @@ INSTALLED_APPS = [
     'assign',
     'counting',
     'users',
+    'rate',
 ]
 
 MIDDLEWARE = [
