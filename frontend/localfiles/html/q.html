@@ -17,9 +17,14 @@
                     {{ form.name }}
                 </li>
                 <li>
+                    <label for="{{ form.address.id_for_label }}" class="form-label">{{ form.address.label }}</label>
+                    {{ form.address }}
+                </li>
+                <li>
                     <label for="{{ form.status.id_for_label }}" class="form-label">{{ form.status.label }}</label>
                     {{ form.status }}
                 </li>
+                
             </ul>
             <input type="submit" value="Submit" class="submit-button">
         </div>
@@ -41,7 +46,7 @@
         data-shop-counted-by="{{ shop.last_counted_by }}"
         data-shop-address="{{ shop.address }}"
         data-shop-last-revision="{{ shop.last_revision }}"
-        data-shop-last-time="{{ shop.last_time }}">ℹ️</button>
+        data-shop-last-time="{{ shop.last_time }}">Інформація про магазин</button>
         
         <form id="edit-form-{{ shop.id }}" class="edit-form" action="{% url 'shop_edit' shop.id %}" method="post" style="display: none;">
             {% csrf_token %}
@@ -140,98 +145,98 @@
     </div>
 </div>
 <script>
-document.addEventListener('DOMContentLoaded', function() {
-    document.querySelectorAll('.info-button').forEach(function(button) {
-        button.addEventListener('click', function(event) {
-            event.preventDefault();
-            
-            const name = this.getAttribute('data-shop-name');
-            const status = this.getAttribute('data-shop-status');
-            const rating = this.getAttribute('data-shop-rating');
-            const personal = this.getAttribute('data-shop-personal');
-            const purity = this.getAttribute('data-shop-purity');
-            const sorting = this.getAttribute('data-shop-sorting');
-            const countedBy = this.getAttribute('data-shop-counted-by');
-            const address = this.getAttribute('data-shop-address');
-            const lastRevision = this.getAttribute('data-shop-last-revision');
-            const lastTime = this.getAttribute('data-shop-last-time');
-
-            document.getElementById('modal-shop-name').textContent = name;
-            document.getElementById('modal-shop-status').textContent = status;
-            document.getElementById('modal-shop-rating-label').textContent = rating;
-            document.getElementById('modal-shop-personal-label').textContent = personal;
-            document.getElementById('modal-shop-purity-label').textContent = purity;
-            document.getElementById('modal-shop-sorting-label').textContent = sorting;
-            document.getElementById('modal-shop-counted-by').textContent = countedBy;
-            document.getElementById('modal-shop-address').textContent = address;
-            document.getElementById('modal-shop-last-revision').textContent = lastRevision;
-            document.getElementById('modal-shop-last-time').textContent = lastTime;
-
-            // Set progress bars
-            document.getElementById('modal-shop-rating-bar').style.width = rating + '%';
-            document.getElementById('modal-shop-personal-bar').style.width = personal + '%';
-            document.getElementById('modal-shop-purity-bar').style.width = purity + '%';
-            document.getElementById('modal-shop-sorting-bar').style.width = sorting + '%';
-
-            // Display the modal
-            document.getElementById('shopModal').style.display = 'flex';
-        });
-    });
-
-    document.querySelector('.close').addEventListener('click', function() {
-        document.getElementById('shopModal').style.display = 'none';
-    });
-
-    window.addEventListener('click', function(event) {
-        if (event.target === document.getElementById('shopModal')) {
-            document.getElementById('shopModal').style.display = 'none';
-        }
-    });
-});
-
-
-    var shopList = document.getElementById('shop-list');
-    new Sortable(shopList, {
-        animation: 150,
-        onEnd: function (evt) {
-            var order = [];
-            shopList.querySelectorAll('li').forEach(function (li, index) {
-                order.push({
-                    id: li.getAttribute('data-id'),
-                    position: index + 1
-                });
-            });
-
-            fetch('{% url "reorder_shops" %}', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                    'X-CSRFToken': '{{ csrf_token }}'
-                },
-                body: JSON.stringify({order: order})
-            });
-        }
-    });
-
     document.addEventListener('DOMContentLoaded', function() {
-        document.querySelectorAll('.edit-button').forEach(function(button) {
+        document.querySelectorAll('.info-button').forEach(function(button) {
             button.addEventListener('click', function(event) {
                 event.preventDefault();
-                const shopId = this.getAttribute('data-shop-id');
-                document.querySelector(`#shop-item-${shopId} .shop-name`).style.display = 'none';
-                document.querySelector(`#edit-form-${shopId}`).style.display = 'block';
-                this.style.display = 'none';
+                
+                const name = this.getAttribute('data-shop-name');
+                const status = this.getAttribute('data-shop-status');
+                const rating = this.getAttribute('data-shop-rating');
+                const personal = this.getAttribute('data-shop-personal');
+                const purity = this.getAttribute('data-shop-purity');
+                const sorting = this.getAttribute('data-shop-sorting');
+                const countedBy = this.getAttribute('data-shop-counted-by');
+                const address = this.getAttribute('data-shop-address');
+                const lastRevision = this.getAttribute('data-shop-last-revision');
+                const lastTime = this.getAttribute('data-shop-last-time');
+    
+                document.getElementById('modal-shop-name').textContent = name;
+                document.getElementById('modal-shop-status').textContent = status;
+                document.getElementById('modal-shop-rating-label').textContent = rating;
+                document.getElementById('modal-shop-personal-label').textContent = personal;
+                document.getElementById('modal-shop-purity-label').textContent = purity;
+                document.getElementById('modal-shop-sorting-label').textContent = sorting;
+                document.getElementById('modal-shop-counted-by').textContent = countedBy;
+                document.getElementById('modal-shop-address').textContent = address;
+                document.getElementById('modal-shop-last-revision').textContent = lastRevision;
+                document.getElementById('modal-shop-last-time').textContent = lastTime;
+    
+                // Set progress bars
+                document.getElementById('modal-shop-rating-bar').style.width = rating + '%';
+                document.getElementById('modal-shop-personal-bar').style.width = personal + '%';
+                document.getElementById('modal-shop-purity-bar').style.width = purity + '%';
+                document.getElementById('modal-shop-sorting-bar').style.width = sorting + '%';
+    
+                // Display the modal
+                document.getElementById('shopModal').style.display = 'flex';
             });
         });
-
-        document.querySelectorAll('.cancel-edit').forEach(function(button) {
-            button.addEventListener('click', function() {
-                const shopId = this.getAttribute('data-shop-id');
-                document.querySelector(`#shop-item-${shopId} .shop-name`).style.display = 'block';
-                document.querySelector(`#edit-form-${shopId}`).style.display = 'none';
-                document.querySelector(`.edit-button[data-shop-id="${shopId}"]`).style.display = 'block';
-            });
+    
+        document.querySelector('.close').addEventListener('click', function() {
+            document.getElementById('shopModal').style.display = 'none';
+        });
+    
+        window.addEventListener('click', function(event) {
+            if (event.target === document.getElementById('shopModal')) {
+                document.getElementById('shopModal').style.display = 'none';
+            }
         });
     });
-</script>
+    
+    
+        var shopList = document.getElementById('shop-list');
+        new Sortable(shopList, {
+            animation: 150,
+            onEnd: function (evt) {
+                var order = [];
+                shopList.querySelectorAll('li').forEach(function (li, index) {
+                    order.push({
+                        id: li.getAttribute('data-id'),
+                        position: index + 1
+                    });
+                });
+    
+                fetch('{% url "reorder_shops" %}', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'X-CSRFToken': '{{ csrf_token }}'
+                    },
+                    body: JSON.stringify({order: order})
+                });
+            }
+        });
+    
+        document.addEventListener('DOMContentLoaded', function() {
+            document.querySelectorAll('.edit-button').forEach(function(button) {
+                button.addEventListener('click', function(event) {
+                    event.preventDefault();
+                    const shopId = this.getAttribute('data-shop-id');
+                    document.querySelector(`#shop-item-${shopId} .shop-name`).style.display = 'none';
+                    document.querySelector(`#edit-form-${shopId}`).style.display = 'block';
+                    this.style.display = 'none';
+                });
+            });
+    
+            document.querySelectorAll('.cancel-edit').forEach(function(button) {
+                button.addEventListener('click', function() {
+                    const shopId = this.getAttribute('data-shop-id');
+                    document.querySelector(`#shop-item-${shopId} .shop-name`).style.display = 'block';
+                    document.querySelector(`#edit-form-${shopId}`).style.display = 'none';
+                    document.querySelector(`.edit-button[data-shop-id="${shopId}"]`).style.display = 'block';
+                });
+            });
+        });
+    </script>
 {% endblock %}

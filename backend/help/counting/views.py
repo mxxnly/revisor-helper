@@ -117,4 +117,6 @@ def update_hours_difference(request):
         revisors = Revisor.objects.all()
         return render(request, 'difference.html', {'revisors': revisors})
 
-    return redirect('work_log')
+
+def elina(request):
+    return render(request, "elina.html")
