@@ -1,0 +1,19 @@
+{% extends "base.html" %}
+{% load static %}
+{% block links %}
+    <link href="{% static 'css/rate_shop.css' %}" rel="stylesheet">
+{% endblock %}
+{% block title %}
+Оцініть магазин
+{% endblock %}
+{% block maincont %}
+<div class="form-container">
+    <h2>Rate a Shop</h2>
+
+    <form method="post">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit">Submit Rating</button>
+    </form>
+</div>
+{% endblock %}

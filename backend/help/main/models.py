@@ -13,7 +13,7 @@ class Shop(models.Model):
     position = models.PositiveIntegerField(default=0)
     status = models.CharField(max_length=20, choices=[('new', 'New'), ('transported', 'Transported'),('c1', 'C1'),('away', 'Away'),('normal', 'Normal')], default="normal")
     last_time = models.DateTimeField(null=True, blank=True)
-    last_revision = models.IntegerField(null=True, blank=True)
+    last_revision = models.FloatField(null=True, blank=True)
     avg_rating = models.FloatField(blank=True, null=True)
     avg_personal = models.FloatField(blank=True, null=True)
     avg_purity = models.FloatField(blank=True, null=True)
