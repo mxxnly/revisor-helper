@@ -375,7 +375,7 @@ input[type="submit"]:hover {
     #shop-list li {
         flex-direction: column;
         align-items: flex-start;
-        width: 100%;
+        width: 95%;
     }
 
     #shop-list li a,
@@ -392,7 +392,17 @@ input[type="submit"]:hover {
     }
 }
 @media screen and (max-width: 600px) {
+    #shop-list li {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        margin-bottom: 25px;
+    }
+    #shop-list li span {
+        margin-bottom: 3px;
+    }
     .modal-content {
+        margin-top: 3px;
         width: 95%;
         padding: 15px;
     }
@@ -404,6 +414,8 @@ input[type="submit"]:hover {
 
     .info-button {
         font-size: 12px;
-        padding: 3px 6px;
+        margin-right: 6px;
+        width: 100%;
     }
 }
+
