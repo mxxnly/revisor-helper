@@ -10,10 +10,14 @@ from decorators import group_required
 
 @login_required
 def shop_list(request):
+    user_agent = request.META.get('HTTP_USER_AGENT', '')
     shops = Shop.objects.all()
     form = ShopForm()
 
-    return render(request, 'q.html', {'shops': shops, 'form': form})
+    if 'Mobile' in user_agent:
+        return render(request, 'mobile_shop_list.html', {'shops': shops, 'form': form})
+    else:
+        return render(request, 'q.html', {'shops': shops, 'form': form})
 
 
 

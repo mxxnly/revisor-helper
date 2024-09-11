@@ -1,0 +1,421 @@
+.spaced {
+    margin-right: 10px; 
+    border: 2px solid #1990dfad;
+    border-radius: 4px;
+    padding: 5px;
+}
+#formdiv {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.info-button {
+    background-color: #007bff;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    padding: 5px 10px;
+    cursor: pointer;
+    font-size: 14px;
+    margin-left: 5px; 
+    transition: background-color 0.3s;
+}
+.info-button:hover {
+    background-color: #0056b3;
+}
+.modal {
+    padding-top: 10px;
+    display: none;
+    position: fixed;
+    z-index: 1000;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    background-color: rgba(0, 0, 0, 0.8);
+    align-items: center;
+    justify-content: center;
+}
+
+
+.modal-content {
+    background-color: #333;
+    color: white;
+    border-radius: 10px;
+    padding: 20px;
+    width: 80%;
+    max-width: 800px;
+    margin: auto;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.5);
+    display: flex;
+    flex-direction: column;
+}
+
+
+.modal .close {
+    color: #ff0000;
+    float: right;
+    font-size: 28px;
+    font-weight: bold;
+}
+
+.modal .close:hover,
+.modal .close:focus {
+    color: white;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+
+.modal-details {
+    display: flex;
+    flex-direction: column;
+    gap: 20px; 
+}
+
+
+.modal-row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+}
+
+.modal-item {
+    flex: 1 1 calc(50% - 10px);
+    padding: 10px;
+    border: 1px solid #555;
+    border-radius: 5px;
+    background-color: #444;
+}
+
+.modal-item label {
+    font-weight: bold;
+}
+
+.progress-bar {
+    position: relative;
+    height: 20px;
+    background-color: #555;
+    border-radius: 5px;
+    overflow: hidden;
+    margin-bottom: 10px;
+}
+
+.progress-fill {
+    height: 100%;
+    background-color: #4caf50;
+    width: 0%;
+    border-radius: 5px;
+}
+
+.progress-bar label {
+    font-weight: bold;
+}
+
+.progress-bar span {
+    position: absolute;
+    right: 10px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: white;
+    font-weight: bold;
+}
+
+.form-container {
+    margin: 20px;
+    padding: 20px;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    border-radius: 8px;
+    background-color: rgba(0, 0, 0, 0.6);
+    max-width: 500px;
+    width: 100%;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.5);
+}
+
+.form-row {
+    display: flex;
+    flex-direction: column;
+}
+
+.form-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    width: 100%;
+}
+
+.form-list li {
+    margin-bottom: 15px;
+    width: 100%;
+}
+
+.form-label {
+    display: block;
+    color: #ccc; 
+    margin-bottom: 5px;
+}
+
+input[type="text"], select {
+    width: 100%;
+    padding: 10px;
+    border-radius: 5px;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    box-sizing: border-box;
+}
+
+input[type="text"] {
+    background-color: rgba(255, 255, 255, 0.1);
+    color: #fff;
+}
+
+select {
+    background-color: rgba(255, 255, 255, 0.2);
+    color: #fff;
+}
+
+select option {
+    background-color: #000;
+    color: #fff;
+}
+
+input[type="text"]:focus, select:focus {
+    outline: none;
+    border-color: #4CAF50;
+    background-color: rgba(255, 255, 255, 0.3);
+}
+
+input[type="submit"] {
+    background-color: #4CAF50;
+    color: white;
+    padding: 10px;
+    border-radius: 5px;
+    border: none;
+    width: 100%;
+    cursor: pointer;
+}
+
+input[type="submit"]:hover {
+    background-color: #45a049;
+}
+
+#shop-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+#shop-list li {
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    padding: 10px;
+    margin-bottom: 10px;
+    background-color: rgba(255, 255, 255, 0.1);
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    width: 70%;
+}
+
+#shop-list li a,
+#shop-list li form {
+    margin-left: 10px;
+}
+
+#shop-list li form button {
+    background-color: #e74c3c;
+    color: white;
+    border: none;
+    padding: 5px 10px;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 14px;
+    transition: background-color 0.5s;
+}
+
+#shop-list li form button:hover {
+    background-color: #c0392b;
+}
+
+#shop-list li a {
+    background-color: #3498db;
+    color: white;
+    text-decoration: none;
+    cursor: pointer;
+    padding: 5px 10px;
+    border-radius: 4px;
+    font-size: 14px;
+    transition: background-color 0.5s;
+}
+
+#shop-list li a:hover {
+    background-color: #2980b9;
+}
+
+#shop-list li .shop-name {
+    margin-right: auto; 
+}
+
+.new-shop {
+    border: 5px solid transparent;
+    border-image: linear-gradient(135deg, #0cb6ff9a 0%, #2c3e5048 100%);
+    border-image-slice: 1;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.new-shop:hover {
+    transform: scale(1.05);
+    box-shadow: 0 0 10px #0cb6ff9a;
+}
+
+.transported-shop {
+    border: 5px solid transparent;
+    border-image: linear-gradient(135deg, #8a0dd2a9 0%, #2c3e5048 100%);
+    border-image-slice: 1;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.transported-shop:hover {
+    transform: scale(1.05);
+    box-shadow: 0 0 10px #8a0dd2a9;
+}
+
+.c1-shop {
+    border: 5px solid transparent;
+    border-image: linear-gradient(135deg, #fb7908af 0%, #2c3e5048 100%);
+    border-image-slice: 1;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.c1-shop:hover {
+    transform: scale(1.05);
+    box-shadow: 0 0 10px #fb7908af;
+}
+
+.away-shop {
+    border: 5px solid transparent;
+    border-image: linear-gradient(135deg, #00ff1ea7 0%, #2c3e5048 100%);
+    border-image-slice: 1;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.away-shop:hover {
+    transform: scale(1.05);
+    box-shadow: 0 0 10px #00ff1ea7;
+}
+
+.normal-shop {
+    border: 5px solid transparent;
+    border-image: linear-gradient(135deg, #fefefebd 0%, #2c3e5048 100%);
+    border-image-slice: 1;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.normal-shop:hover {
+    transform: scale(1.05);
+    box-shadow: 0 0 10px #fefefe;
+}
+
+
+.edit-form {
+    display: none;
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    background-color: rgba(255, 255, 255, 0.1);
+    padding: 15px;
+    border-radius: 8px;
+    width: 100%;
+}
+
+.edit-form input[type="text"], .edit-form select {
+    flex: 1;
+    margin-right: 10px;
+    background-color: rgba(255, 255, 255, 0.1);
+}
+
+.edit-form button {
+    margin-top: 5px;
+    background-color: #4CAF50;
+    color: white;
+    padding: 10px;
+    border-radius: 5px;
+    border: none;
+    cursor: pointer;
+}
+
+.edit-form button:hover {
+    background-color: #45a049;
+}
+
+.cancel-edit {
+    background-color: #e74c3c;
+    color: white;
+    padding: 10px;
+    border-radius: 5px;
+    border: none;
+    cursor: pointer;
+    margin-top: 5px;
+}
+
+.cancel-edit:hover {
+    background-color: #c0392b;
+}
+
+.shop-name {
+    flex: 1;
+    display: inline-block;
+}
+
+
+@media (max-width: 600px) {
+    #shop-list li {
+        flex-direction: column;
+        align-items: flex-start;
+        width: 95%;
+    }
+
+    #shop-list li a,
+    #shop-list li form {
+        margin-left: 0;
+        margin-top: 5px;
+        width: 100%;
+    }
+
+    #shop-list li form button,
+    #shop-list li a {
+        width: 100%;
+        text-align: center;
+    }
+}
+@media screen and (max-width: 600px) {
+    #shop-list li {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        margin-bottom: 25px;
+    }
+    #shop-list li span {
+        margin-bottom: 3px;
+    }
+    .modal-content {
+        margin-top: 3px;
+        width: 95%;
+        padding: 15px;
+    }
+
+    .modal-item {
+        flex: 1 1 100%; 
+        margin: 5px 0;
+    }
+
+    .info-button {
+        font-size: 12px;
+        margin-right: 6px;
+        width: 100%;
+    }
+}
+
