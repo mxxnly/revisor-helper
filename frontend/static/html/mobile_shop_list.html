@@ -1,0 +1,147 @@
+{% extends "base.html" %}
+{% load static %}
+{% block links %}
+<link href="{% static 'css/mobile.css' %}" rel="stylesheet">
+{% endblock %}
+{% block title %}
+Черга магазинів
+{% endblock %}
+{% block maincont%}
+<ul id="shop-list">
+    {% for shop in shops %}
+    <li id="shop-item-{{ shop.id }}" data-id="{{ shop.id }}" class="{% if shop.status == 'new' %}new-shop{% elif shop.status == 'transported' %}transported-shop{% elif shop.status == 'c1' %}c1-shop{% elif shop.status == 'away' %}away-shop{% elif shop.status == 'normal' %}normal-shop{% endif %}">
+        <span class="shop-name">{{ shop.name }}</span>
+        <button class="info-button" 
+        data-shop-id="{{ shop.id }}" 
+        data-shop-name="{{ shop.name }}" 
+        data-shop-status="{{ shop.status }}"
+        data-shop-rating="{{ shop.avg_rating }}"
+        data-shop-personal="{{ shop.avg_personal }}"
+        data-shop-purity="{{ shop.avg_purity }}"
+        data-shop-sorting="{{ shop.avg_sorting }}"
+        data-shop-counted-by="{{ shop.last_counted_by }}"
+        data-shop-address="{{ shop.address }}"
+        data-shop-last-revision="{{ shop.last_revision }}"
+        data-shop-last-time="{{ shop.last_time }}">Інформація про магазин</button>
+    </li>
+    {% endfor %}
+</ul>
+
+<div id="shopModal" class="modal">
+    <div class="modal-content">
+        <span class="close">&times;</span>
+        <h2>Детальніше про магазин</h2>
+        <div class="modal-details">
+            <div class="modal-row">
+                <div class="modal-item">
+                    <label for="modal-shop-name">Ім'я:</label>
+                    <span id="modal-shop-name"></span>
+                </div>
+                <div class="modal-item">
+                    <label for="modal-shop-status">Статус:</label>
+                    <span id="modal-shop-status"></span>
+                </div>
+            </div>
+            <div class="modal-row">
+                <div class="modal-item">
+                    <label>Загальна оцінка:</label>
+                    <div class="progress-bar">
+                        <div id="modal-shop-rating-bar" class="progress-fill"></div>
+                        <span id="modal-shop-rating-label"></span>
+                    </div>
+                </div>
+                <div class="modal-item">
+                    <label>Оцінка персоналу:</label>
+                    <div class="progress-bar">
+                        <div id="modal-shop-personal-bar" class="progress-fill"></div>
+                        <span id="modal-shop-personal-label"></span>
+                    </div>
+                </div>
+                <div class="modal-item">
+                    <label>Оцінка чистоти:</label>
+                    <div class="progress-bar">
+                        <div id="modal-shop-purity-bar" class="progress-fill"></div>
+                        <span id="modal-shop-purity-label"></span>
+                    </div>
+                </div>
+                <div class="modal-item">
+                    <label>Оцінка посортованості:</label>
+                    <div class="progress-bar">
+                        <div id="modal-shop-sorting-bar" class="progress-fill"></div>
+                        <span id="modal-shop-sorting-label"></span>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-row">
+                <div class="modal-item">
+                    <label for="modal-shop-counted-by">Останній рахував ревізор:</label>
+                    <span id="modal-shop-counted-by"></span>
+                </div>
+                <div class="modal-item">
+                    <label for="modal-shop-address">Адреса:</label>
+                    <span id="modal-shop-address"></span>
+                </div>
+                <div class="modal-item">
+                    <label for="modal-shop-last-revision">Остання ревізія:</label>
+                    <span id="modal-shop-last-revision"></span>
+                </div>
+                <div class="modal-item">
+                    <label for="modal-shop-last-time">Час останньої ревізії:</label>
+                    <span id="modal-shop-last-time"></span>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        document.querySelectorAll('.info-button').forEach(function(button) {
+            button.addEventListener('click', function(event) {
+                event.preventDefault();
+                
+                const name = this.getAttribute('data-shop-name');
+                const status = this.getAttribute('data-shop-status');
+                const rating = this.getAttribute('data-shop-rating');
+                const personal = this.getAttribute('data-shop-personal');
+                const purity = this.getAttribute('data-shop-purity');
+                const sorting = this.getAttribute('data-shop-sorting');
+                const countedBy = this.getAttribute('data-shop-counted-by');
+                const address = this.getAttribute('data-shop-address');
+                const lastRevision = this.getAttribute('data-shop-last-revision');
+                const lastTime = this.getAttribute('data-shop-last-time');
+    
+                document.getElementById('modal-shop-name').textContent = name;
+                document.getElementById('modal-shop-status').textContent = status;
+                document.getElementById('modal-shop-rating-label').textContent = rating;
+                document.getElementById('modal-shop-personal-label').textContent = personal;
+                document.getElementById('modal-shop-purity-label').textContent = purity;
+                document.getElementById('modal-shop-sorting-label').textContent = sorting;
+                document.getElementById('modal-shop-counted-by').textContent = countedBy;
+                document.getElementById('modal-shop-address').textContent = address;
+                document.getElementById('modal-shop-last-revision').textContent = lastRevision;
+                document.getElementById('modal-shop-last-time').textContent = lastTime;
+    
+                // Set progress bars
+                document.getElementById('modal-shop-rating-bar').style.width = rating + '%';
+                document.getElementById('modal-shop-personal-bar').style.width = personal + '%';
+                document.getElementById('modal-shop-purity-bar').style.width = purity + '%';
+                document.getElementById('modal-shop-sorting-bar').style.width = sorting + '%';
+    
+                // Display the modal
+                document.getElementById('shopModal').style.display = 'flex';
+            });
+        });
+    
+        document.querySelector('.close').addEventListener('click', function() {
+            document.getElementById('shopModal').style.display = 'none';
+        });
+    
+        window.addEventListener('click', function(event) {
+            if (event.target === document.getElementById('shopModal')) {
+                document.getElementById('shopModal').style.display = 'none';
+            }
+        });
+    });
+</script>
+{% endblock %}
