@@ -1,9 +1,8 @@
 from django.db import models
-from main.models import Shop
 from django.contrib.auth.models import User
 
 class Rating(models.Model):
-    shop = models.ForeignKey(Shop, on_delete=models.CASCADE, related_name="ratings")
+    shop = models.ForeignKey('main.Shop', on_delete=models.CASCADE, related_name="ratings")
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     personal = models.PositiveIntegerField(choices=[(i, i) for i in range(1, 101)])  
     purity = models.PositiveIntegerField(choices=[(i, i) for i in range(1, 101)])  

@@ -31,3 +31,4 @@ class UpdatePlusMinusForm(forms.Form):
         if not Revisor.objects.filter(email=email).exists():
             raise forms.ValidationError("Оберіть коректного ревізора.")
         return email
+    

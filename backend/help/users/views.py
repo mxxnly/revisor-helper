@@ -1,10 +1,35 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth import login as auth_login, authenticate, logout as auth_logout
 from django.contrib import messages
 from main.models import Revisor
 from .forms import AddUserForm, LoginForm
 from django.contrib.auth.decorators import login_required
 from decorators import group_required
+from counting.utils import calculate_salary
+import datetime 
+
+
+@login_required
+def profile_view(request):
+    revisor = get_object_or_404(Revisor, user=request.user)
+    user = request.user
+    today = datetime.date.today()
+    year = today.year
+    month = today.month
+
+    salary_data = calculate_salary(user, year, month)
+    total_hours = salary_data['total_hours']
+    hours_count = salary_data['hours_count']
+    percentage = (total_hours / hours_count) * 100 if hours_count > 0 else 0
+
+    context = {
+        'revisor': revisor,
+        'total_hours': salary_data['total_hours'],
+        'hours_count': salary_data['hours_count'],
+        'percentage': round(percentage, 2)
+    }
+
+    return render(request, 'profile.html', context)
 
 @login_required
 @group_required('God')

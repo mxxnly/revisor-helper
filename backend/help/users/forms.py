@@ -17,3 +17,6 @@ class LoginForm(AuthenticationForm):
         model = User
         fields = ['username', 'password']
 
+
+class ProfilePictureForm(forms.Form):
+    profile_picture = forms.ImageField()

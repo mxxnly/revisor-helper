@@ -4,6 +4,8 @@ from django.contrib.auth.models import User
 from django.db.models.signals import post_save
 from django.dispatch import receiver
 from decimal import Decimal
+from rate.models import Rating
+from django.db.models import F
 
 
 class Shop(models.Model):
@@ -71,8 +73,18 @@ class Revisor(models.Model):
     way_shops = models.IntegerField(default=0)
     move_shops = models.IntegerField(default=0)
     plus_or_minus = models.DecimalField(max_digits=10, decimal_places=2, default=Decimal('0.00'))
+    favourite_shop = models.ForeignKey(Shop, on_delete=models.CASCADE, related_name='fav_shop', blank=True, null=True)
+    date_of_birth = models.DateField(default='2000-01-01')
 
-
+    def update_favourite_shop(self):
+        highest_rated_shop = Rating.objects.filter(user=self.user).annotate(avg_score=(
+            (F('personal') + F('purity') + F('sorting')) / 3
+        )).order_by('-avg_score').first()
+        
+        if highest_rated_shop:
+            self.favourite_shop = highest_rated_shop.shop
+            self.save()
+    
     def __str__(self):
         return f"{self.firstname} {self.lastname}"
     

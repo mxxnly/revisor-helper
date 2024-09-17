@@ -1,0 +1,71 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block links %}
+    <link href="{% static 'css/profile.css' %}" rel="stylesheet">
+{% endblock %}
+
+{% block maincont %}
+<div class="main">
+    <div class="profile-container">
+        <div class="form-container">
+            <h2>Основна інформація</h2>
+            <form>
+                <div class="form-group">
+                    <label>Дата прийому на роботу</label>
+                    <input type="text" value="{{ revisor.date_hired }}" readonly>
+                </div>
+                <div class="form-group">
+                    <label>Поточний магазин</label>
+                    <input type="text" value="{{ revisor.now_shop.name|default:'Не призначено' }}" readonly>
+                </div>
+                <div class="form-group">
+                    <label>Улюблений магазин</label>
+                    <input type="text" value="{{ revisor.favourite_shop.name|default:'Немає улюбленого магазину' }}" readonly>
+                </div>
+                <div id="progress-container">
+                    <div id="progress-bar"></div>
+                    <span id="progress-text"></span>
+                </div>
+            </form>
+        </div>
+
+        <div class="form-container">
+            <h2>Статистика</h2>
+            <div class="card">
+                <div class="card-body">
+                    <h3 class="card-title">Магазини</h3>
+                    <p class="card-text">{{ revisor.shops }}</p>
+                </div>
+            </div>
+            <div class="card">
+                <div class="card-body">
+                    <h3 class="card-title">Магазини в дорозі</h3>
+                    <p class="card-text">{{ revisor.way_shops }}</p>
+                </div>
+            </div>
+            <div class="card">
+                <div class="card-body">
+                    <h3 class="card-title">Магазини переміщені</h3>
+                    <p class="card-text">{{ revisor.move_shops }}</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+{% block script %}
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+    var totalHours = parseFloat('{{ total_hours|floatformat:2 }}');
+    var hoursCount = parseFloat('{{ hours_count|floatformat:2 }}');
+
+    var percentage = (totalHours / hoursCount) * 100;
+
+    var progressBar = document.getElementById('progress-bar');
+    var progressText = document.getElementById('progress-text');
+
+    progressBar.style.width = percentage + '%';
+    progressText.textContent = totalHours.toFixed(2) + ' hours';
+});
+    </script>
+{% endblock %}
