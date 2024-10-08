@@ -64,4 +64,5 @@ def calculate_salary(user, year, month):
         'salary': salary,
         'first_name' : first_name,
         'last_name' : last_name,
+        'plus_or_minus' : plus_or_minus,
     }

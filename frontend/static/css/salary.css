@@ -1,4 +1,3 @@
-
 form {
     background-color: #1e1e1e;
     padding: 15px;
@@ -20,8 +19,6 @@ form input[type="number"] {
     padding: 5px;
     border-radius: 4px;
     margin-right: 10px;
-    width: 100%;
-    box-sizing: border-box;
 }
 
 form button {
@@ -32,7 +29,6 @@ form button {
     border-radius: 4px;
     cursor: pointer;
     transition: background-color 0.3s;
-    margin-top: 10px;
 }
 
 form button:hover {
@@ -76,51 +72,3 @@ h1 {
     color: #bb86fc;
 }
 
-
-@media (max-width: 768px) {
-    form {
-        padding: 10px;
-    }
-
-    form select,
-    form input[type="number"],
-    form button {
-        width: 100%;
-        margin-bottom: 10px;
-    }
-
-    .salary-card {
-        flex-direction: column;
-        align-items: flex-start;
-        padding: 10px;
-    }
-
-    .salary-card div {
-        margin: 5px 0;
-    }
-}
-
-@media (max-width: 480px) {
-    h1 {
-        font-size: 1.5em;
-        margin-bottom: 15px;
-    }
-
-    form {
-        padding: 8px;
-    }
-
-    form label {
-        display: block;
-        margin-bottom: 5px;
-    }
-
-    .salary-container {
-        gap: 5px;
-    }
-
-    .salary-card {
-        padding: 8px;
-        border-radius: 5px;
-    }
-}
