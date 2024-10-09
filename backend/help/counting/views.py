@@ -54,7 +54,7 @@ def work_log_view(request):
         'hours_difference': salary_data['hours_difference'],
         'is_full_month': salary_data['is_full_month'],
         'is_full_and_more': salary_data['is_full_and_more'],
-        'salary' : salary_data['salary']
+        'salary' : salary_data['salary'],
 	'plus_or_minus' : salary_data['plus_or_minus']
     }
     return render(request, 'calendar.html', context)
