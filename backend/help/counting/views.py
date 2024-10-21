@@ -30,6 +30,12 @@ def work_log_view(request):
         if form.is_valid():
             work_log = form.save(commit=False)
             work_log.user = request.user
+
+            if work_log.hours_worked >= Decimal('8.00'):
+                work_log.bonus_minutes = Decimal('0.25')  
+            else:
+                work_log.bonus_minutes = Decimal('0.00')
+
             existing_log = WorkLog.objects.filter(
                 user=work_log.user,
                 date=work_log.date
@@ -55,7 +61,7 @@ def work_log_view(request):
         'is_full_month': salary_data['is_full_month'],
         'is_full_and_more': salary_data['is_full_and_more'],
         'salary' : salary_data['salary'],
-	'plus_or_minus' : salary_data['plus_or_minus']
+	    'plus_or_minus' : salary_data['plus_or_minus']
     }
     return render(request, 'calendar.html', context)
 
@@ -72,6 +78,19 @@ def delete_work_log(request, log_id):
 
     return redirect('work_log')
 
+@login_required
+def delete_bonus_log(request, log_id):
+    if request.method == 'POST':
+        log = WorkLog.objects.filter(
+            id=log_id,
+            user=request.user
+        ).first()
+
+        if log and log.bonus_minutes > 0:
+            log.bonus_minutes = 0
+            log.save()
+
+    return redirect('work_log')
 @login_required
 @group_required('Admin', 'God')
 def salary_list_view(request):
@@ -117,6 +136,12 @@ def update_hours_difference(request):
     else:
         revisors = Revisor.objects.all()
         return render(request, 'difference.html', {'revisors': revisors})
+
+
+
+
+
+
 
 
 def elina(request):

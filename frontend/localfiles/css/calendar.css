@@ -121,12 +121,22 @@ form {
     /* Optional styles for the log hours */
 }
 
-.bonus-row {
+.bonus-row a {
+    text-decoration: none;
+    display: inline-block;
+}
+
+.bonus-row a span {
     background-color: blue;
     color: white;
     border-radius: 3px;
     font-weight: bold;
-    margin-top: 5px; /* Space between log hours and bonus row */
+    margin-top: 5px;
+    transition: background-color 0.3s;
+}
+
+.bonus-row a:hover span {
+    background-color: darkblue;
 }
 
 input, select, textarea {

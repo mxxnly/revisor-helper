@@ -39,9 +39,7 @@ def calculate_salary(user, year, month):
     
     total_hours = Decimal('0.00')
     for log in work_logs:
-        total_hours += log.hours_worked
-        if log.hours_worked >= Decimal('8.0000'):
-            total_hours += Decimal('0.25')
+        total_hours += log.hours_worked + log.bonus_minutes
 
 
     total_hours += plus_or_minus
