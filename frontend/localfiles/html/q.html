@@ -140,6 +140,9 @@
                     <label for="modal-shop-last-time">Час останньої ревізії:</label>
                     <span id="modal-shop-last-time"></span>
                 </div>
+                <div class="modal-item">
+                    <button id="view-media" class="view-media-button">Переглянути фото та відео</button>
+                </div>
             </div>
         </div>
     </div>
@@ -238,5 +241,56 @@
                 });
             });
         });
+        document.addEventListener('DOMContentLoaded', function() {
+    document.querySelectorAll('.info-button').forEach(function(button) {
+        button.addEventListener('click', function(event) {
+            event.preventDefault();
+            
+            const shopId = this.getAttribute('data-shop-id');
+            const name = this.getAttribute('data-shop-name');
+            const status = this.getAttribute('data-shop-status');
+            const rating = this.getAttribute('data-shop-rating');
+            const personal = this.getAttribute('data-shop-personal');
+            const purity = this.getAttribute('data-shop-purity');
+            const sorting = this.getAttribute('data-shop-sorting');
+            const countedBy = this.getAttribute('data-shop-counted-by');
+            const address = this.getAttribute('data-shop-address');
+            const lastRevision = this.getAttribute('data-shop-last-revision');
+            const lastTime = this.getAttribute('data-shop-last-time');
+
+            document.getElementById('modal-shop-name').textContent = name;
+            document.getElementById('modal-shop-status').textContent = status;
+            document.getElementById('modal-shop-rating-label').textContent = rating;
+            document.getElementById('modal-shop-personal-label').textContent = personal;
+            document.getElementById('modal-shop-purity-label').textContent = purity;
+            document.getElementById('modal-shop-sorting-label').textContent = sorting;
+            document.getElementById('modal-shop-counted-by').textContent = countedBy;
+            document.getElementById('modal-shop-address').textContent = address;
+            document.getElementById('modal-shop-last-revision').textContent = lastRevision;
+            document.getElementById('modal-shop-last-time').textContent = lastTime;
+
+            document.getElementById('modal-shop-rating-bar').style.width = rating + '%';
+            document.getElementById('modal-shop-personal-bar').style.width = personal + '%';
+            document.getElementById('modal-shop-purity-bar').style.width = purity + '%';
+            document.getElementById('modal-shop-sorting-bar').style.width = sorting + '%';
+
+            document.getElementById('view-media').addEventListener('click', function() {
+                window.location.href = `/shops/${shopId}/media/`;
+            });
+
+            document.getElementById('shopModal').style.display = 'flex';
+        });
+    });
+
+    document.querySelector('.close').addEventListener('click', function() {
+        document.getElementById('shopModal').style.display = 'none';
+    });
+
+    window.addEventListener('click', function(event) {
+        if (event.target === document.getElementById('shopModal')) {
+            document.getElementById('shopModal').style.display = 'none';
+        }
+    });
+});
     </script>
 {% endblock %}

@@ -24,6 +24,7 @@ def calculate_salary(user, year, month):
         plus_or_minus = revisor.plus_or_minus
         first_name = revisor.firstname
         last_name = revisor.lastname
+        who_are = revisor.who_are
     except Revisor.DoesNotExist:
         plus_or_minus = Decimal('0.00')
     
@@ -33,8 +34,12 @@ def calculate_salary(user, year, month):
         date__year=year, 
         date__month=month
     )
+    if who_are == 'ревізор':
+        salary_per_hour = Decimal('19500.00') / hours_count
+    else:
+        salary_per_hour = Decimal('18500.00') / hours_count
 
-    salary_per_hour = Decimal('19500.00') / hours_count
+    
 
     
     total_hours = Decimal('0.00')

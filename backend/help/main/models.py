@@ -23,10 +23,15 @@ class Shop(models.Model):
 
     class Meta:
         ordering = ['position']
+    
+    
+    
 
 
     def __str__(self):
         return self.name
+    
+    
     
     def upd_avg_rating(self):
         ratings = self.ratings.all()
@@ -58,7 +63,13 @@ class Shop(models.Model):
         except Exception as e:
             print(f"Error updating average ratings: {e}")
             
+class Photo(models.Model):
+    shop = models.ForeignKey(Shop, related_name='photos', on_delete=models.CASCADE)
+    image = models.ImageField(upload_to='photos/')
 
+class Video(models.Model):
+    shop = models.ForeignKey(Shop, related_name='videos', on_delete=models.CASCADE)
+    video_file = models.FileField(upload_to='videos/')
 
     
 class Revisor(models.Model):
@@ -75,6 +86,7 @@ class Revisor(models.Model):
     plus_or_minus = models.DecimalField(max_digits=10, decimal_places=2, default=Decimal('0.00'))
     favourite_shop = models.ForeignKey(Shop, on_delete=models.CASCADE, related_name='fav_shop', blank=True, null=True)
     date_of_birth = models.DateField(default='2000-01-01')
+    who_are = models.CharField(max_length=20, choices=[('ревізор', 'Ревізор'),('стажер', 'Стажер')], default="Ревізор")
 
     def update_favourite_shop(self):
         highest_rated_shop = Rating.objects.filter(user=self.user).annotate(avg_score=(

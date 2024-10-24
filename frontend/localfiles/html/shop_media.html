@@ -1,0 +1,54 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block links %}
+    <link href="{% static 'css/media.css' %}" rel="stylesheet">
+{% endblock %}
+{% block title%}Вигляд {{ shop.name }} {% endblock %}
+{% block maincont %}
+<div class="container">
+    <h1>{{ shop.name }} - Медіа</h1>
+
+    <form method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+        
+        <h3>Додати фото:</h3>
+        <input type="file" name="photos" multiple>
+        
+        <h3>Додати відео:</h3>
+        <input type="file" name="videos" multiple>
+        
+        <button type="submit">Загрузити</button>
+    </form>
+
+    <h3>Наявні фото:</h3>
+    {% for photo in photos %}
+        <div>
+            <img src="{{ photo.image.url }}" alt="Shop Photo" width="300">
+            <form method="post" style="display:inline;">
+                {% csrf_token %}
+                <input type="hidden" name="photo_id" value="{{ photo.id }}">
+                <button type="submit" name="delete_photo">Видалити фото</button>
+            </form>
+        </div>
+    {% empty %}
+        <p>Немає фото.</p>
+    {% endfor %}
+
+    <h3>Наявні відео:</h3>
+    {% for video in videos %}
+        <div>
+            <video width="400" controls>
+                <source src="{{ video.video_file.url }}" type="video/mp4">
+                Ваш браузер не підтримує цей формат.
+            </video>
+            <form method="post" style="display:inline;">
+                {% csrf_token %}
+                <input type="hidden" name="video_id" value="{{ video.id }}">
+                <button type="submit" name="delete_video">Видалити відео</button>
+            </form>
+        </div>
+    {% empty %}
+        <p>Немає відео.</p>
+    {% endfor %}
+</div>
+{% endblock %}

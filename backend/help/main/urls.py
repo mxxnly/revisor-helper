@@ -10,4 +10,6 @@ urlpatterns = [
     path('add_shops/<int:revisor_id>/',views.add_shops, name='add_shops'),
     path('add_way_shops/<int:revisor_id>/',views.add_way_shops, name='add_way_shops'),
     path('add_move_shops/<int:revisor_id>/',views.add_move_shops, name='add_move_shops'),
+    path('shops/<int:shop_id>/media/', views.shop_media_view, name='shop_media'),
+    
 ]
