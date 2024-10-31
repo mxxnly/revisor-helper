@@ -129,7 +129,8 @@ TEMPLATES = [
         },
     },
 ]
-
+DATA_UPLOAD_MAX_MEMORY_SIZE = 104857600
+FILE_UPLOAD_MAX_MEMORY_SIZE = 104857600
 STATIC_URL = '/static/'
 STATICFILES_DIRS = [
     BASE_DIR / 'frontend/localfiles',
@@ -138,4 +139,4 @@ STATICFILES_DIRS = [
 STATIC_ROOT = os.path.join(BASE_DIR,'frontend', 'static')
 MEDIA_ROOT =BASE_DIR / 'frontend/photos'
 
-MEDIA_URL = '/photos/'
+MEDIA_URL = '/media/'

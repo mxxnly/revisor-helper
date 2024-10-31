@@ -1,0 +1,296 @@
+{% extends "base.html" %}
+{% load static %}
+{% block links %}
+<link href="{% static 'css/cherza.css' %}" rel="stylesheet">
+{% endblock %}
+{% block title %}
+Черга магазинів
+{% endblock %}
+{% block maincont %}
+<div id="formdiv">
+    <form action="/shops/add/" method="post" id="formAdd" class="form-container">
+        {% csrf_token %}
+        <div class="form-row">
+            <ul class="form-list">
+                <li>
+                    <label for="{{ form.name.id_for_label }}" class="form-label">{{ form.name.label }}</label>
+                    {{ form.name }}
+                </li>
+                <li>
+                    <label for="{{ form.address.id_for_label }}" class="form-label">{{ form.address.label }}</label>
+                    {{ form.address }}
+                </li>
+                <li>
+                    <label for="{{ form.status.id_for_label }}" class="form-label">{{ form.status.label }}</label>
+                    {{ form.status }}
+                </li>
+                
+            </ul>
+            <input type="submit" value="Submit" class="submit-button">
+        </div>
+    </form>
+</div>
+
+<ul id="shop-list">
+    {% for shop in shops %}
+    <li id="shop-item-{{ shop.id }}" data-id="{{ shop.id }}" class="{% if shop.status == 'new' %}new-shop{% elif shop.status == 'transported' %}transported-shop{% elif shop.status == 'c1' %}c1-shop{% elif shop.status == 'away' %}away-shop{% elif shop.status == 'normal' %}normal-shop{% endif %}">
+        <span class="shop-name">{{ shop.name }}</span>
+        <button class="info-button" 
+        data-shop-id="{{ shop.id }}" 
+        data-shop-name="{{ shop.name }}" 
+        data-shop-status="{{ shop.status }}"
+        data-shop-rating="{{ shop.avg_rating }}"
+        data-shop-personal="{{ shop.avg_personal }}"
+        data-shop-purity="{{ shop.avg_purity }}"
+        data-shop-sorting="{{ shop.avg_sorting }}"
+        data-shop-counted-by="{{ shop.last_counted_by }}"
+        data-shop-address="{{ shop.address }}"
+        data-shop-last-revision="{{ shop.last_revision }}"
+        data-shop-last-time="{{ shop.last_time }}">Інформація про магазин</button>
+        
+        <form id="edit-form-{{ shop.id }}" class="edit-form" action="{% url 'shop_edit' shop.id %}" method="post" style="display: none;">
+            {% csrf_token %}
+            <div class="edit-form-field">
+                <label for="name-{{ shop.id }}" class="form-label">Ім'я</label>
+                <input type="text" id="name-{{ shop.id }}" name="name" value="{{ shop.name }}">
+            </div>
+            <div class="edit-form-field">
+                <label for="status-{{ shop.id }}" class="form-label">Статус</label>
+                <select id="status-{{ shop.id }}" name="status">
+                    <option value="new" {% if shop.status == 'new' %}selected{% endif %}>Новий</option>
+                    <option value="transported" {% if shop.status == 'transported' %}selected{% endif %}>Перенесений</option>
+                    <option value="c1" {% if shop.status == 'c1' %}selected{% endif %}>1С</option>
+                    <option value="away" {% if shop.status == 'away' %}selected{% endif %}>Дальня точка</option>
+                    <option value="normal" {% if shop.status == 'normal' %}selected{% endif %}>Звичайний</option>
+                </select>
+            </div>
+            <button type="submit">Зберегти</button>
+            <button type="button" class="cancel-edit" data-shop-id="{{ shop.id }}">Відмініти</button>
+        </form>
+        
+        <a href="#" class="edit-button" data-shop-id="{{ shop.id }}">Редагувати</a>
+        
+        <form action="{% url 'shop_delete' shop.id %}" method="post" style="display:inline;">
+            {% csrf_token %}
+            <button type="submit">Видалити</button>
+        </form>
+    </li>
+    {% endfor %}
+</ul>
+
+<div id="shopModal" class="modal">
+    <div class="modal-content">
+        <span class="close">&times;</span>
+        <h2>Детальніше про магазин</h2>
+        <div class="modal-details">
+            <div class="modal-row">
+                <div class="modal-item">
+                    <label for="modal-shop-name">Ім'я:</label>
+                    <span id="modal-shop-name"></span>
+                </div>
+                <div class="modal-item">
+                    <label for="modal-shop-status">Статус:</label>
+                    <span id="modal-shop-status"></span>
+                </div>
+            </div>
+            <div class="modal-row">
+                <div class="modal-item">
+                    <label>Загальна оцінка:</label>
+                    <div class="progress-bar">
+                        <div id="modal-shop-rating-bar" class="progress-fill"></div>
+                        <span id="modal-shop-rating-label"></span>
+                    </div>
+                </div>
+                <div class="modal-item">
+                    <label>Оцінка персоналу:</label>
+                    <div class="progress-bar">
+                        <div id="modal-shop-personal-bar" class="progress-fill"></div>
+                        <span id="modal-shop-personal-label"></span>
+                    </div>
+                </div>
+                <div class="modal-item">
+                    <label>Оцінка чистоти:</label>
+                    <div class="progress-bar">
+                        <div id="modal-shop-purity-bar" class="progress-fill"></div>
+                        <span id="modal-shop-purity-label"></span>
+                    </div>
+                </div>
+                <div class="modal-item">
+                    <label>Оцінка посортованості:</label>
+                    <div class="progress-bar">
+                        <div id="modal-shop-sorting-bar" class="progress-fill"></div>
+                        <span id="modal-shop-sorting-label"></span>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-row">
+                <div class="modal-item">
+                    <label for="modal-shop-counted-by">Останній рахував ревізор:</label>
+                    <span id="modal-shop-counted-by"></span>
+                </div>
+                <div class="modal-item">
+                    <label for="modal-shop-address">Адреса:</label>
+                    <span id="modal-shop-address"></span>
+                </div>
+                <div class="modal-item">
+                    <label for="modal-shop-last-revision">Остання ревізія:</label>
+                    <span id="modal-shop-last-revision"></span>
+                </div>
+                <div class="modal-item">
+                    <label for="modal-shop-last-time">Час останньої ревізії:</label>
+                    <span id="modal-shop-last-time"></span>
+                </div>
+                <div class="modal-item">
+                    <button id="view-media" class="view-media-button">Переглянути фото та відео</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        document.querySelectorAll('.info-button').forEach(function(button) {
+            button.addEventListener('click', function(event) {
+                event.preventDefault();
+                
+                const name = this.getAttribute('data-shop-name');
+                const status = this.getAttribute('data-shop-status');
+                const rating = this.getAttribute('data-shop-rating');
+                const personal = this.getAttribute('data-shop-personal');
+                const purity = this.getAttribute('data-shop-purity');
+                const sorting = this.getAttribute('data-shop-sorting');
+                const countedBy = this.getAttribute('data-shop-counted-by');
+                const address = this.getAttribute('data-shop-address');
+                const lastRevision = this.getAttribute('data-shop-last-revision');
+                const lastTime = this.getAttribute('data-shop-last-time');
+    
+                document.getElementById('modal-shop-name').textContent = name;
+                document.getElementById('modal-shop-status').textContent = status;
+                document.getElementById('modal-shop-rating-label').textContent = rating;
+                document.getElementById('modal-shop-personal-label').textContent = personal;
+                document.getElementById('modal-shop-purity-label').textContent = purity;
+                document.getElementById('modal-shop-sorting-label').textContent = sorting;
+                document.getElementById('modal-shop-counted-by').textContent = countedBy;
+                document.getElementById('modal-shop-address').textContent = address;
+                document.getElementById('modal-shop-last-revision').textContent = lastRevision;
+                document.getElementById('modal-shop-last-time').textContent = lastTime;
+    
+                // Set progress bars
+                document.getElementById('modal-shop-rating-bar').style.width = rating + '%';
+                document.getElementById('modal-shop-personal-bar').style.width = personal + '%';
+                document.getElementById('modal-shop-purity-bar').style.width = purity + '%';
+                document.getElementById('modal-shop-sorting-bar').style.width = sorting + '%';
+    
+                // Display the modal
+                document.getElementById('shopModal').style.display = 'flex';
+            });
+        });
+    
+        document.querySelector('.close').addEventListener('click', function() {
+            document.getElementById('shopModal').style.display = 'none';
+        });
+    
+        window.addEventListener('click', function(event) {
+            if (event.target === document.getElementById('shopModal')) {
+                document.getElementById('shopModal').style.display = 'none';
+            }
+        });
+    });
+    
+    
+        var shopList = document.getElementById('shop-list');
+        new Sortable(shopList, {
+            animation: 150,
+            onEnd: function (evt) {
+                var order = [];
+                shopList.querySelectorAll('li').forEach(function (li, index) {
+                    order.push({
+                        id: li.getAttribute('data-id'),
+                        position: index + 1
+                    });
+                });
+    
+                fetch('{% url "reorder_shops" %}', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'X-CSRFToken': '{{ csrf_token }}'
+                    },
+                    body: JSON.stringify({order: order})
+                });
+            }
+        });
+    
+        document.addEventListener('DOMContentLoaded', function() {
+            document.querySelectorAll('.edit-button').forEach(function(button) {
+                button.addEventListener('click', function(event) {
+                    event.preventDefault();
+                    const shopId = this.getAttribute('data-shop-id');
+                    document.querySelector(`#shop-item-${shopId} .shop-name`).style.display = 'none';
+                    document.querySelector(`#edit-form-${shopId}`).style.display = 'block';
+                    this.style.display = 'none';
+                });
+            });
+    
+            document.querySelectorAll('.cancel-edit').forEach(function(button) {
+                button.addEventListener('click', function() {
+                    const shopId = this.getAttribute('data-shop-id');
+                    document.querySelector(`#shop-item-${shopId} .shop-name`).style.display = 'block';
+                    document.querySelector(`#edit-form-${shopId}`).style.display = 'none';
+                    document.querySelector(`.edit-button[data-shop-id="${shopId}"]`).style.display = 'block';
+                });
+            });
+        });
+        document.addEventListener('DOMContentLoaded', function() {
+    document.querySelectorAll('.info-button').forEach(function(button) {
+        button.addEventListener('click', function(event) {
+            event.preventDefault();
+            
+            const shopId = this.getAttribute('data-shop-id');
+            const name = this.getAttribute('data-shop-name');
+            const status = this.getAttribute('data-shop-status');
+            const rating = this.getAttribute('data-shop-rating');
+            const personal = this.getAttribute('data-shop-personal');
+            const purity = this.getAttribute('data-shop-purity');
+            const sorting = this.getAttribute('data-shop-sorting');
+            const countedBy = this.getAttribute('data-shop-counted-by');
+            const address = this.getAttribute('data-shop-address');
+            const lastRevision = this.getAttribute('data-shop-last-revision');
+            const lastTime = this.getAttribute('data-shop-last-time');
+
+            document.getElementById('modal-shop-name').textContent = name;
+            document.getElementById('modal-shop-status').textContent = status;
+            document.getElementById('modal-shop-rating-label').textContent = rating;
+            document.getElementById('modal-shop-personal-label').textContent = personal;
+            document.getElementById('modal-shop-purity-label').textContent = purity;
+            document.getElementById('modal-shop-sorting-label').textContent = sorting;
+            document.getElementById('modal-shop-counted-by').textContent = countedBy;
+            document.getElementById('modal-shop-address').textContent = address;
+            document.getElementById('modal-shop-last-revision').textContent = lastRevision;
+            document.getElementById('modal-shop-last-time').textContent = lastTime;
+
+            document.getElementById('modal-shop-rating-bar').style.width = rating + '%';
+            document.getElementById('modal-shop-personal-bar').style.width = personal + '%';
+            document.getElementById('modal-shop-purity-bar').style.width = purity + '%';
+            document.getElementById('modal-shop-sorting-bar').style.width = sorting + '%';
+
+            document.getElementById('view-media').addEventListener('click', function() {
+                window.location.href = `/shops/${shopId}/media/`;
+            });
+
+            document.getElementById('shopModal').style.display = 'flex';
+        });
+    });
+
+    document.querySelector('.close').addEventListener('click', function() {
+        document.getElementById('shopModal').style.display = 'none';
+    });
+
+    window.addEventListener('click', function(event) {
+        if (event.target === document.getElementById('shopModal')) {
+            document.getElementById('shopModal').style.display = 'none';
+        }
+    });
+});
+    </script>
+{% endblock %}
