@@ -8,6 +8,12 @@ from .models import WorkLog
 from main.models import Revisor
 
 
+def format_hours(minutes_total):
+    hours = int(minutes_total)
+    minutes = int((minutes_total - hours) * 60)
+    return f"{hours} год {minutes} хв"
+
+
 def calculate_salary(user, year, month):
     first_day, last_day = calendar.monthrange(year, month)
 
@@ -57,11 +63,14 @@ def calculate_salary(user, year, month):
     else:
         salary = round(salary_per_hour * total_hours, 2)
 
+    formatted_hours_difference = format_hours(hours_difference)
+    formatted_total_hours = format_hours(total_hours)
+
     return {
         'user': user,
-        'hours_count': hours_count,
-        'total_hours': total_hours,
-        'hours_difference': hours_difference,
+        'hours_count': hours_count,  
+        'total_hours': formatted_total_hours,  
+        'hours_difference': formatted_hours_difference,
         'is_full_month': total_hours == hours_count,
         'is_full_and_more': total_hours > hours_count,
         'salary': salary,

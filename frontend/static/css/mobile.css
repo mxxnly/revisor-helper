@@ -52,6 +52,28 @@
     flex-direction: column;
 }
 
+.view-media-button {
+    background-color: #4A90E2; 
+    color: #fff; 
+    padding: 10px 20px;
+    font-size: 16px;
+    font-weight: bold;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background-color 0.3s, transform 0.2s;
+    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.2);
+}
+
+.view-media-button:hover {
+    background-color: #357ABD; 
+    transform: scale(1.05); 
+}
+
+.view-media-button:active {
+    background-color: #2A5B8C; 
+    transform: scale(0.98); 
+}
 
 .modal .close {
     color: #ff0000;
@@ -396,7 +418,11 @@ input[type="submit"]:hover {
         display: flex;
         justify-content: center;
         align-items: center;
-        margin-bottom: 25px;
+        margin-bottom: 5px;
+        max-width: 85%;
+    }
+    #shop-list li:hover{
+        background-color: #ffffff7e;
     }
     #shop-list li span {
         margin-bottom: 3px;
