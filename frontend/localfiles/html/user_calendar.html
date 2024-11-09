@@ -1,0 +1,123 @@
+{% extends "base.html" %}
+{% load static %}
+{% block links %}
+    <link href="{% static 'css/calendar.css' %}" rel="stylesheet">
+{% endblock %}
+{% block title %}
+Звіт користувача {{ user.username }}
+{% endblock %}
+{% block navlog %}
+{% endblock %}
+{% block maincont %}
+<main class="maincont">
+    <h1>Звіт користувача {{ user.username }}</h1>
+    <form method="post" class="input-form">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit">Add Hours</button>
+    </form>
+
+    <h2>Calendar for {{ month }}/{{ year }}</h2>
+    <table>
+        <thead>
+            <tr>
+                <th>Mon</th>
+                <th>Tue</th>
+                <th>Wed</th>
+                <th>Thu</th>
+                <th>Fri</th>
+                <th>Sat</th>
+                <th>Sun</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for week in calendar %}
+            <tr>
+                {% for day in week %}
+                <td>
+                    {% if day %}
+                        {{ day }}
+                        <ul>
+                            {% for log in work_logs %}
+                                {% if log.date.day == day %}
+                                <li class="log-item">
+                                    <div class="log-hours">
+                                        <a href="{% url 'delete_work_log' log.id %}" class="delete-link" data-method="delete">{{ log.hours_worked }} год</a>
+                                    </div>
+                                    {% if log.bonus_minutes == 0.25 %}
+                                    <div class="bonus-row">
+                                        <a href="{% url 'delete_bonus_log' log.id %}" class="delete-bonus-link" data-method="delete">
+                                            <span>+15</span>
+                                        </a>
+                                    </div>
+                                    {% endif %}
+                                </li>
+                                {% endif %}
+                            {% endfor %}
+                        </ul>
+                    {% endif %}
+                </td>
+                {% endfor %}
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    <div class="summary">
+        {% if is_full_month %}
+            <p>Повний місяць</p>
+        {% elif is_full_and_more %}
+            <p>Повний місяць + {{ formatted_hours_difference }}</p>
+        {% else %}
+            <p>{{ formatted_total_hours }} / {{ hours_count }}</p>
+        {% endif %}
+        <p>Зарплата: {{ salary }}</p>
+        <p>Години з минулого місяця: {{ plus_or_minus }}</p>
+    </div>
+</main>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        document.querySelectorAll('.delete-link').forEach(function(link) {
+            link.addEventListener('click', function(e) {
+                e.preventDefault();
+
+                fetch(this.href, {
+                    method: 'POST',
+                    headers: {
+                        'X-CSRFToken': '{{ csrf_token }}',
+                        'Content-Type': 'application/x-www-form-urlencoded'
+                    },
+                    body: new URLSearchParams({ 'csrfmiddlewaretoken': '{{ csrf_token }}' })
+                }).then(response => {
+                    if (response.ok) {
+                        window.location.reload();
+                    } else {
+                        alert('Error deleting the log.');
+                    }
+                });
+            });
+        });
+
+        document.querySelectorAll('.delete-bonus-link').forEach(function(link) {
+            link.addEventListener('click', function(e) {
+                e.preventDefault();
+
+                fetch(this.href, {
+                    method: 'POST',
+                    headers: {
+                        'X-CSRFToken': '{{ csrf_token }}',
+                        'Content-Type': 'application/x-www-form-urlencoded'
+                    },
+                    body: new URLSearchParams({ 'csrfmiddlewaretoken': '{{ csrf_token }}' })
+                }).then(response => {
+                    if (response.ok) {
+                        window.location.reload();
+                    } else {
+                        alert('Error deleting the bonus.');
+                    }
+                });
+            });
+        });
+    });
+</script>
+{% endblock %}

@@ -68,9 +68,11 @@ def calculate_salary(user, year, month):
 
     return {
         'user': user,
-        'hours_count': hours_count,  
-        'total_hours': formatted_total_hours,  
-        'hours_difference': formatted_hours_difference,
+        'hours_count': hours_count, 
+        'total_hours': total_hours,  
+        'hours_difference': hours_difference, 
+        'formatted_total_hours': formatted_total_hours,  
+        'formatted_hours_difference': formatted_hours_difference,
         'is_full_month': total_hours == hours_count,
         'is_full_and_more': total_hours > hours_count,
         'salary': salary,

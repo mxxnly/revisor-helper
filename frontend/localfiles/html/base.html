@@ -83,6 +83,7 @@
                 <a class="nav-link" href="{% url 'update_hours' %}">Обновити години</a>
               </li>
           </ul>
+          {% block navlog %}
           <ul class="navbar-nav mb-2 mb-lg-0">
             {% if user.is_authenticated %}
             <li class="nav-item">
@@ -97,6 +98,7 @@
             </li>
             {% endif %}
           </ul>
+          {% endblock %}
         </div>
       </div>
     </nav>

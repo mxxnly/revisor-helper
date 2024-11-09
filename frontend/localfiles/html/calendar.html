@@ -65,9 +65,9 @@
         {% if is_full_month %}
             <p>Повний місяць</p>
         {% elif is_full_and_more %}
-            <p>Повний місяць + {{ hours_difference }}</p>
+            <p>Повний місяць + {{formatted_hours_difference }}</p>
         {% else %}
-            <p>{{ total_hours }} / {{ hours_count }}</p>
+            <p>{{ formatted_total_hours }} / {{ hours_count }}</p>
         {% endif %}
 
             <p>{{salary}}</p>
@@ -122,4 +122,3 @@
     });
 </script>
 {% endblock %}
-
