@@ -9,4 +9,8 @@ class bonus_hours(models.Model):
     
     class Meta:
         unique_together = ('user', 'month', 'year')
+        
+        
+    def __str__(self):
+        return f"{self.user}'s month {self.month}"
     

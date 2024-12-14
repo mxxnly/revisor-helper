@@ -6,6 +6,8 @@ from django.dispatch import receiver
 from decimal import Decimal
 from rate.models import Rating
 from django.db.models import F
+from datetime import datetime
+from hours_bonus.models import bonus_hours
 
 
 class Shop(models.Model):
@@ -80,7 +82,6 @@ class Revisor(models.Model):
     shops = models.IntegerField(default=0)
     way_shops = models.IntegerField(default=0)
     move_shops = models.IntegerField(default=0)
-    plus_or_minus = models.DecimalField(max_digits=10, decimal_places=2, default=Decimal('0.00'))
     favourite_shop = models.ForeignKey(Shop, on_delete=models.CASCADE, related_name='fav_shop', blank=True, null=True)
     date_of_birth = models.DateField(default='2000-01-01')
     who_are = models.CharField(max_length=20, choices=[('ревізор', 'Ревізор'),('стажер', 'Стажер')], default="Ревізор")
@@ -93,6 +94,17 @@ class Revisor(models.Model):
         if highest_rated_shop:
             self.favourite_shop = highest_rated_shop.shop
             self.save()
+            
+    def get_bonus_hours(self):
+        now = datetime.now()
+        current_year = now.year
+        current_month = now.month
+        
+        try:
+            bonus_entry = bonus_hours.objects.get(user=self.user, year=current_year, month=current_month)
+            return bonus_entry.hours
+        except bonus_hours.DoesNotExist:
+            return Decimal('0.00')
     
     def __str__(self):
         return f"{self.firstname} {self.lastname}"

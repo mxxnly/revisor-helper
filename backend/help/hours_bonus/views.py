@@ -3,27 +3,45 @@ from django.contrib.auth.decorators import login_required
 from decorators import group_required
 from main.models import Revisor
 from django.shortcuts import render, redirect
-from django.http import JsonResponse
+from hours_bonus.forms import BonusForm
+from .models import bonus_hours
+from django.contrib import messages
+from django.core.exceptions import ObjectDoesNotExist
+
 
 @login_required
 @group_required('Admin', 'God')
 def update_hours_difference(request):
     if request.method == 'POST':
-        revisor_id = request.POST.get('revisor_id')
-        hours_difference = request.POST.get('hours_difference')
+        form = BonusForm(request.POST)
+        if form.is_valid():
+            user = form.cleaned_data['user']
+            month = form.cleaned_data['month']
+            year = form.cleaned_data['year']
+            hours = form.cleaned_data['hours']
 
-        if revisor_id and hours_difference:
             try:
-                revisor = Revisor.objects.get(id=revisor_id)
-                revisor.plus_or_minus = hours_difference
-                revisor.save()
-                return redirect('salary_list')
+                bonus_entry, created = bonus_hours.objects.update_or_create(
+                    user=user,
+                    month=month,
+                    year=year,
+                    defaults={'hours': hours}
+                )
+                if created:
+                    messages.success(request, 'Новий бонусний запис створено успішно.')
+                else:
+                    messages.success(request, 'Існуючий запис оновлено успішно.')
+                return redirect('update_hours')
             except Revisor.DoesNotExist:
-                return JsonResponse({'status': 'error', 'message': 'Revisor does not exist'}, status=404)
+                messages.error(request, 'Ревізора для цього користувача не знайдено.')
         else:
-            return JsonResponse({'status': 'error', 'message': 'Invalid form data'}, status=400)
+            messages.error(request, 'Некоректні дані у формі.')
+
     else:
-        revisors = Revisor.objects.all()
-        return render(request, 'difference.html', {'revisors': revisors})
+        form = BonusForm()
+
+    revisors = Revisor.objects.select_related('user').all()
+
+    return render(request, 'difference.html', {'form': form, 'revisors': revisors})
     
     
