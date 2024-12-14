@@ -36,7 +36,7 @@ def calculate_salary(user, year, month):
     
     try:
         bonus_entry = bonus_hours.objects.get(user=user, year=year, month=month)
-        plus_or_minus = bonus_entry.hours
+        plus_or_minus = Decimal(str(bonus_entry.hours))
     except bonus_hours.DoesNotExist:
         plus_or_minus = Decimal('0.00')
 
