@@ -6,6 +6,7 @@ import calendar
 import datetime
 from .models import WorkLog
 from main.models import Revisor
+from hours_bonus.models import bonus_hours
 
 
 def format_hours(minutes_total):
@@ -27,13 +28,17 @@ def calculate_salary(user, year, month):
     
     try:
         revisor = Revisor.objects.get(email=user_email)
-        plus_or_minus = revisor.plus_or_minus
         first_name = revisor.firstname
         last_name = revisor.lastname
         who_are = revisor.who_are
     except Revisor.DoesNotExist:
         plus_or_minus = Decimal('0.00')
     
+    try:
+        bonus_entry = bonus_hours.objects.get(user=user, year=year, month=month)
+        plus_or_minus = bonus_entry.hours
+    except bonus_hours.DoesNotExist:
+        plus_or_minus = Decimal('0.00')
 
     work_logs = WorkLog.objects.filter(
         user=user, 

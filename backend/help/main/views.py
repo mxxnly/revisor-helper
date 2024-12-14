@@ -90,17 +90,13 @@ def shop_media_view(request, shop_id):
     shop = get_object_or_404(Shop, id=shop_id)
 
     if request.method == 'POST':
-        # Handle photo uploads
         photo_files = request.FILES.getlist('photos')
         for file in photo_files:
             Photo.objects.create(shop=shop, image=file)
 
-        # Handle video uploads
         video_files = request.FILES.getlist('videos')
         for file in video_files:
             Video.objects.create(shop=shop, video_file=file)
-
-        # Handle deletion
         if 'delete_photo' in request.POST:
             photo_id = request.POST.get('photo_id')
             if photo_id:

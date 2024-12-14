@@ -33,7 +33,7 @@
         {% endfor %}
     </div>
     <h2>Переглянути звіт користувача</h2>
-    <ul>
+    <ul class="work-log-view">
         {% for user in users %}
             <li>
                 <a href="{% url 'user_work_log_view' user.id %}">

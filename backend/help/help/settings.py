@@ -26,13 +26,12 @@ SECRET_KEY = 'django-insecure-s@%h*%y#x4goqtzt&mf6essioxinx7xu@oyvvmlx6zgd%h0+(2
 DEBUG = False
 
 ALLOWED_HOSTS = [
-     'localhost', 'mxxnly.cloud', '62.72.22.94','127.0.0.1', 'www.mxxnly.cloud',
+    'mxxnly.cloud', '62.72.22.94', 'www.mxxnly.cloud',
 ]
 
 
 SECURE_SSL_REDIRECT = True
 
-# Application definition
 
 INSTALLED_APPS = [
     'django.contrib.admin',
@@ -47,6 +46,7 @@ INSTALLED_APPS = [
     'counting',
     'users',
     'rate',
+    'hours_bonus',
 ]
 
 MIDDLEWARE = [

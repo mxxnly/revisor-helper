@@ -9,6 +9,22 @@
 {% block maincont %}
 <main class="maincont">
     <h1>Work Log</h1>
+
+    <form method="GET" action="">
+        <label for="month">Select Month:</label>
+        <select name="month" id="month">
+            {% for m in months %}
+                <option value="{{ m }}" {% if m == month %}selected{% endif %}>{{ m }}</option>
+            {% endfor %}
+        </select>
+        <label for="year">Select Year:</label>
+        <select name="year" id="year">
+            <option value="{{ year }}" selected>{{ year }}</option>
+        </select>
+        <button type="submit">Submit</button>
+    </form>
+
+
     <form method="post" class="input-form">
         {% csrf_token %}
         {{ form.as_p }}

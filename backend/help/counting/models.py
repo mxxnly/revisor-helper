@@ -10,4 +10,4 @@ class WorkLog(models.Model):
 
 
     def __str__(self):
-        return f"{self.user.username} - {self.date} - {self.hours_worked} hours"
+        return f"{self.user.username} - {self.date} - {self.hours_worked} годин."

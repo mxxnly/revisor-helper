@@ -1,7 +1,6 @@
 from django.shortcuts import render, redirect
 from .forms import WorkLogForm
 from .models import WorkLog
-from django.utils import timezone
 import calendar
 from .utils import calculate_salary
 from django.contrib.auth.decorators import login_required
@@ -18,8 +17,18 @@ from django.shortcuts import get_object_or_404
 @login_required
 def work_log_view(request):
     today = datetime.date.today()
-    year = today.year
-    month = today.month
+    year = request.GET.get('year', today.year)
+    month = request.GET.get('month', today.month)  
+
+    try:
+        year = int(year)
+        month = int(month)
+        if month < 1 or month > 12:
+            month = today.month  
+    except ValueError:
+        year = today.year
+        month = today.month
+
     first_day, last_day = calendar.monthrange(year, month)
 
     salary_data = calculate_salary(request.user, year, month)
@@ -57,16 +66,16 @@ def work_log_view(request):
         'work_logs': WorkLog.objects.filter(date__year=year, date__month=month, user=request.user),
         'hours_count': salary_data['hours_count'],
         'total_hours': salary_data['total_hours'],
-        'formatted_hours_difference' : salary_data['formatted_hours_difference'],
-        'formatted_total_hours' : salary_data['formatted_total_hours'],
+        'formatted_hours_difference': salary_data['formatted_hours_difference'],
+        'formatted_total_hours': salary_data['formatted_total_hours'],
         'hours_difference': salary_data['hours_difference'],
         'is_full_month': salary_data['is_full_month'],
         'is_full_and_more': salary_data['is_full_and_more'],
-        'salary' : salary_data['salary'],
-	    'plus_or_minus' : salary_data['plus_or_minus']
+        'salary': salary_data['salary'],
+        'plus_or_minus': salary_data['plus_or_minus'],
+        'months': list(range(1, 13)),
     }
     return render(request, 'calendar.html', context)
-
 @login_required
 @group_required('Admin', 'God')
 def user_work_log_view(request, user_id):
@@ -173,35 +182,3 @@ def salary_list_view(request):
         'year': year,
         'months': months,
     })
-
-
-@login_required
-@group_required('Admin', 'God')
-def update_hours_difference(request):
-    if request.method == 'POST':
-        revisor_id = request.POST.get('revisor_id')
-        hours_difference = request.POST.get('hours_difference')
-
-        if revisor_id and hours_difference:
-            try:
-                revisor = Revisor.objects.get(id=revisor_id)
-                revisor.plus_or_minus = hours_difference
-                revisor.save()
-                return redirect('salary_list')
-            except Revisor.DoesNotExist:
-                return JsonResponse({'status': 'error', 'message': 'Revisor does not exist'}, status=404)
-        else:
-            return JsonResponse({'status': 'error', 'message': 'Invalid form data'}, status=400)
-    else:
-        revisors = Revisor.objects.all()
-        return render(request, 'difference.html', {'revisors': revisors})
-
-
-
-
-
-
-
-
-def elina(request):
-    return render(request, "elina.html")

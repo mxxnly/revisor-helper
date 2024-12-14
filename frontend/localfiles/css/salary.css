@@ -72,29 +72,29 @@ h1 {
     color: #bb86fc;
 }
 
-ul {
+.work-log-view {
     list-style-type: none;
     padding: 0;
 }
 
-li {
+.work-log-view li {
     background-color: #1e1e1e;
     margin: 10px 0;
     border-radius: 5px;
     transition: background-color 0.3s;
 }
 
-a {
+.work-log-view a {
     display: block;
     padding: 15px;
     color: #ffffff;
     text-decoration: none;
 }
 
-a:hover {
+.work-log-view a:hover {
     background-color: #333333;
 }
 
-li {
+.work-log-view li {
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
 }

@@ -24,9 +24,6 @@ class Shop(models.Model):
     class Meta:
         ordering = ['position']
     
-    
-    
-
 
     def __str__(self):
         return self.name
