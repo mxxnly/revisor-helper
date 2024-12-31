@@ -11,6 +11,8 @@ from django.core.exceptions import ObjectDoesNotExist
 
 @login_required
 @group_required('Admin', 'God')
+@login_required
+@group_required('Admin', 'God')
 def update_hours_difference(request):
     if request.method == 'POST':
         form = BonusForm(request.POST)
@@ -19,13 +21,17 @@ def update_hours_difference(request):
             month = form.cleaned_data['month']
             year = form.cleaned_data['year']
             hours = form.cleaned_data['hours']
+            minutes = form.cleaned_data['minutes']
 
             try:
                 bonus_entry, created = bonus_hours.objects.update_or_create(
                     user=user,
                     month=month,
                     year=year,
-                    defaults={'hours': hours}
+                    defaults={
+                        'hours': hours,
+                        'minutes': minutes
+                    }
                 )
                 if created:
                     messages.success(request, 'Новий бонусний запис створено успішно.')
@@ -43,5 +49,3 @@ def update_hours_difference(request):
     revisors = Revisor.objects.select_related('user').all()
 
     return render(request, 'difference.html', {'form': form, 'revisors': revisors})
-    
-    
