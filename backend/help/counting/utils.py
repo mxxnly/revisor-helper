@@ -36,9 +36,12 @@ def calculate_salary(user, year, month):
     
     try:
         bonus_entry = bonus_hours.objects.get(user=user, year=year, month=month)
-        plus_or_minus = Decimal(str(bonus_entry.hours))
+        hours = Decimal(str(bonus_entry.hours))
+        minutes = Decimal(str(bonus_entry.minutes)) / 60  
+        plus_or_minus = hours + minutes
     except bonus_hours.DoesNotExist:
         plus_or_minus = Decimal('0.00')
+
 
     work_logs = WorkLog.objects.filter(
         user=user, 
@@ -55,7 +58,7 @@ def calculate_salary(user, year, month):
     
     total_hours = Decimal('0.00')
     for log in work_logs:
-        total_hours += log.hours_worked + log.bonus_minutes
+        total_hours += log.hours_worked + log.bonus_minutes + log.minutes_worked/60
 
 
     total_hours += plus_or_minus

@@ -40,8 +40,9 @@ def work_log_view(request):
             work_log = form.save(commit=False)
             work_log.user = request.user
 
-            if work_log.hours_worked >= Decimal('8.00'):
-                work_log.bonus_minutes = Decimal('0.25')  
+            total_worked_hours = work_log.hours_worked + (work_log.minutes_worked / Decimal('60.00'))
+            if total_worked_hours >= Decimal('7.75'):
+                work_log.bonus_minutes = Decimal('0.25')
             else:
                 work_log.bonus_minutes = Decimal('0.00')
 
@@ -94,7 +95,7 @@ def user_work_log_view(request, user_id):
             work_log = form.save(commit=False)
             work_log.user = user
 
-            if work_log.hours_worked >= Decimal('8.00'):
+            if Decimal(work_log.hours_worked) + Decimal(work_log.minutes_worked) / Decimal('60.00') >= Decimal('7.75'):
                 work_log.bonus_minutes = Decimal('0.25')
             else:
                 work_log.bonus_minutes = Decimal('0.00')
