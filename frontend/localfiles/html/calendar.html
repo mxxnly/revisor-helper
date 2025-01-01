@@ -21,6 +21,7 @@
         <label for="year" class="form-label">Оберіть рік:</label>
         <select name="year" id="year" class="form-select">
             <option value="{{ year }}" selected>{{ year }}</option>
+            <option value="{{ year|add:'-1' }}">{{ year|add:"-1" }}</option>
         </select>
     
         <button type="submit" class="btn btn-primary">Підтвердити</button>
