@@ -25,6 +25,7 @@ def calculate_salary(user, year, month):
 
     first_name = 'Unknown'
     last_name = 'Unknown'
+    who_are = 'Unknown'
     
     try:
         revisor = Revisor.objects.get(email=user_email)
@@ -58,7 +59,7 @@ def calculate_salary(user, year, month):
     
     total_hours = Decimal('0.00')
     for log in work_logs:
-        total_hours += log.hours_worked + log.bonus_minutes + log.minutes_worked/60
+        total_hours += log.hours_worked + log.minutes_worked/60
 
 
     total_hours += plus_or_minus

@@ -105,6 +105,17 @@ class Revisor(models.Model):
             return bonus_entry.hours
         except bonus_hours.DoesNotExist:
             return Decimal('0.00')
+        
+    def get_bonus_minutes(self):
+        now = datetime.now()
+        current_year = now.year
+        current_month = now.month
+
+        try:
+            bonus_entry = bonus_hours.objects.get(user=self.user, year=current_year, month=current_month)
+            return Decimal(str(bonus_entry.minutes))
+        except bonus_hours.DoesNotExist:
+            return Decimal('0.00')
     
     def __str__(self):
         return f"{self.firstname} {self.lastname}"

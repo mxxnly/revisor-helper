@@ -51,7 +51,7 @@
                         </form>
                     </p>
                     <p class="card-text">
-                        Плюс або мінус годин: {{ revisor.get_bonus_hours }} год</p>
+                        Години і хвилини набрані з минулого місяця: {{ revisor.get_bonus_hours }} год {{ revisor.get_bonus_minutes }} хв</p>
                         <p class="card-text">Статус: {{ revisor.who_are }}</p>
                     <form action="{% url 'delete_revisor' revisor.id %}" method="post" style="display:inline;">
                         {% csrf_token %}

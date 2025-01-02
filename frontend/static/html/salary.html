@@ -26,8 +26,8 @@
         {% for item in salary_data %}
         <div class="salary-card">
             <div>Ревізор: {{ item.first_name }} {{ item.last_name }}</div>
-            <div>К-сть годин: {{ item.total_hours }}</div>
-            <div>Різниця годин: {{ item.hours_difference }}</div>
+            <div>К-сть годин: {{ item.total_hours|floatformat:2 }}</div>
+            <div>Різниця годин: {{ item.hours_difference|floatformat:2 }}</div>
             <div>Зарплата: {{ item.salary }}</div>
         </div>
         {% endfor %}

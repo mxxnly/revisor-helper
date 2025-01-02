@@ -127,12 +127,15 @@ form {
 }
 
 .bonus-row a span {
+    font-size: 0.6em;
     background-color: blue;
     color: white;
     border-radius: 3px;
     font-weight: bold;
     margin-top: 5px;
     transition: background-color 0.3s;
+    word-wrap: break-word;
+    white-space: normal;
 }
 
 .bonus-row a:hover span {
@@ -195,7 +198,46 @@ input[type="submit"], button[type="submit"] {
 }
 
 
+.form-group {
+    background-color: rgba(255, 0, 0, 0.46);
+    border-radius: 10px;
+    margin-bottom: 15px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    max-width: fit-content;
+    margin-bottom: 15px;
+    text-align: center;
+}
+.form-group span
+{
+    margin: 5px;
+    padding: 5px;
+    font-size: 1rem;
+    color: #f0f0f0;
+    margin-bottom: 5px;
+}
+.form-group label {
+    margin: 5px;
+    padding: 5px;
+    font-size: 1rem;
+    color: #f0f0f0;
+    margin-bottom: 5px;
+}
 
+.form-group input[type="checkbox"] {
+    width: 20px;
+    height: 20px;
+    margin-top: 5px;
+    background-color: #2e2e3f;
+    border-radius: 3px;
+    border: 2px solid #ff0000;
+    cursor: pointer;
+}
+
+.form-group input[type="checkbox"]:checked {
+    background-color: #3a3a4a;
+}
 @media (max-width: 768px) {
     .maincont {
         padding: 15px;
@@ -245,5 +287,4 @@ input[type="submit"], button[type="submit"] {
         padding: 5px;
     }
 
-    
 }

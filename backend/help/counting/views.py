@@ -7,8 +7,6 @@ from django.contrib.auth.decorators import login_required
 import datetime
 from django.contrib.auth.models import User
 from decimal import Decimal
-from main.models import Revisor
-from django.http import JsonResponse
 from decorators import group_required
 from django.shortcuts import get_object_or_404
 
@@ -41,10 +39,13 @@ def work_log_view(request):
             work_log.user = request.user
 
             total_worked_hours = work_log.hours_worked + (work_log.minutes_worked / Decimal('60.00'))
-            if total_worked_hours >= Decimal('7.75'):
-                work_log.bonus_minutes = Decimal('0.25')
-            else:
-                work_log.bonus_minutes = Decimal('0.00')
+            skip_bonus = request.POST.get('skip_bonus') == 'on'
+            if total_worked_hours >= Decimal('7.75') and not skip_bonus:
+                work_log.minutes_worked += Decimal('15')
+                work_log.bonus_added = True
+                work_log.save()
+
+            work_log.adjust_time()
 
             existing_log = WorkLog.objects.filter(
                 user=work_log.user,
@@ -95,10 +96,13 @@ def user_work_log_view(request, user_id):
             work_log = form.save(commit=False)
             work_log.user = user
 
-            if Decimal(work_log.hours_worked) + Decimal(work_log.minutes_worked) / Decimal('60.00') >= Decimal('7.75'):
-                work_log.bonus_minutes = Decimal('0.25')
-            else:
-                work_log.bonus_minutes = Decimal('0.00')
+            total_worked_hours = work_log.hours_worked + (work_log.minutes_worked / Decimal('60.00'))
+            if total_worked_hours >= Decimal('7.75'):
+                work_log.minutes_worked += Decimal('15')
+                work_log.bonus_added = True
+                work_log.save()
+
+            work_log.adjust_time()
 
             existing_log = WorkLog.objects.filter(
                 user=work_log.user,
@@ -146,19 +150,6 @@ def delete_work_log(request, log_id):
 
     return redirect('work_log')
 
-@login_required
-def delete_bonus_log(request, log_id):
-    if request.method == 'POST':
-        log = WorkLog.objects.filter(
-            id=log_id,
-            user=request.user
-        ).first()
-
-        if log and log.bonus_minutes > 0:
-            log.bonus_minutes = 0
-            log.save()
-
-    return redirect('work_log')
 @login_required
 @group_required('Admin', 'God')
 def salary_list_view(request):

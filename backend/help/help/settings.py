@@ -23,14 +23,14 @@ BASE_DIR = Path(__file__).resolve().parent.parent.parent.parent
 SECRET_KEY = 'django-insecure-s@%h*%y#x4goqtzt&mf6essioxinx7xu@oyvvmlx6zgd%h0+(2'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
+DEBUG = True
 
 ALLOWED_HOSTS = [
     'mxxnly.cloud', '62.72.22.94', 'www.mxxnly.cloud','127.0.0.1',
 ]
 
 
-SECURE_SSL_REDIRECT = True
+SECURE_SSL_REDIRECT = False
 
 
 INSTALLED_APPS = [

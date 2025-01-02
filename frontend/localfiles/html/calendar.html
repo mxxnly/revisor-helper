@@ -21,17 +21,23 @@
         <label for="year" class="form-label">Оберіть рік:</label>
         <select name="year" id="year" class="form-select">
             <option value="{{ year }}" selected>{{ year }}</option>
-            <option value="{{ year|add:'-1' }}">{{ year|add:"-1" }}</option>
         </select>
     
         <button type="submit" class="btn btn-primary">Підтвердити</button>
     </form>
+
+
     
-
-
     <form method="post" class="input-form">
         {% csrf_token %}
         {{ form.as_p }}
+
+        <div class="form-group">
+            <label for="skip_bonus">Зранку не оновлювали касу</label>
+            <span>Якщо не оновлювали касу зранку, або прийшли пізніше когось іншого то ставите галочку.</span>
+            <input type="checkbox" name="skip_bonus" id="skip_bonus">
+        </div>
+
         <button type="submit">Submit</button>
     </form>
 
@@ -62,10 +68,10 @@
                                     <div class="log-hours">
                                         <a href="{% url 'delete_work_log' log.id %}" class="delete-link" data-method="delete">{{ log.hours_worked }} год {{ log.minutes_worked }} хв</a>
                                     </div>
-                                    {% if log.bonus_minutes == 0.25 %}
+                                    {% if log.bonus_added %}
                                     <div class="bonus-row">
-                                        <a href="{% url 'delete_bonus_log' log.id %}" class="delete-bonus-link" data-method="delete">
-                                            <span>+15</span>
+                                        <a class="delete-bonus-link">
+                                            <span>З них 15 хв за оновл. каси</span>
                                         </a>
                                     </div>
                                     {% endif %}
