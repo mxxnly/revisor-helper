@@ -10,37 +10,20 @@
 <body>
     <div class="home-body">
         <div class="dashboard-container">
-            <h1>Опис функцій</h1>
+            <h1>Функції</h1>
+
+            
 
             <div class="dashboard-grid">
-                <a href="{% url 'revisors' %}" style="text-decoration: none; color: inherit;">
-                    <div class="dashboard-item">
-                        <h3>Ревізори</h3>
-                        <p>Список ревізорів та їх інформація.</p>
-                    </div>
-                </a>
-                
-                <a href="{% url 'assign_shop' %}" style="text-decoration: none; color: inherit;">
-                    <div class="dashboard-item">
-                        <h3>Наступний магазин</h3>
-                        <p>Отримайте наступний магазин для ревізії.</p>
-                    </div>
-                </a>
-                
-                <a href="{% url 'shop_list' %}" style="text-decoration: none; color: inherit;">
-                    <div class="dashboard-item">
-                        <h3>Черга</h3>
-                        <p>Перегляньте список магазинів у черзі.</p>
-                    </div>
-                </a>
-                
+
                 <a href="{% url 'work_log' %}" style="text-decoration: none; color: inherit;">
                     <div class="dashboard-item">
-                        <h3>Звіт</h3>
-                        <p>Запис робочих годин та звітність.</p>
+                        <h3>ВНЕСТИ ГОДИНИ ЗА ДЕНЬ</h3>
+
                     </div>
                 </a>
-                
+
+                {% if is_admin %}  
                 <a href="{% url 'add_user' %}" style="text-decoration: none; color: inherit;">
                     <div class="dashboard-item">
                         <h3>Додати користувача</h3>
@@ -54,13 +37,7 @@
                         <p>Перегляньте інформацію про зарплату.</p>
                     </div>
                 </a>
-                
-                <a href="{% url 'update_hours' %}" style="text-decoration: none; color: inherit;">
-                    <div class="dashboard-item">
-                        <h3>Обновити години</h3>
-                        <p>Оновлення робочих годин для ревізорів.</p>
-                    </div>
-                </a>
+                {% endif %}
             </div>
         </div>
     </div>

@@ -1,6 +1,6 @@
 from django import forms
 from .models import WorkLog
-
+from hours_bonus.models import bonus_hours
 class WorkLogForm(forms.ModelForm):
     class Meta:
         model = WorkLog
@@ -35,3 +35,57 @@ class WorkLogForm(forms.ModelForm):
             'hours_worked': 'Вкажіть кількість годин, які ви працювали.',
             'minutes_worked': 'Вкажіть кількість хвилин, які ви працювали.',
         }
+
+
+
+class BonusForm(forms.ModelForm):
+    class Meta:
+        model = bonus_hours
+        fields = ['month', 'year', 'hours', 'minutes']
+        widgets = {
+            'month': forms.NumberInput(attrs={
+                'min': 1,
+                'max': 12,
+                'placeholder': 'Місяць (1-12)',
+                'class': 'form-control',
+            }),
+            'year': forms.NumberInput(attrs={
+                'min': 2000,
+                'max': 2100,
+                'placeholder': 'Рік',
+                'class': 'form-control',
+            }),
+            'hours': forms.NumberInput(attrs={
+                'step': 1,
+                'placeholder': 'Кількість годин',
+                'class': 'form-control',
+            }),
+            'minutes': forms.NumberInput(attrs={
+                'min': 0,
+                'max': 59,
+                'placeholder': 'Кількість хвилин',
+                'class': 'form-control',
+            }),
+        }
+        labels = {
+            'month': 'Місяць',
+            'year': 'Рік',
+            'hours': 'Години з минулого місяця',
+            'minutes': 'Хвилини',
+        }
+        help_texts = {
+            'month': 'Вкажіть місяць (1-12).',
+            'year': 'Вкажіть рік (наприклад, 2024).',
+            'hours': 'Вкажіть бонусні години у форматі десяткових чисел (наприклад, 1.25).',
+            'minutes': 'Вкажіть бонусні хвилини (0-59).',
+        }
+    def save(self, commit=True, user=None):
+        """
+        Override save method to assign the logged-in user.
+        """
+        instance = super().save(commit=False)
+        if user is not None:
+            instance.user = user
+        if commit:
+            instance.save()
+        return instance

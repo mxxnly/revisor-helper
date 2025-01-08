@@ -9,9 +9,33 @@ from django.contrib.auth.models import User
 from decimal import Decimal
 from decorators import group_required
 from django.shortcuts import get_object_or_404
+from django.http import HttpResponse, HttpResponseForbidden
 
 
+@login_required
+def change_bonus_minutes(request, log_id):
+    if request.method == 'POST':
+        log = get_object_or_404(WorkLog, id=log_id, user=request.user)
+        total_worked_hours = log.hours_worked + (log.minutes_worked / Decimal('60.00'))
 
+        if log.bonus_added:
+            log.minutes_worked -= Decimal('15')
+            if log.minutes_worked < 0:
+                log.hours_worked -= 1
+                log.minutes_worked += 60
+            log.bonus_added = False
+        else:
+            if total_worked_hours >= Decimal('7.75'):
+                log.minutes_worked += Decimal('15')
+                log.bonus_added = True
+                log.adjust_time()
+            
+
+        log.save()
+
+        return redirect('work_log')
+
+    return HttpResponseForbidden("Invalid request method.")
 @login_required
 def work_log_view(request):
     today = datetime.date.today()
@@ -39,8 +63,7 @@ def work_log_view(request):
             work_log.user = request.user
 
             total_worked_hours = work_log.hours_worked + (work_log.minutes_worked / Decimal('60.00'))
-            skip_bonus = request.POST.get('skip_bonus') == 'on'
-            if total_worked_hours >= Decimal('7.75') and not skip_bonus:
+            if total_worked_hours >= Decimal('7.75'):
                 work_log.minutes_worked += Decimal('15')
                 work_log.bonus_added = True
                 work_log.save()
@@ -100,9 +123,9 @@ def user_work_log_view(request, user_id):
             if total_worked_hours >= Decimal('7.75'):
                 work_log.minutes_worked += Decimal('15')
                 work_log.bonus_added = True
+                work_log.adjust_time()
                 work_log.save()
 
-            work_log.adjust_time()
 
             existing_log = WorkLog.objects.filter(
                 user=work_log.user,

@@ -60,6 +60,10 @@
                 >Домашня cторінка</a
               >
             </li>
+            <li class="nav-item">
+              <a class="nav-link" href="{% url 'work_log' %}">ВНЕСТИ ГОДИНИ ЗА ДЕНЬ</a>
+            </li>
+            {% if is_admin %}
             <li class="nav-item"></li>
               <a class="nav-link" href="{% url 'revisors' %}"ц
                 >Ревізори</a>
@@ -71,9 +75,6 @@
             <li class="nav-item">
               <a class="nav-link" href="{% url 'shop_list' %}">Черга</a>
             </li>
-            <li class="nav-item">
-                <a class="nav-link" href="{% url 'work_log' %}">Звіт</a>
-              </li>
               <li class="nav-item">
                 <a class="nav-link" href="{% url 'add_user' %}">Додати користувача</a>
               </li>
@@ -84,6 +85,7 @@
                 <a class="nav-link" href="{% url 'update_hours' %}">Обновити години</a>
               </li>
           </ul>
+          {% endif %}
           {% block navlog %}
           <ul class="navbar-nav mb-2 mb-lg-0">
             {% if user.is_authenticated %}

@@ -9,26 +9,40 @@ from django.contrib.auth.models import User
 from .models import Shop, Photo, Video
 from .forms import PhotoForm, VideoForm
 def welcome(request):
-    if request.user.is_authenticated: 
-        return render(request, 'home.html')
+    if request.user.is_authenticated:
+        is_admin = request.user.groups.filter(name='Admin').exists()
+        context = {
+            'is_admin': is_admin,
+        }
+        return render(request, 'home.html', context)
     else:
         return render(request, 'welcome.html')
       
 @login_required
 def home(request):
-    return render(request, 'home.html')
+    is_admin = request.user.groups.filter(name='Admin').exists()
+    context = {
+        'is_admin': is_admin,
+    }
+    return render(request, 'home.html', context)
 
 @login_required
 def revisor(request):
     revisors = Revisor.objects.annotate(
         total_shops=F('shops') + F('way_shops') + F('move_shops')
     ).order_by('-total_shops')
+    if request.user.is_authenticated:
+        is_admin = request.user.groups.filter(name='Admin').exists()
+        context1 = {
+            'is_admin': is_admin,
+        }
+        return render(request, 'home.html', context)
     form = RevisorForm() 
     context = {
         'revisors': revisors, 
         'form': form,
     }
-    return render(request, 'revisor.html', context)
+    return render(request, 'revisor.html', context, context1)
 
 @login_required
 @group_required('Admin', 'God')
