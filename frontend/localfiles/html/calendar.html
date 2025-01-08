@@ -55,9 +55,8 @@
                 <div class="day-row" data-day="{{ day }}">
                     <!-- Top Section: Buttons -->
                     <div class="day-row-top">
-                        <div class="day-number"></div>
-                        <div class="day-shoto"></div>
-                        <div class="day-hours">
+                        <div class="day-number-top"></div>
+                        <div class="day-hours-top">
                             {% for log in work_logs %}
                                 {% if log.date.day == day %}
                                 <form method="post" action="{% url 'delete_work_log' log.id %}" class="button-form">
@@ -67,17 +66,16 @@
                                 {% endif %}
                             {% endfor %}
                         </div>
-                        <div class="day-bonus"></div>
-                        <div class="day-minutes">
+                        <div class="day-minutes-top">
                             {% for log in work_logs %}
                                 {% if log.date.day == day %}
                                 <form method="post" action="{% url 'change' log.id %}" class="button-form">
                                     {% csrf_token %}
                                     <button type="submit" class="bonus-button">
                                         {% if log.bonus_added %}
-                                            Забрати оновл. к.
+                                            Забрати бон.
                                         {% else %}
-                                            Додати оновл. к.
+                                            Додати бон.
                                         {% endif %}
                                     </button>
                                 </form>

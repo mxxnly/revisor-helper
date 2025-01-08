@@ -1,43 +1,24 @@
 {% extends "base.html" %}
 {% load static %}
 {% block links %}
-    <link href="{% static 'css/home.css' %}" rel="stylesheet">
+<link href="{% static 'css/home.css' %}" rel="stylesheet">
 {% endblock %}
 {% block title %}
 Домашня сторінка
 {% endblock %}
 {% block maincont %}
+
 <body>
     <div class="home-body">
         <div class="dashboard-container">
             <h1>Функції</h1>
-
-            
-
             <div class="dashboard-grid">
-
                 <a href="{% url 'work_log' %}" style="text-decoration: none; color: inherit;">
                     <div class="dashboard-item">
-                        <h3>ВНЕСТИ ГОДИНИ ЗА ДЕНЬ</h3>
-
+                        <h3>Внести години за день</h3>
+                        <p>ㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤ</p>
                     </div>
                 </a>
-
-                {% if is_admin %}  
-                <a href="{% url 'add_user' %}" style="text-decoration: none; color: inherit;">
-                    <div class="dashboard-item">
-                        <h3>Додати користувача</h3>
-                        <p>Додайте нових користувачів у систему.</p>
-                    </div>
-                </a>
-                
-                <a href="{% url 'salary_list' %}" style="text-decoration: none; color: inherit;">
-                    <div class="dashboard-item">
-                        <h3>Зарплата</h3>
-                        <p>Перегляньте інформацію про зарплату.</p>
-                    </div>
-                </a>
-                {% endif %}
             </div>
         </div>
     </div>

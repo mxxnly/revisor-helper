@@ -14,11 +14,14 @@ html {
 body {
     display: flex;
     flex-direction: column;
-    min-height: 100vh;
+    min-height: 100svh;
     background-color: #121212;
     color: #ffffff;
 }
 
+footer {
+    width: 100%;
+}
 
 .main {
     margin-top: 24px;
