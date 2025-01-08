@@ -6,6 +6,10 @@ from django.contrib.auth.decorators import login_required
 
 @login_required
 def rate_shop(request, shop_id):
+    if request.user.is_authenticated:
+        is_admin = request.user.groups.filter(name='Admin').exists()
+    else:
+        is_admin = False
     shop = get_object_or_404(Shop, id=shop_id)
     revisor = Revisor.objects.filter(user=request.user).first()
 
@@ -28,4 +32,4 @@ def rate_shop(request, shop_id):
     else:
         form = RatingForm()
 
-    return render(request, 'rate_shop.html', {'form': form, 'shop': shop})
+    return render(request, 'rate_shop.html', {'form': form, 'shop': shop, 'is_admin':is_admin})

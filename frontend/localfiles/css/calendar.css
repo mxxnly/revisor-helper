@@ -415,17 +415,14 @@ p,
 label,
 span {
     color: #f0f0f0;
-    /* Світлий колір для всього тексту */
 }
 
 input,
 select,
 textarea {
     color: #f0f0f0;
-    /* Колір тексту в полях вводу */
 }
 
-/* Кольори кнопок */
 button[type="submit"],
 .clear-hours-button,
 .bonus-button {

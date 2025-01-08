@@ -13,11 +13,14 @@ def shop_list(request):
     user_agent = request.META.get('HTTP_USER_AGENT', '')
     shops = Shop.objects.all()
     form = ShopForm()
-
-    if 'Mobile' in user_agent:
-        return render(request, 'mobile_shop_list.html', {'shops': shops, 'form': form})
+    if request.user.is_authenticated:
+        is_admin = request.user.groups.filter(name='Admin').exists()
     else:
-        return render(request, 'q.html', {'shops': shops, 'form': form})
+        is_admin = False
+    if 'Mobile' in user_agent:
+        return render(request, 'mobile_shop_list.html', {'shops': shops, 'form': form, 'is_admin':is_admin})
+    else:
+        return render(request, 'q.html', {'shops': shops, 'form': form,'is_admin':is_admin})
 
 
 

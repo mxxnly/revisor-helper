@@ -44,59 +44,212 @@ h2 {
     margin-bottom: 20px;
 }
 
-table {
-    width: 100%;
-    border-collapse: collapse;
-}
 
-.log-item {
+.calendar-vertical {
     display: flex;
+    flex-direction: column;
+    gap: 10px;
+    margin: 20px 0;
+    font-family: "Arial", sans-serif;
+    color: #f0f0f0;
+}
+
+.day-row.headers {
+    display: flex;
+    justify-content: space-between;
     align-items: center;
-}
-
-thead tr {
-    background-color: #3e3e50;
-    color: #f0f0f0;
-}
-
-td {
-    border: 1px solid #4a4a5c;
-    text-align: center;
+    flex-direction: row;
     padding: 10px;
-    background-color: #2e2e3f;
-    color: #f0f0f0;
+    background: linear-gradient(135deg, #2a2a72, #009ffd);
+    border: 1px solid #1f1f3d;
+    border-radius: 10px;
+    font-weight: bold;
+    text-align: center;
+    color: #ffffff;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.4);
 }
 
-td.empty {
-    background-color: #1e1e2f;
-    color: #4a4a5c;
+.day-row.headers div {
+    flex: 1;
+    padding: 5px;
+    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.6);
 }
 
-ul {
-    list-style-type: none;
+.day-row.headers div:not(:last-child) {
+    border-right: 1px solid #3c3c5c;
+}
+
+.day-row {
+    display: flex;
+    flex-direction: column;
+    border: 1px solid #2a2a2a;
+    border-radius: 10px;
+    padding: 15px;
+    background: linear-gradient(135deg, #141e30, #243b55);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.6);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.day-row:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.8);
+}
+
+.day-row-bottom {
+    display: flex;
+    justify-content: space-between;
+    gap: 5px;
+}
+
+.day-row-bottom div {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: #ffffff;
+    font-size: 0.9em;
+    gap: 5px;
+    border: 2px;
+    border-radius: 5px;
+    border-color: red;
+}
+
+.day-row-bottom p {
+    margin: 0;
+}
+
+.day-row-top {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 10px;
+}
+
+.day-number-top {
+    grid-column: span 2;
+}
+
+.day-hours-top {
+    display: flex;
+    grid-column: span 2;
+}
+
+.button-form {
+    height: 100%;
     padding: 0;
-    margin: 10px 0 0;
 }
 
-.calendar-container {
-    max-width: 100%;
-    overflow-x: auto;
-    margin: 0 auto;
-    box-sizing: border-box;
+.clear-hours-button {
+    background-color: red !important;
+    padding: 5px 10px;
+    background-color: #ff6f61;
+    color: white;
+    border: none;
+    border-radius: 3px;
+    cursor: pointer;
+    font-size: 0.9em;
 }
 
-.calendar {
-    width: 100%;
-    border-collapse: collapse;
+.clear-hours-button:hover {
+    background-color: #d9534f;
 }
 
-.calendar td {
+.day-minutes.bonus-button {
+    white-space: nowrap;
+    padding: 5px 10px;
+    background-color: #5cb85c;
+    color: white;
+    border: none;
+    border-radius: 3px;
+    cursor: pointer;
+    font-size: 0.9em;
+}
+
+.bonus-button:hover {
+    background-color: #4cae4c;
+}
+
+@media (max-width: 768px) {
+    .day-row {
+        flex-wrap: wrap;
+        gap: 5px;
+    }
+
+    .day-number,
+    .day-name,
+    .day-hours,
+    .day-minutes {
+        flex: 0 0 50%;
+        text-align: left;
+    }
+}
+
+
+
+.bonus-row {
+    font-size: 0.8rem;
+    margin-top: 5px;
+    color: #00ff7f;
+    /* Bright green for bonus row */
+}
+
+.bonus-row a {
+    text-decoration: none;
+    color: inherit;
+}
+
+.bonus-row a:hover {
+    text-decoration: underline;
+}
+
+.calendar-vertical .headers {
+    display: flex;
+    font-weight: bold;
+    background-color: #0461b3ac;
     padding: 10px;
-    text-align: center;
-    border: 1px solid #4a4a5c;
-    background-color: #2e2e3f;
-    color: #f0f0f0;
+    border-bottom: 2px solid #1637cc;
 }
+
+.calendar-vertical .headers div {
+    flex: 1;
+    text-align: center;
+}
+
+.calendar-vertical .day-row {
+    display: flex;
+    padding: 10px;
+    border-bottom: 1px solid #ddd;
+}
+
+.calendar-vertical .day-row div {
+    flex: 1;
+    text-align: center;
+}
+
+.day-delete .delete-button {
+    background-color: #ff4d4d;
+    color: white;
+    border: none;
+    padding: 5px 10px;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+.day-delete .delete-button:hover {
+    background-color: #ff1a1a;
+}
+
+@media (max-width: 768px) {
+    table {
+        font-size: 0.8rem;
+    }
+
+    table thead th,
+    table tbody td {
+        padding: 5px;
+    }
+}
+
 
 form {
     display: flex;
@@ -110,16 +263,13 @@ form {
 
 .log-item {
     display: flex;
-    flex-direction: column; /* Stack children vertically */
-    align-items: center; /* Center horizontally */
-    justify-content: center; /* Center vertically */
-    text-align: center; /* Center text inside children */
-    margin-bottom: 10px; /* Add space below the log item if needed */
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    margin-bottom: 10px;
 }
 
-.log-hours {
-    /* Optional styles for the log hours */
-}
 
 .bonus-row a {
     text-decoration: none;
@@ -142,7 +292,9 @@ form {
     background-color: darkblue;
 }
 
-input, select, textarea {
+input,
+select,
+textarea {
     width: 100%;
     margin-bottom: 15px;
     padding: 10px;
@@ -153,27 +305,44 @@ input, select, textarea {
     box-sizing: border-box;
 }
 
-input[type="submit"], button[type="submit"] {
+input[type="submit"],
+button[type="submit"] {
     margin: 0;
     padding: 12px 20px;
     font-size: 1rem;
 }
 
 .delete-link {
-    background-color: #3a3a4a;
-    color: #f0f0f0;
-    text-align: center;
+    background-color: red;
+    color: #ffffff;
+    font-size: 1.5rem;
     text-decoration: none;
-    
+    transition: color 0.2s ease, transform 0.2s ease;
+    display: inline-block;
+    margin-left: 10px;
+    cursor: pointer;
+    border-radius: 5px;
+    transform: scale(0.5);
+}
+
+
+.day-hours p,
+.day-minutes p,
+.day-bonus p {
+    color: rgb(221, 255, 0);
+
 }
 
 .delete-link:hover {
-    background-color: #4b4b5b;
+    color: #ffffff;
+    transform: scale(0.7);
 }
 
 .delete-link:active {
-    background-color: #2e2e3f;
+    transform: scale(1);
+    opacity: 0.8;
 }
+
 .summary {
     border: 1px solid #ddd;
     border-radius: 5px;
@@ -209,14 +378,15 @@ input[type="submit"], button[type="submit"] {
     margin-bottom: 15px;
     text-align: center;
 }
-.form-group span
-{
+
+.form-group span {
     margin: 5px;
     padding: 5px;
     font-size: 1rem;
     color: #f0f0f0;
     margin-bottom: 5px;
 }
+
 .form-group label {
     margin: 5px;
     padding: 5px;
@@ -238,53 +408,84 @@ input[type="submit"], button[type="submit"] {
 .form-group input[type="checkbox"]:checked {
     background-color: #3a3a4a;
 }
-@media (max-width: 768px) {
-    .maincont {
-        padding: 15px;
-    }
 
-    h1 {
-        font-size: 1.5rem;
-    }
-
-    form {
-        padding: 15px;
-    }
-
-    h2 {
-        font-size: 1.2rem;
-    }
-
-    table {
-        font-size: 0.9rem;
-    }
-
-    td {
-        padding: 8px;
-    }
-
-    
+h1,
+h2,
+p,
+label,
+span {
+    color: #f0f0f0;
 }
 
-@media (max-width: 480px) {
-    .maincont {
-        padding: 15px;
+input,
+select,
+textarea {
+    color: #f0f0f0;
+}
+
+button[type="submit"],
+.clear-hours-button,
+.bonus-button {
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.bonus-button {
+    background-color: orange !important;
+}
+
+.delete-link {
+    background-color: #d9534f;
+    color: white;
+    font-size: 1.5rem;
+    text-decoration: none;
+    transition: color 0.2s ease, transform 0.2s ease;
+    display: inline-block;
+    margin-left: 10px;
+    cursor: pointer;
+    border-radius: 5px;
+}
+
+.delete-link:hover {
+    color: #ffffff;
+    transform: scale(1.1);
+}
+
+.delete-link:active {
+    transform: scale(0.9);
+}
+
+.day-row:hover {
+    background: linear-gradient(135deg, #2a2a72, #009ffd);
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.8);
+}
+
+
+@media (max-width: 768px) {
+    .day-number-top {
+        display: none;
+        grid-column: span 0;
     }
 
-    h1 {
-        font-size: 1.2rem;
+    .day-hours-top {
+        display: flex;
+        grid-column: span 3;
     }
 
-    h2 {
-        font-size: 1rem;
+    .day-minutes-top {
+        display: flex;
+        grid-column: span 2;
     }
 
-    table {
-        font-size: 0.8rem;
+    button[type="submit"],
+    .clear-hours-button,
+    .bonus-button {
+        flex: 1;
+        padding: 10px;
+        text-align: center;
     }
-
-    td {
-        padding: 5px;
-    }
-
 }

@@ -1,13 +1,12 @@
 from django.shortcuts import render, redirect, get_object_or_404
-from .models import Revisor
-from django.http import HttpResponseBadRequest
+from .models import Revisor 
 from django.db.models import F
 from .forms import RevisorForm
 from django.contrib.auth.decorators import login_required
 from decorators import group_required
 from django.contrib.auth.models import User
 from .models import Shop, Photo, Video
-from .forms import PhotoForm, VideoForm
+
 def welcome(request):
     if request.user.is_authenticated:
         is_admin = request.user.groups.filter(name='Admin').exists()
@@ -33,16 +32,15 @@ def revisor(request):
     ).order_by('-total_shops')
     if request.user.is_authenticated:
         is_admin = request.user.groups.filter(name='Admin').exists()
-        context1 = {
-            'is_admin': is_admin,
-        }
-        return render(request, 'home.html', context)
+    else:
+        is_admin = False
     form = RevisorForm() 
     context = {
         'revisors': revisors, 
         'form': form,
+        'is_admin': is_admin
     }
-    return render(request, 'revisor.html', context, context1)
+    return render(request, 'revisor.html', context)
 
 @login_required
 @group_required('Admin', 'God')
@@ -102,6 +100,10 @@ def add_move_shops(request, revisor_id):
 
 def shop_media_view(request, shop_id):
     shop = get_object_or_404(Shop, id=shop_id)
+    if request.user.is_authenticated:
+        is_admin = request.user.groups.filter(name='Admin').exists()
+    else:
+        is_admin = False
 
     if request.method == 'POST':
         photo_files = request.FILES.getlist('photos')
@@ -129,6 +131,7 @@ def shop_media_view(request, shop_id):
     videos = shop.videos.all()
 
     return render(request, 'shop_media.html', {
+        'is_admin': is_admin,
         'shop': shop,
         'photos': photos,
         'videos': videos

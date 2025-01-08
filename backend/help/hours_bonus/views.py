@@ -14,6 +14,11 @@ from django.core.exceptions import ObjectDoesNotExist
 @login_required
 @group_required('Admin', 'God')
 def update_hours_difference(request):
+    if request.user.is_authenticated:
+        is_admin = request.user.groups.filter(name='Admin').exists()
+    else:
+        is_admin = False
+    
     if request.method == 'POST':
         form = BonusForm(request.POST)
         if form.is_valid():
@@ -48,4 +53,6 @@ def update_hours_difference(request):
 
     revisors = Revisor.objects.select_related('user').all()
 
-    return render(request, 'difference.html', {'form': form, 'revisors': revisors})
+    return render(request, 'difference.html', {'form': form,
+                                               'revisors': revisors,
+                                               'is_admin':is_admin})

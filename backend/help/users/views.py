@@ -11,6 +11,10 @@ import datetime
 
 @login_required
 def profile_view(request):
+    if request.user.is_authenticated:
+        is_admin = request.user.groups.filter(name='Admin').exists()
+    else:
+        is_admin = False
     revisor = get_object_or_404(Revisor, user=request.user)
     user = request.user
     today = datetime.date.today()
@@ -26,7 +30,8 @@ def profile_view(request):
         'revisor': revisor,
         'total_hours': salary_data['total_hours'],
         'hours_count': salary_data['hours_count'],
-        'percentage': round(percentage, 2)
+        'percentage': round(percentage, 2),
+        'is_admin':is_admin,
     }
 
     return render(request, 'profile.html', context)
@@ -34,6 +39,10 @@ def profile_view(request):
 @login_required
 @group_required('God')
 def add_user_view(request):
+    if request.user.is_authenticated:
+        is_admin = request.user.groups.filter(name='Admin').exists()
+    else:
+        is_admin = False
     if request.method == 'POST':
         form = AddUserForm(request.POST)
         if form.is_valid():
@@ -48,7 +57,7 @@ def add_user_view(request):
             return redirect('login')
     else:
         form = AddUserForm()
-    return render(request, 'add_user.html', {'form': form})
+    return render(request, 'add_user.html', {'form': form, 'is_admin':is_admin})
 
 
 def login_view(request):

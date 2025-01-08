@@ -38,6 +38,10 @@ def change_bonus_minutes(request, log_id):
     return HttpResponseForbidden("Invalid request method.")
 @login_required
 def work_log_view(request):
+    if request.user.is_authenticated:
+        is_admin = request.user.groups.filter(name='Admin').exists()
+    else:
+        is_admin = False
     today = datetime.date.today()
     year = request.GET.get('year', today.year)
     month = request.GET.get('month', today.month)  
@@ -99,11 +103,16 @@ def work_log_view(request):
         'salary': salary_data['salary'],
         'plus_or_minus': salary_data['plus_or_minus'],
         'months': list(range(1, 13)),
+        'is_admin':is_admin,
     }
     return render(request, 'calendar.html', context)
 @login_required
 @group_required('Admin', 'God')
 def user_work_log_view(request, user_id):
+    if request.user.is_authenticated:
+        is_admin = request.user.groups.filter(name='Admin').exists()
+    else:
+        is_admin = False
     user = get_object_or_404(User, id=user_id)
     today = datetime.date.today()
     year = today.year
@@ -155,27 +164,69 @@ def user_work_log_view(request, user_id):
         'is_full_month': salary_data['is_full_month'],
         'is_full_and_more': salary_data['is_full_and_more'],
         'salary': salary_data['salary'],
-        'plus_or_minus': salary_data['plus_or_minus']
+        'plus_or_minus': salary_data['plus_or_minus'],
+        'is_admin':is_admin,
     }
     return render(request, 'user_calendar.html', context)
 
-
 @login_required
-def delete_work_log(request, log_id):
+@group_required('Admin', 'God')
+def change_bonus_minutes_for_user(request, user_id, log_id):
+    if request.method != 'POST':
+        return HttpResponseForbidden("Invalid request method.")
+
+    log = get_object_or_404(WorkLog, id=log_id, user_id=user_id)
+    total_worked_hours = log.hours_worked + (log.minutes_worked / Decimal('60.00'))
+
+    if log.bonus_added:
+        log.minutes_worked -= Decimal('15')
+        if log.minutes_worked < 0:
+            log.hours_worked -= 1
+            log.minutes_worked += 60
+        log.bonus_added = False
+    elif total_worked_hours >= Decimal('7.75'):
+        log.minutes_worked += Decimal('15')
+        log.bonus_added = True
+        log.adjust_time()
+
+    log.save()
+
+    return redirect('user_work_log_view', user_id=user_id)
+@login_required
+def delete_work_log(request, log_id,user_id):
     if request.method == 'POST':
         log = WorkLog.objects.filter(
             id=log_id,
-            user=request.user
+            user=user_id
         ).first()
 
         if log:
             log.delete()
 
-    return redirect('work_log')
+        return redirect('work_log', user_id=user_id)
+    
+    
+@login_required
+@group_required('Admin', 'God')
+def delete_user_work_log(request, log_id, user_id):
+    if request.method == 'POST':
+        log = WorkLog.objects.filter(
+            id=log_id,
+            user=user_id
+        ).first()
+
+        if log:
+            log.delete()
+
+    return redirect('user_work_log_view',user_id=user_id)
 
 @login_required
 @group_required('Admin', 'God')
 def salary_list_view(request):
+    if request.user.is_authenticated:
+        is_admin = request.user.groups.filter(name='Admin').exists()
+    else:
+        is_admin = False
 
     month = int(request.GET.get('month', datetime.date.today().month))
     year = int(request.GET.get('year', datetime.date.today().year))
@@ -196,4 +247,5 @@ def salary_list_view(request):
         'month': month,
         'year': year,
         'months': months,
+        'is_admin':is_admin
     })

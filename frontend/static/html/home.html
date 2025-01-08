@@ -1,64 +1,22 @@
 {% extends "base.html" %}
 {% load static %}
 {% block links %}
-    <link href="{% static 'css/home.css' %}" rel="stylesheet">
+<link href="{% static 'css/home.css' %}" rel="stylesheet">
 {% endblock %}
 {% block title %}
 Домашня сторінка
 {% endblock %}
 {% block maincont %}
+
 <body>
     <div class="home-body">
         <div class="dashboard-container">
-            <h1>Опис функцій</h1>
-
+            <h1>Функції</h1>
             <div class="dashboard-grid">
-                <a href="{% url 'revisors' %}" style="text-decoration: none; color: inherit;">
-                    <div class="dashboard-item">
-                        <h3>Ревізори</h3>
-                        <p>Список ревізорів та їх інформація.</p>
-                    </div>
-                </a>
-                
-                <a href="{% url 'assign_shop' %}" style="text-decoration: none; color: inherit;">
-                    <div class="dashboard-item">
-                        <h3>Наступний магазин</h3>
-                        <p>Отримайте наступний магазин для ревізії.</p>
-                    </div>
-                </a>
-                
-                <a href="{% url 'shop_list' %}" style="text-decoration: none; color: inherit;">
-                    <div class="dashboard-item">
-                        <h3>Черга</h3>
-                        <p>Перегляньте список магазинів у черзі.</p>
-                    </div>
-                </a>
-                
                 <a href="{% url 'work_log' %}" style="text-decoration: none; color: inherit;">
                     <div class="dashboard-item">
-                        <h3>Звіт</h3>
-                        <p>Запис робочих годин та звітність.</p>
-                    </div>
-                </a>
-                
-                <a href="{% url 'add_user' %}" style="text-decoration: none; color: inherit;">
-                    <div class="dashboard-item">
-                        <h3>Додати користувача</h3>
-                        <p>Додайте нових користувачів у систему.</p>
-                    </div>
-                </a>
-                
-                <a href="{% url 'salary_list' %}" style="text-decoration: none; color: inherit;">
-                    <div class="dashboard-item">
-                        <h3>Зарплата</h3>
-                        <p>Перегляньте інформацію про зарплату.</p>
-                    </div>
-                </a>
-                
-                <a href="{% url 'update_hours' %}" style="text-decoration: none; color: inherit;">
-                    <div class="dashboard-item">
-                        <h3>Обновити години</h3>
-                        <p>Оновлення робочих годин для ревізорів.</p>
+                        <h3>Внести години за день</h3>
+                        <p>ㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤТут ви можете ввести кількість годин та хвилин, які ви відпрацювали сьогодні.ㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤ</p>
                     </div>
                 </a>
             </div>

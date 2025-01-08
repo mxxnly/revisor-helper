@@ -12,6 +12,10 @@ from decorators import group_required
 @group_required('Admin', 'God')
 def assign_that_view(request):
     message = None
+    if request.user.is_authenticated:
+        is_admin = request.user.groups.filter(name='Admin').exists()
+    else:
+        is_admin = False
 
     if request.method == 'POST':
         revisor_id = request.POST.get('revisor_id')
@@ -45,11 +49,16 @@ def assign_that_view(request):
         'revisors': revisors,
         'shops': shops,
         'message': message,
-        'tasks': tasks
+        'tasks': tasks,
+        'is_admin':is_admin,
     })
 @login_required
 def assign_shop_view(request):
     message = None
+    if request.user.is_authenticated:
+        is_admin = request.user.groups.filter(name='Admin').exists()
+    else:
+        is_admin = False
 
     if request.method == 'POST':
         revisor_id = request.POST.get('revisor_id')
@@ -72,7 +81,8 @@ def assign_shop_view(request):
         'revisors': revisors,
         'shops': shops,
         'message': message,
-        'tasks': tasks
+        'tasks': tasks,
+        'is_admin':is_admin,
     })
 @login_required
 def complete_task(request, task_id):
