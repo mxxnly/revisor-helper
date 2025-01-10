@@ -41,6 +41,9 @@
             <li class="nav-item">
               <a class="nav-link" href="{% url 'work_log' %}">Внести години за день</a>
             </li>
+            <li class="nav-item">
+              <a class="nav-link" href="{% url 'update_hours' %}">Обновити години</a>
+            </li>
           </div>
           {% if is_admin %}
           <li class="nav-item">
@@ -57,9 +60,6 @@
           </li>
           <li class="nav-item">
             <a class="nav-link" href="{% url 'salary_list' %}">Зарплата</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="{% url 'update_hours' %}">Обновити години</a>
           </li>
         </ul>
         {% endif %}
