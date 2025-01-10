@@ -8,8 +8,7 @@ class bonus_hours(models.Model):
     hours = models.FloatField(null=True, blank=True, default=0)
     minutes = models.IntegerField(null=True, blank=True, default=0)
     
-    class Meta:
-        unique_together = ('user', 'month', 'year')
+
         
         
     def __str__(self):

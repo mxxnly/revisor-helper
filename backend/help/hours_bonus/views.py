@@ -10,9 +10,6 @@ from django.core.exceptions import ObjectDoesNotExist
 
 
 @login_required
-@group_required('Admin', 'God')
-@login_required
-@group_required('Admin', 'God')
 def update_hours_difference(request):
     if request.user.is_authenticated:
         is_admin = request.user.groups.filter(name='Admin').exists()
@@ -22,29 +19,26 @@ def update_hours_difference(request):
     if request.method == 'POST':
         form = BonusForm(request.POST)
         if form.is_valid():
-            user = form.cleaned_data['user']
             month = form.cleaned_data['month']
             year = form.cleaned_data['year']
             hours = form.cleaned_data['hours']
             minutes = form.cleaned_data['minutes']
 
             try:
-                bonus_entry, created = bonus_hours.objects.update_or_create(
-                    user=user,
+                bonus_hours.objects.filter(user=request.user,month=month, year=year).delete()
+                
+                bonus_hours.objects.create(
+                    user=request.user,
                     month=month,
                     year=year,
-                    defaults={
-                        'hours': hours,
-                        'minutes': minutes
-                    }
+                    hours=hours,
+                    minutes=minutes
                 )
-                if created:
-                    messages.success(request, 'Новий бонусний запис створено успішно.')
-                else:
-                    messages.success(request, 'Існуючий запис оновлено успішно.')
+
+                messages.success(request, 'Запис створено або перезаписано успішно.')
                 return redirect('update_hours')
-            except Revisor.DoesNotExist:
-                messages.error(request, 'Ревізора для цього користувача не знайдено.')
+            except Exception as e:
+                messages.error(request, f'Сталася помилка: {str(e)}')
         else:
             messages.error(request, 'Некоректні дані у формі.')
 
@@ -53,6 +47,8 @@ def update_hours_difference(request):
 
     revisors = Revisor.objects.select_related('user').all()
 
-    return render(request, 'difference.html', {'form': form,
-                                               'revisors': revisors,
-                                               'is_admin':is_admin})
+    return render(request, 'difference.html', {
+        'form': form,
+        'revisors': revisors,
+        'is_admin': is_admin
+    })
