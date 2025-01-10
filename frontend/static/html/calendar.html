@@ -1,0 +1,154 @@
+{% extends "base.html" %}
+{% load static %}
+{% block links %}
+    <link href="{% static 'css/calendar.css' %}" rel="stylesheet">
+    <link
+        href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css"
+        rel="stylesheet"
+    />
+{% endblock %}
+{% block title %}
+Звіт
+{% endblock %}
+{% block maincont %}
+<main class="maincont">
+    <h1>Work Log</h1>
+
+    
+
+
+    
+    <form method="post" class="input-form">
+        {% csrf_token %}
+        {{ form.as_p }}
+
+        <button type="submit">Submit</button>
+    </form>
+    <div class="summary">
+        {% if is_full_month %}
+            <p>Повний місяць</p>
+        {% elif is_full_and_more %}
+            <p>Повний місяць + {{formatted_hours_difference }} ({{ hours_difference|floatformat:2 }})</p>
+        {% else %}
+            <p>{{ formatted_total_hours }} ( {{ total_hours|floatformat:2 }} ) / {{ hours_count }}</p>
+        {% endif %}
+
+            <p>{{salary}}</p>
+	    <p>Години з минулого місяця: {{plus_or_minus}}</p>
+
+    </div>
+    <h2>Calendar for {{ month }}/{{ year}}</h2>
+    <div class="calendar-vertical">
+        <!-- Headers -->
+        <div class="day-row headers">
+            <div class="day-number-header"><strong>Число</strong></div>
+            <div class="day-name-header"><strong>День</strong></div>
+            <div class="day-hours-header"><strong>Год</strong></div>
+            <div class="day-minutes-header"><strong>Хв</strong></div>
+            <div class="day-bonus-header"><strong>Каса</strong></div>
+        </div>
+    
+        <!-- Calendar Rows -->
+        {% for week in calendar %}
+            {% for day in week %}
+                {% if day %}
+                <div class="day-row" data-day="{{ day }}">
+                    <!-- Top Section: Buttons -->
+                    <div class="day-row-top">
+                        <div class="day-number-top"></div>
+                        <div class="day-hours-top">
+                            {% for log in work_logs %}
+                                {% if log.date.day == day %}
+                                <form method="post" action="{% url 'delete_work_log' log.id %}" class="button-form">
+                                    {% csrf_token %}
+                                    <button type="submit" class="clear-hours-button">Очистити</button>
+                                </form>
+                                {% endif %}
+                            {% endfor %}
+                        </div>
+                        <div class="day-minutes-top">
+                            {% for log in work_logs %}
+                                {% if log.date.day == day %}
+                                <form method="post" action="{% url 'change' log.id %}" class="button-form">
+                                    {% csrf_token %}
+                                    <button type="submit" class="bonus-button">
+                                        {% if log.bonus_added %}
+                                            Забрати бон.
+                                        {% else %}
+                                            Додати бон.
+                                        {% endif %}
+                                    </button>
+                                </form>
+                                {% endif %}
+                            {% endfor %}
+                        </div>
+                        
+                    </div>
+    
+                    <!-- Day Row Data -->
+                    <div class="day-row-bottom">
+                        <div class="day-number">{{ day }}</div>
+                        <div class="day-name"></div>
+                        <div class="day-hours">
+                            {% for log in work_logs %}
+                                {% if log.date.day == day %}
+                                    <p>{{ log.hours_worked|floatformat:0 }}</p>
+                                {% endif %}
+                            {% endfor %}
+                        </div>
+                        <div class="day-minutes">
+                            {% for log in work_logs %}
+                                {% if log.date.day == day %}
+                                    <p>{{ log.minutes_worked }}</p>
+                                {% endif %}
+                            {% endfor %}
+                        </div>
+                        <div class="day-bonus">
+                            {% for log in work_logs %}
+                                {% if log.date.day == day %}
+                                    {% if log.bonus_added %}
+                                        <p id="bonus_minutes">З них 15 хв за оновл. каси</p>
+                                    {% else %}
+                                        <p id="bonus_minutes">Немає хв. за оновл. каси</p>
+                                    {% endif %}
+                                {% endif %}
+                            {% endfor %}
+                        </div>
+                    </div>
+                </div>
+                {% endif %}
+            {% endfor %}
+        {% endfor %}
+    </div>
+    
+    
+    
+    
+    
+    
+</main>
+
+
+<script>
+    const dayNames = ["нд", "пн", "вт", "ср", "чт", "пт", "сб"];
+
+    const dayRows = document.querySelectorAll(".day-row");
+
+    dayRows.forEach(row => {
+        const dayNumber = parseInt(row.getAttribute("data-day"), 10);
+
+        if (!isNaN(dayNumber)) {
+            const today = new Date();
+            const year = today.getFullYear();
+            const month = today.getMonth();
+
+            const date = new Date(year, month, dayNumber);
+
+            const dayName = dayNames[date.getDay()];
+
+            row.querySelector(".day-name").textContent = dayName;
+        }
+
+    });
+</script>
+{% endblock %}

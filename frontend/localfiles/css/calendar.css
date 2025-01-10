@@ -169,20 +169,6 @@ h2 {
     background-color: #4cae4c;
 }
 
-@media (max-width: 768px) {
-    .day-row {
-        flex-wrap: wrap;
-        gap: 5px;
-    }
-
-    .day-number,
-    .day-name,
-    .day-hours,
-    .day-minutes {
-        flex: 0 0 50%;
-        text-align: left;
-    }
-}
 
 
 
@@ -239,16 +225,7 @@ h2 {
     background-color: #ff1a1a;
 }
 
-@media (max-width: 768px) {
-    table {
-        font-size: 0.8rem;
-    }
 
-    table thead th,
-    table tbody td {
-        padding: 5px;
-    }
-}
 
 
 form {
@@ -464,12 +441,6 @@ button[type="submit"],
     box-shadow: 0 6px 12px rgba(0, 0, 0, 0.8);
 }
 
-.weekend {
-        background: linear-gradient(to right, #a9a9a9, #d3d3d3); 
-        -webkit-background-clip: text; /* Підтримка для тексту */
-        -webkit-text-fill-color: transparent; /* Робить фон видимим через текст */
-        font-weight: bold; /* Для кращого виділення */
-    }
 @media (max-width: 768px) {
     .day-number-top {
         display: none;
