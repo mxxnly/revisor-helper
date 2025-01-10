@@ -463,8 +463,12 @@ button[type="submit"],
     background: linear-gradient(135deg, #2a2a72, #009ffd);
     box-shadow: 0 6px 12px rgba(0, 0, 0, 0.8);
 }
-
-
+.weekend {
+        background: linear-gradient(to right, #a9a9a9, #d3d3d3); 
+        -webkit-background-clip: text; /* Підтримка для тексту */
+        -webkit-text-fill-color: transparent; /* Робить фон видимим через текст */
+        font-weight: bold; /* Для кращого виділення */
+    }
 @media (max-width: 768px) {
     .day-number-top {
         display: none;

@@ -193,17 +193,16 @@ def change_bonus_minutes_for_user(request, user_id, log_id):
 
     return redirect('user_work_log_view', user_id=user_id)
 @login_required
-def delete_work_log(request, log_id,user_id):
+def delete_work_log(request, log_id):
     if request.method == 'POST':
         log = WorkLog.objects.filter(
             id=log_id,
-            user=user_id
         ).first()
 
         if log:
             log.delete()
 
-        return redirect('work_log', user_id=user_id)
+        return redirect('work_log',)
     
     
 @login_required
