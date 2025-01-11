@@ -65,5 +65,8 @@ h1 {
     .dashboard-grid {
         grid-template-columns: 1fr;
     }
+    .dashboard-item {
+        padding: 10px;
+}
 
 }
