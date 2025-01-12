@@ -12,6 +12,13 @@ from django.shortcuts import get_object_or_404
 from django.http import HttpResponse, HttpResponseForbidden
 
 
+current_date = datetime.datetime.today()
+MONTHS_UA = {
+    1: "січня", 2: "лютого", 3: "березня", 4: "квітня",
+    5: "травня", 6: "червня", 7: "липня", 8: "серпня",
+    9: "вересня", 10: "жовтня", 11: "листопада", 12: "грудня"
+}
+
 @login_required
 def change_bonus_minutes(request, log_id):
     if request.method == 'POST':
@@ -86,6 +93,8 @@ def work_log_view(request):
             return redirect('work_log')
     else:
         form = WorkLogForm()
+    
+    current_month = MONTHS_UA[month]
 
     context = {
         'form': form,
@@ -104,6 +113,7 @@ def work_log_view(request):
         'plus_or_minus': salary_data['plus_or_minus'],
         'months': list(range(1, 13)),
         'is_admin':is_admin,
+        'month': current_month,
     }
     return render(request, 'calendar.html', context)
 @login_required

@@ -35,6 +35,18 @@ class WorkLogForm(forms.ModelForm):
             'hours_worked': 'Вкажіть кількість годин, які ви працювали.',
             'minutes_worked': 'Вкажіть кількість хвилин, які ви працювали.',
         }
+        
+    def clean_hours_worked(self):
+        hours = self.cleaned_data['hours_worked']
+        if hours < 0 or hours > 24:
+            raise forms.ValidationError('Кількість годин повинна бути в межах від 0 до 24.')
+        return hours
+
+    def clean_minutes_worked(self):
+        minutes = self.cleaned_data['minutes_worked']
+        if minutes < 0 or minutes >= 60:
+            raise forms.ValidationError('Кількість хвилин повинна бути в межах від 0 до 59.')
+        return minutes
 
 
 

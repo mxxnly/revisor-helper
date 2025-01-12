@@ -44,7 +44,6 @@ h2 {
     margin-bottom: 20px;
 }
 
-
 .calendar-vertical {
     display: flex;
     flex-direction: column;
@@ -121,8 +120,19 @@ h2 {
     display: grid;
     grid-template-columns: repeat(5, 1fr);
     align-items: center;
+    margin-bottom: 2px;
     gap: 10px;
-    margin-bottom: 10px;
+    opacity: 0;
+    max-height: 0;
+    transform: translateY(-20px);
+    overflow: hidden;
+    transition: all 0.5s cubic-bezier(0.68, -0.55, 0.27, 1.55);
+}
+
+.day-row-top.show {
+    opacity: 1;
+    max-height: 500px;
+    transform: translateY(0);
 }
 
 .day-number-top {
@@ -169,14 +179,10 @@ h2 {
     background-color: #4cae4c;
 }
 
-
-
-
 .bonus-row {
     font-size: 0.8rem;
     margin-top: 5px;
     color: #00ff7f;
-    /* Bright green for bonus row */
 }
 
 .bonus-row a {
@@ -225,9 +231,6 @@ h2 {
     background-color: #ff1a1a;
 }
 
-
-
-
 form {
     display: flex;
     flex-direction: column;
@@ -246,7 +249,6 @@ form {
     text-align: center;
     margin-bottom: 10px;
 }
-
 
 .bonus-row a {
     text-decoration: none;
@@ -302,12 +304,10 @@ button[type="submit"] {
     transform: scale(0.5);
 }
 
-
 .day-hours p,
 .day-minutes p,
 .day-bonus p {
     color: rgb(221, 255, 0);
-
 }
 
 .delete-link:hover {
@@ -342,7 +342,6 @@ button[type="submit"] {
 .summary p:last-of-type {
     color: #007BFF;
 }
-
 
 .form-group {
     background-color: rgba(255, 0, 0, 0.46);
@@ -470,27 +469,113 @@ button[type="submit"],
     font-weight: bold;
     color: black;
 }
+
 .last {
     background-color: #f0f0f0;
-    color: #ff0000 !important; 
+    color: #ff0000 !important;
     border-radius: 5px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); 
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
     font-weight: bold;
     font-size: 1.1rem;
 }
+
 .now {
     background-color: #f0f0f0;
-    color: #ff0000 !important; 
+    color: #ff0000 !important;
     border-radius: 5px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); 
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
     font-weight: bold;
-    font-size: 1.1rem; 
+    font-size: 1.1rem;
 }
+
+.modal {
+    position: fixed;
+    top: 75%; 
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 50%;
+    background-color: rgba(255, 255, 255, 0);
+    padding: 20px;
+    border-radius: 8px;
+    z-index: 1000;
+    display: none;
+}
+
+.modal-content {
+    padding: 20px;
+    background-color: #000000c6;
+    border-radius: 8px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    text-align: center;
+}
+
+.close-button {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    font-size: 30px;
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    color: #ffffff;
+}
+
+.modal-actions {
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+}
+
+.confirm-button,
+.cancel-button {
+    padding: 10px 20px;
+    border-radius: 5px;
+    cursor: pointer;
+    border-color: #00000084;
+}
+
+.confirm-button {
+    background-color: #28a745;
+    color: white;
+}
+
+.cancel-button {
+    background-color: #dc3545;
+    color: white;
+}
+
+.confirm-button:hover,
+.cancel-button:hover {
+    opacity: 0.9;
+}
+
+.day-row.weekend-day {
+    border: 1px solid #2a2a2a;
+    border-radius: 10px;
+    background: linear-gradient(135deg, #2c2e30, #52565b);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.6);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.day-row.weekend-day:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.8);
+}
+
 @media (max-width: 768px) {
+    .modal {
+        width: 70%;
+    }
+
+    .confirm-button, .cancel-button {
+        font-size: 12px;
+    }
+
     .summary {
-        padding: 15px; 
+        padding: 15px;
         font-size: 14px;
     }
+
     .day-number-top {
         display: none;
         grid-column: span 0;
@@ -512,5 +597,16 @@ button[type="submit"],
         flex: 1;
         padding: 10px;
         text-align: center;
+    }
+}
+
+@media (max-width: 480px) {
+    .modal {
+        width: 90%;
+    }
+
+    .confirm-button, .cancel-button {
+        font-size: 12px;
+        padding: 8px 16px;
     }
 }
