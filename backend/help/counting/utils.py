@@ -43,7 +43,7 @@ def calculate_salary(user, year, month):
     except bonus_hours.DoesNotExist:
         plus_or_minus = Decimal('0.00')
 
-
+    formatted_plus_or_minus = format_hours(plus_or_minus)
     work_logs = WorkLog.objects.filter(
         user=user, 
         date__year=year, 
@@ -61,7 +61,7 @@ def calculate_salary(user, year, month):
     for log in work_logs:
         total_hours += log.hours_worked + log.minutes_worked/60
 
-
+    current_month_hours = format_hours(total_hours)
     total_hours += plus_or_minus
     hours_difference = total_hours - hours_count
 
@@ -88,4 +88,6 @@ def calculate_salary(user, year, month):
         'first_name' : first_name,
         'last_name' : last_name,
         'plus_or_minus' : plus_or_minus,
+        'current_month_hours' : current_month_hours,
+        'formatted_plus_or_minus':formatted_plus_or_minus,
     }

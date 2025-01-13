@@ -326,6 +326,7 @@ button[type="submit"] {
     padding: 10px;
     background-color: #040047b0;
     margin: 20px 0;
+    color: #fff700 !important;
 }
 
 .summary p {
@@ -342,7 +343,9 @@ button[type="submit"] {
 .summary p:last-of-type {
     color: #007BFF;
 }
-
+.diveder {
+    color: red !important;
+}
 .form-group {
     background-color: rgba(255, 0, 0, 0.46);
     border-radius: 10px;

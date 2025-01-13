@@ -26,14 +26,9 @@ class WorkLogForm(forms.ModelForm):
             }),
         }
         labels = {
-            'date': 'Дата',
-            'hours_worked': 'Години роботи',
-            'minutes_worked': 'Хвилини роботи',
-        }
-        help_texts = {
-            'date': 'Оберіть дату роботи.',
-            'hours_worked': 'Вкажіть кількість годин, які ви працювали.',
-            'minutes_worked': 'Вкажіть кількість хвилин, які ви працювали.',
+            'date': 'Оберіть дату роботи',
+            'hours_worked': 'Вкажіть кількість годин, які ви працювали',
+            'minutes_worked': 'Вкажіть кількість хвилин, які ви працювали',
         }
         
     def clean_hours_worked(self):

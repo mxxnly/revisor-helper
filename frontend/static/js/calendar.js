@@ -59,11 +59,19 @@
 
   document.addEventListener("DOMContentLoaded", function () {
     const dayRows = document.querySelectorAll(".day-row");
+  
     dayRows.forEach((row) => {
       const topRow = row.querySelector(".day-row-top");
-
+  
       if (topRow) {
         row.addEventListener("click", function () {
+          dayRows.forEach((otherRow) => {
+            const otherTopRow = otherRow.querySelector(".day-row-top");
+            if (otherTopRow && otherTopRow !== topRow && otherTopRow.classList.contains("show")) {
+              otherTopRow.classList.remove("show");
+            }
+          });
+  
           if (topRow.classList.contains("show")) {
             topRow.classList.remove("show");
           } else {
@@ -73,6 +81,7 @@
       }
     });
   });
+  
   document.addEventListener("DOMContentLoaded", function () {
     const dayNames = ["нд", "пн", "вт", "ср", "чт", "пт", "сб"];
     const dayRows = document.querySelectorAll(".day-row");

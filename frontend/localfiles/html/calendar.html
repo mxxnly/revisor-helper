@@ -26,24 +26,24 @@
   </form>
 
   <div class="summary">
+    Години з минулого місяця: {{formatted_plus_or_minus}}</br>
+    Години поточного місяця: {{ current_month_hours }}</br>
     {% if is_full_month %}
-    <p class="now">Повний місяць</p>
+      Повний місяць
     {% elif is_full_and_more %}
-    <p class="now">
-      Повний місяць + {{formatted_hours_difference }} ({{
-      hours_difference|floatformat:2 }})
-    </p>
+        Повний місяць + {{formatted_hours_difference }}
     {% else %}
-    <p class="now">
-      {{ formatted_total_hours }} ( {{ total_hours|floatformat:2 }} ) / {{hours_count }}
-    </p>
+      РАЗОМ за цей місяць: {{ formatted_total_hours }} <strong><span class="diveder">З</span></strong> {{ hours_count|floatformat:0 }} годин
     {% endif %}
+    
+
+    
     <div id="progress-container">
       <div id="progress-bar"></div>
       <span id="progress-text"></span>
     </div>
-    <p class="last">Години з минулого місяця: {{plus_or_minus}}</p>
   </div>
+  
 
   <h2>Calendar for {{ month }}/{{ year}}</h2>
   <div class="calendar-vertical">
@@ -133,6 +133,7 @@
   document.addEventListener("DOMContentLoaded", function () {
     var totalHours = parseFloat("{{ total_hours|floatformat:2 }}");
     var hoursCount = parseFloat("{{ hours_count|floatformat:2 }}");
+    var formatted_total_hours = ("{{ formatted_total_hours }}")
     var percentage = (totalHours / hoursCount) * 100;
     if (percentage > 100) {
       percentage = 100;
@@ -140,7 +141,7 @@
     var progressBar = document.getElementById("progress-bar");
     var progressText = document.getElementById("progress-text");
     progressBar.style.width = percentage + "%";
-    progressText.textContent = totalHours.toFixed(2) + " hours";
+    progressText.textContent = formatted_total_hours;
   });
 </script>
 {% endblock %}
