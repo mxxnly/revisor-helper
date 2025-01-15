@@ -1,2 +1,3 @@
 *.sqlite3
 frontend/static/videos/IMG_7018.MOV
+venv_backup

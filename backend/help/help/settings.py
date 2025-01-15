@@ -47,6 +47,7 @@ INSTALLED_APPS = [
     'users',
     'rate',
     'hours_bonus',
+    'utopky',
 ]
 
 MIDDLEWARE = [

@@ -14,5 +14,6 @@ urlpatterns = [
     path('', include('users.urls')),
     path('', include('rate.urls')),
     path('', include('hours_bonus.urls')),
+    path('', include('utopky.urls')),
 ]
 urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

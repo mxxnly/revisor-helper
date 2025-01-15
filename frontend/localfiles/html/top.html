@@ -1,0 +1,75 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block links %}
+    <link href="{% static 'css/top.css' %}" rel="stylesheet">
+{% endblock %}
+{% block title %}Топ{% endblock %}
+{% block maincont %}
+<body>
+
+    <h1>Список зарплат</h1>
+
+    <button id="sort-button" onclick="sortSalaries()">Сортувати (за зростанням)</button>
+    <div class="salary-container" id="salary-container">
+        {% for item in salary_data %}
+        <div class="salary-card" data-salary="{{ item.salary }}">
+            <div>{{ item.first_name }} {{ item.last_name }}</div>
+            <div>Відпрацьовано: {{ item.formatted_total_hours }}</div>
+            <div>Зарплата: {{ item.salary|floatformat:0 }} грн</div>
+        </div>
+        {% endfor %}
+    </div>
+
+    <script>
+        let isAscending = false;
+
+        function sortSalaries() {
+            const container = document.getElementById('salary-container');
+            const cards = Array.from(container.getElementsByClassName('salary-card'));
+
+            const salaries = cards.map(card => parseFloat(card.getAttribute('data-salary')));
+            cards.sort((a, b) => {
+                const salaryA = parseFloat(a.getAttribute('data-salary'));
+                const salaryB = parseFloat(b.getAttribute('data-salary'));
+                return isAscending ? salaryA - salaryB : salaryB - salaryA;
+            });
+
+            container.innerHTML = '';
+
+            const topSalaries = [...salaries].sort((a, b) => b - a).slice(0, 3);
+            const minSalary = Math.min(...salaries);
+
+            cards.forEach((card, index) => {
+                const salary = parseFloat(card.getAttribute('data-salary'));
+
+                card.style.border = 'none';
+
+                if (salary === topSalaries[0]) {
+                    card.style.border = '3px solid gold';
+                } else if (salary === topSalaries[1]) {
+                    card.style.border = '3px solid silver';
+                } else if (salary === topSalaries[2]) {
+                    card.style.border = '3px solid #cd7f32';
+                }
+
+                if (salary === minSalary) {
+                    card.style.border = '3px solid red';
+                }
+
+                container.appendChild(card);
+            });
+
+            const button = document.getElementById('sort-button');
+            if (isAscending) {
+                button.textContent = 'Сортувати (за спаданням)';
+            } else {
+                button.textContent = 'Сортувати (за зростанням)';
+            }
+
+            isAscending = !isAscending;
+        }
+
+        window.onload = sortSalaries;
+    </script>
+
+{% endblock %}

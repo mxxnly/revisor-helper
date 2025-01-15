@@ -10,6 +10,7 @@ class WorkLog(models.Model):
     hours_worked = models.DecimalField(max_digits=5, decimal_places=2, default=0)
     minutes_worked = models.DecimalField(max_digits=5, decimal_places=0, default=0)
     bonus_added = models.BooleanField(default=False)
+    was_on_far_point = models.BooleanField(default=False)
 
     def adjust_time(self):
         if self.minutes_worked >= 60:

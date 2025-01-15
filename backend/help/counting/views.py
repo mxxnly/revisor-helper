@@ -45,6 +45,7 @@ def change_bonus_minutes(request, log_id):
     return HttpResponseForbidden("Invalid request method.")
 @login_required
 def work_log_view(request):
+    
     if request.user.is_authenticated:
         is_admin = request.user.groups.filter(name='Admin').exists()
     else:
@@ -52,7 +53,7 @@ def work_log_view(request):
     today = datetime.date.today()
     year = request.GET.get('year', today.year)
     month = request.GET.get('month', today.month)  
-
+    
     try:
         year = int(year)
         month = int(month)
@@ -63,6 +64,7 @@ def work_log_view(request):
         month = today.month
 
     first_day, last_day = calendar.monthrange(year, month)
+    
 
     salary_data = calculate_salary(request.user, year, month)
 
@@ -72,6 +74,8 @@ def work_log_view(request):
         if form.is_valid():
             work_log = form.save(commit=False)
             work_log.user = request.user
+            
+            was_on_far_point = False
 
             total_worked_hours = work_log.hours_worked + (work_log.minutes_worked / Decimal('60.00'))
             if total_worked_hours >= Decimal('7.75'):

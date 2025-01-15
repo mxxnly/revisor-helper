@@ -4,7 +4,7 @@ from hours_bonus.models import bonus_hours
 class WorkLogForm(forms.ModelForm):
     class Meta:
         model = WorkLog
-        fields = ['date', 'hours_worked', 'minutes_worked']
+        fields = ['date', 'hours_worked', 'minutes_worked','was_on_far_point']
         widgets = {
             'date': forms.DateInput(attrs={
                 'type': 'date',
@@ -24,11 +24,6 @@ class WorkLogForm(forms.ModelForm):
                 'class': 'form-control',
                 'aria-label': 'Кількість хвилин',
             }),
-        }
-        labels = {
-            'date': 'Оберіть дату роботи',
-            'hours_worked': 'Вкажіть кількість годин, які ви працювали',
-            'minutes_worked': 'Вкажіть кількість хвилин, які ви працювали',
         }
         
     def clean_hours_worked(self):
