@@ -2,6 +2,7 @@
 {% load static %}
 {% block links %}
     <link href="{% static 'css/calendar.css' %}" rel="stylesheet">
+    <script src="{% static 'js/calendar.js' %}"></script>
 {% endblock %}
 {% block title %}
 Звіт користувача {{ user.username }}
@@ -10,115 +11,136 @@
 {% endblock %}
 {% block maincont %}
 <main class="maincont">
+
+    <div id="confirmationModal" class="modal" style="display: none">
+        <div class="modal-content">
+          <span class="close-button" onclick="closeModal()">&times;</span>
+          <p id="modal-text">Ви дійсно бажаєте виконати цю дію?</p>
+          <div class="modal-actions">
+            <button id="confirmButton" class="confirm-button">Підтвердити</button>
+            <button class="cancel-button" onclick="closeModal()">Скасувати</button>
+          </div>
+        </div>
+      </div>
     <h1>Звіт користувача {{ user.username }}</h1>
-    <form method="post" class="input-form">
-        {% csrf_token %}
-        {{ form.as_p }}
-
+    <div id="confirmationModal" class="modal" style="display: none">
+        <div class="modal-content">
+          <span class="close-button" onclick="closeModal()">&times;</span>
+          <p id="modal-text">Ви дійсно бажаєте виконати цю дію?</p>
+          <div class="modal-actions">
+            <button id="confirmButton" class="confirm-button">Підтвердити</button>
+            <button class="cancel-button" onclick="closeModal()">Скасувати</button>
+          </div>
+        </div>
+      </div>
+    
+      <form method="post" class="input-form">
+        {% csrf_token %} {{ form.as_p }}
         <button type="submit">Submit</button>
-    </form>
-    <div class="summary">
+      </form>
+    
+      <div class="summary">
+        Години з минулого місяця: {{formatted_plus_or_minus}}</br>
+        Години поточного місяця: {{ current_month_hours }}</br>
         {% if is_full_month %}
-            <p>Повний місяць</p>
+          Повний місяць
         {% elif is_full_and_more %}
-            <p>Повний місяць + {{formatted_hours_difference }} ({{ hours_difference|floatformat:2 }})</p>
+            Повний місяць + {{formatted_hours_difference }}
         {% else %}
-            <p>{{ formatted_total_hours }} ( {{ total_hours|floatformat:2 }} ) / {{ hours_count }}</p>
+          РАЗОМ за цей місяць: {{ formatted_total_hours }} <strong><span class="diveder">З</span></strong> {{ hours_count|floatformat:0 }} годин
         {% endif %}
-
-            <p>{{salary}}</p>
-	    <p>Години з минулого місяця: {{plus_or_minus}}</p>
-
-    </div>
-    <h2>Calendar for {{ month }}/{{ year}}</h2>
-    <div class="calendar-vertical">
-        <!-- Headers -->
+        
+    
+        
+        <div id="progress-container">
+          <div id="progress-bar"></div>
+          <span id="progress-text"></span>
+        </div>
+      </div>
+      
+    
+      <h2>Календар для {{ month }} {{ year}}</h2>
+      <div class="calendar-vertical">
         <div class="day-row headers">
-            <div class="day-number-header"><strong>Число</strong></div>
-            <div class="day-name-header"><strong>День</strong></div>
-            <div class="day-hours-header"><strong>Год</strong></div>
-            <div class="day-minutes-header"><strong>Хв</strong></div>
-            <div class="day-bonus-header"><strong>Каса</strong></div>
+          <div class="day-number-header"><strong>Число</strong></div>
+          <div class="day-name-header"><strong>День</strong></div>
+          <div class="day-hours-header"><strong>Год</strong></div>
+          <div class="day-minutes-header"><strong>Хв</strong></div>
+          <div class="day-bonus-header"><strong>Каса</strong></div>
         </div>
     
-        <!-- Calendar Rows -->
-        {% for week in calendar %}
-            {% for day in week %}
-                {% if day %}
-                <div class="day-row" data-day="{{ day }}">
-                    <!-- Top Section: Buttons -->
-                    <div class="day-row-top">
-                        <div class="day-number-top"></div>
-                        <div class="day-hours-top">
-                            {% for log in work_logs %}
-                                {% if log.date.day == day %}
-                                <form method="post" action="{% url 'delete_work_log_user' user_id=log.user.id log_id=log.id %}" class="button-form">
-                                    {% csrf_token %}
-                                    <button type="submit" class="clear-hours-button">Очистити</button>
-                                </form>
-                                {% endif %}
-                            {% endfor %}
-                        </div>
-                        <div class="day-minutes-top">
-                            {% for log in work_logs %}
-                                {% if log.date.day == day %}
-                                <form method="post" action="{% url 'change_bonus_for_user' user_id=log.user.id log_id=log.id %}" class="button-form">
-                                    {% csrf_token %}
-                                    <button type="submit" class="bonus-button">
-                                        {% if log.bonus_added %}
-                                            Забрати бон.
-                                        {% else %}
-                                            Додати бон.
-                                        {% endif %}
-                                    </button>
-                                </form>
-                                {% endif %}
-                            {% endfor %}
-                        </div>
-                        
-                    </div>
+        {% for week in calendar %} {% for day in week %} {% if day %}
+        <div class="day-row" data-day="{{ day }}">
+          <div class="day-row-top">
+            <div class="day-number-top"></div>
+            <div class="day-hours-top">
+              {% for log in work_logs %} {% if log.date.day == day %}
+              <form
+                method="post"
+                action="{% url 'delete_work_log' log.id %}"
+                class="button-form"
+              >
+                {% csrf_token %}
+                <button
+                  type="button"
+                  class="clear-hours-button"
+                  onclick="showModal('Очистити записи для {{ day }} {{ month }}?', '{{ log.id }}', 'delete')"
+                >
+                  Очистити
+                </button>
+              </form>
+              {% endif %} {% endfor %}
+            </div>
+            <div class="day-minutes-top">
+              {% for log in work_logs %} {% if log.date.day == day %}
+              <form
+                method="post"
+                action="{% url 'change' log.id %}"
+                class="button-form"
+              >
+                {% csrf_token %}
+                <button
+                  type="button"
+                  class="bonus-button"
+                  onclick="showModal('{% if log.bonus_added %}Забрати бонус для {{ day }} {{ month }}?{% else %}Додати бонус для {{ day }} {{ month }}?{% endif %}', '{{ log.id }}', 'change')"
+                >
+                  {% if log.bonus_added %} 
+                  Забрати бон. 
+                  {% else %} 
+                  Додати бон. 
+                  {%endif %}
+                </button>
+              </form>
+             {% endif %} {% endfor %}
+            </div>
+          </div>
     
-                    <!-- Day Row Data -->
-                    <div class="day-row-bottom">
-                        <div class="day-number">{{ day }}</div>
-                        <div class="day-name"></div>
-                        <div class="day-hours">
-                            {% for log in work_logs %}
-                                {% if log.date.day == day %}
-                                    <p>{{ log.hours_worked|floatformat:0 }}</p>
-                                {% endif %}
-                            {% endfor %}
-                        </div>
-                        <div class="day-minutes">
-                            {% for log in work_logs %}
-                                {% if log.date.day == day %}
-                                    <p>{{ log.minutes_worked }}</p>
-                                {% endif %}
-                            {% endfor %}
-                        </div>
-                        <div class="day-bonus">
-                            {% for log in work_logs %}
-                                {% if log.date.day == day %}
-                                    {% if log.bonus_added %}
-                                        <p id="bonus_minutes">З них 15 хв за оновл. каси</p>
-                                    {% else %}
-                                        <p id="bonus_minutes">Немає хв. за оновл. каси</p>
-                                    {% endif %}
-                                {% endif %}
-                            {% endfor %}
-                        </div>
-                    </div>
-                </div>
-                {% endif %}
-            {% endfor %}
-        {% endfor %}
-    </div>
-    
-    
-    
-    
-    
-    
+          <div class="day-row-bottom">
+            <div class="day-number">{{ day }}</div>
+            <div class="day-name"></div>
+            <div class="day-hours">
+              {% for log in work_logs %} {% if log.date.day == day %}
+              <p>{{ log.hours_worked|floatformat:0 }}</p>
+              {% endif %} {% endfor %}
+            </div>
+            <div class="day-minutes">
+              {% for log in work_logs %} {% if log.date.day == day %}
+              <p>{{ log.minutes_worked }}</p>
+              {% endif %} {% endfor %}
+            </div>
+            <div class="day-bonus">
+              {% for log in work_logs %} 
+              {% if log.date.day == day %} 
+              {% if log.bonus_added %}
+              <p id="bonus_minutes">(з 15хв)</p>
+              {% else %}
+              <p id="bonus_minutes">(без 15хв)</p>
+              {% endif %} {% endif %} {% endfor %}
+            </div>
+          </div>
+        </div>
+        {% endif %} {% endfor %} {% endfor %}
+      </div>
 </main>
 
 
@@ -146,48 +168,18 @@
 </main>
 
 <script>
-    document.addEventListener('DOMContentLoaded', function() {
-        document.querySelectorAll('.delete-link').forEach(function(link) {
-            link.addEventListener('click', function(e) {
-                e.preventDefault();
-
-                fetch(this.href, {
-                    method: 'POST',
-                    headers: {
-                        'X-CSRFToken': '{{ csrf_token }}',
-                        'Content-Type': 'application/x-www-form-urlencoded'
-                    },
-                    body: new URLSearchParams({ 'csrfmiddlewaretoken': '{{ csrf_token }}' })
-                }).then(response => {
-                    if (response.ok) {
-                        window.location.reload();
-                    } else {
-                        alert('Error deleting the log.');
-                    }
-                });
-            });
-        });
-
-        document.querySelectorAll('.delete-bonus-link').forEach(function(link) {
-            link.addEventListener('click', function(e) {
-                e.preventDefault();
-
-                fetch(this.href, {
-                    method: 'POST',
-                    headers: {
-                        'X-CSRFToken': '{{ csrf_token }}',
-                        'Content-Type': 'application/x-www-form-urlencoded'
-                    },
-                    body: new URLSearchParams({ 'csrfmiddlewaretoken': '{{ csrf_token }}' })
-                }).then(response => {
-                    if (response.ok) {
-                        window.location.reload();
-                    } else {
-                        alert('Error deleting the bonus.');
-                    }
-                });
-            });
-        });
+    document.addEventListener("DOMContentLoaded", function () {
+      var totalHours = parseFloat("{{ total_hours|floatformat:2 }}");
+      var hoursCount = parseFloat("{{ hours_count|floatformat:2 }}");
+      var formatted_total_hours = ("{{ formatted_total_hours }}")
+      var percentage = (totalHours / hoursCount) * 100;
+      if (percentage > 100) {
+        percentage = 100;
+      }
+      var progressBar = document.getElementById("progress-bar");
+      var progressText = document.getElementById("progress-text");
+      progressBar.style.width = percentage + "%";
+      progressText.textContent = formatted_total_hours;
     });
-</script>
+  </script>
 {% endblock %}

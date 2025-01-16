@@ -374,19 +374,9 @@ button[type="submit"] {
     margin-bottom: 5px;
 }
 
-.form-group input[type="checkbox"] {
-    width: 20px;
-    height: 20px;
-    margin-top: 5px;
-    background-color: #2e2e3f;
-    border-radius: 3px;
-    border: 2px solid #ff0000;
-    cursor: pointer;
-}
 
-.form-group input[type="checkbox"]:checked {
-    background-color: #3a3a4a;
-}
+
+
 
 h1,
 h2,
@@ -565,6 +555,82 @@ button[type="submit"],
     box-shadow: 0 6px 12px rgba(0, 0, 0, 0.8);
 }
 
+
+/* Сховуємо стандартний чекбокс */
+input[type="checkbox"] {
+    display: none; /* Сховати стандартний чекбокс */
+}
+
+/* Стилізація для контейнера чекбокса */
+.checkbox-wrapper {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    background-color: #f2f2f2;
+    padding: 10px;
+    border-radius: 5px;
+    margin: 10px 0;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+/* Створюємо кастомний вигляд для чекбокса */
+.checkbox-wrapper label::before {
+    content: "";
+    width: 20px;
+    height: 20px;
+    border: 2px solid #4CAF50;
+    border-radius: 4px;
+    background-color: white;
+    display: inline-block;
+    margin-right: 10px;
+    transition: background-color 0.3s, border-color 0.3s;
+}
+
+input[type="checkbox"]:checked + label::before {
+    background-color: #4CAF50; 
+    border-color: #4CAF50; 
+}
+
+input[type="checkbox"]:checked + label::after {
+    content: "✔"; 
+    position: absolute;
+    top: 0;
+    left: 3px;
+    color: white;
+    font-size: 16px;
+}
+
+.checkbox-wrapper label {
+    font-size: 16px;
+    color: #333;
+    cursor: pointer;
+    position: relative; 
+}
+
+
+
+.form-errors {
+    background-color: #f8d7da;
+    color: #721c24;
+    padding: 10px;
+    margin-bottom: 20px;
+    border: 1px solid #f5c6cb;
+    border-radius: 5px;
+}
+
+.form-errors ul {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+}
+
+.form-errors li {
+    font-size: 14px;
+    margin-bottom: 5px;
+}
+.day-row.far-point {
+    border: 4px solid #4CAF50 !important;
+}
 @media (max-width: 768px) {
     .modal {
         width: 70%;

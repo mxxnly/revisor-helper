@@ -1,147 +1,183 @@
-{% extends "base.html" %} {% load static %} {% block links %}
-<link href="{% static 'css/calendar.css' %}" rel="stylesheet" />
-<link
-  href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css"
-  rel="stylesheet"
-/>
-<script src="{% static 'js/calendar.js' %}"></script>
-{% endblock %} {% block title %} Звіт {% endblock %} {% block maincont %}
+{% extends "base.html" %}
+{% load static %}
+{% block links %}
+    <link href="{% static 'css/calendar.css' %}" rel="stylesheet" />
+    <link
+        href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css"
+        rel="stylesheet"
+    />
+    <script src="{% static 'js/calendar.js' %}"></script>
+{% endblock %}
+
+{% block title %}Звіт{% endblock %}
+
+{% block maincont %}
 <main class="maincont">
-  <h1>Години за місяць</h1>
+    <h1>Години за місяць</h1>
 
-  <div id="confirmationModal" class="modal" style="display: none">
-    <div class="modal-content">
-      <span class="close-button" onclick="closeModal()">&times;</span>
-      <p id="modal-text">Ви дійсно бажаєте виконати цю дію?</p>
-      <div class="modal-actions">
-        <button id="confirmButton" class="confirm-button">Підтвердити</button>
-        <button class="cancel-button" onclick="closeModal()">Скасувати</button>
-      </div>
-    </div>
-  </div>
-
-  <form method="post" class="input-form">
-    {% csrf_token %} {{ form.as_p }}
-    <button type="submit">Submit</button>
-  </form>
-
-  <div class="summary">
-    Години з минулого місяця: {{formatted_plus_or_minus}}</br>
-    Години поточного місяця: {{ current_month_hours }}</br>
-    {% if is_full_month %}
-      Повний місяць
-    {% elif is_full_and_more %}
-        Повний місяць + {{formatted_hours_difference }}
-    {% else %}
-      РАЗОМ за цей місяць: {{ formatted_total_hours }} <strong><span class="diveder">З</span></strong> {{ hours_count|floatformat:0 }} годин
-    {% endif %}
-    
-
-    
-    <div id="progress-container">
-      <div id="progress-bar"></div>
-      <span id="progress-text"></span>
-    </div>
-  </div>
-  
-
-  <h2>Calendar for {{ month }}/{{ year}}</h2>
-  <div class="calendar-vertical">
-    <div class="day-row headers">
-      <div class="day-number-header"><strong>Число</strong></div>
-      <div class="day-name-header"><strong>День</strong></div>
-      <div class="day-hours-header"><strong>Год</strong></div>
-      <div class="day-minutes-header"><strong>Хв</strong></div>
-      <div class="day-bonus-header"><strong>Каса</strong></div>
+    <div id="confirmationModal" class="modal" style="display: none">
+        <div class="modal-content">
+            <span class="close-button" onclick="closeModal()">&times;</span>
+            <p id="modal-text">Ви дійсно бажаєте виконати цю дію?</p>
+            <div class="modal-actions">
+                <button id="confirmButton" class="confirm-button">Підтвердити</button>
+                <button class="cancel-button" onclick="closeModal()">Скасувати</button>
+            </div>
+        </div>
     </div>
 
-    {% for week in calendar %} {% for day in week %} {% if day %}
-    <div class="day-row" data-day="{{ day }}">
-      <div class="day-row-top">
-        <div class="day-number-top"></div>
-        <div class="day-hours-top">
-          {% for log in work_logs %} {% if log.date.day == day %}
-          <form
-            method="post"
-            action="{% url 'delete_work_log' log.id %}"
-            class="button-form"
-          >
-            {% csrf_token %}
-            <button
-              type="button"
-              class="clear-hours-button"
-              onclick="showModal('Очистити записи для {{ day }} {{ month }}?', '{{ log.id }}', 'delete')"
-            >
-              Очистити
-            </button>
-          </form>
-          {% endif %} {% endfor %}
-        </div>
-        <div class="day-minutes-top">
-          {% for log in work_logs %} {% if log.date.day == day %}
-          <form
-            method="post"
-            action="{% url 'change' log.id %}"
-            class="button-form"
-          >
-            {% csrf_token %}
-            <button
-              type="button"
-              class="bonus-button"
-              onclick="showModal('{% if log.bonus_added %}Забрати бонус для {{ day }} {{ month }}?{% else %}Додати бонус для {{ day }} {{ month }}?{% endif %}', '{{ log.id }}', 'change')"
-            >
-              {% if log.bonus_added %} 
-              Забрати бон. 
-              {% else %} 
-              Додати бон. 
-              {%endif %}
-            </button>
-          </form>
-         {% endif %} {% endfor %}
-        </div>
-      </div>
+    <form method="post" class="input-form">
+        {% csrf_token %}
+        {% if form.errors %}
+            <div class="form-errors">
+                <ul>
+                    {% for field in form %}
+                        {% for error in field.errors %}
+                            <li>{{ error }}</li>
+                        {% endfor %}
+                    {% endfor %}
+                </ul>
+            </div>
+        {% endif %}
 
-      <div class="day-row-bottom">
-        <div class="day-number">{{ day }}</div>
-        <div class="day-name"></div>
-        <div class="day-hours">
-          {% for log in work_logs %} {% if log.date.day == day %}
-          <p>{{ log.hours_worked|floatformat:0 }}</p>
-          {% endif %} {% endfor %}
+        <label for="{{ form.date.id_for_label }}">Дата</label>
+        {{ form.date }}
+
+        <label for="{{ form.hours_worked.id_for_label }}">Години роботи</label>
+        {{ form.hours_worked }}
+
+        <label for="{{ form.minutes_worked.id_for_label }}">Хвилини роботи</label>
+        {{ form.minutes_worked }}
+
+        <div class="checkbox-wrapper">
+            <input type="checkbox" id="id_was_on_far_point" name="was_on_far_point">
+            <label for="id_was_on_far_point">
+                Був(-ла) на дальній точці?
+            </label>
         </div>
-        <div class="day-minutes">
-          {% for log in work_logs %} {% if log.date.day == day %}
-          <p>{{ log.minutes_worked }}</p>
-          {% endif %} {% endfor %}
+
+        <button type="submit">Підтвердити</button>
+    </form>
+
+    <div class="summary">
+        Години з минулого місяця: {{formatted_plus_or_minus}}</br>
+        Години поточного місяця: {{ current_month_hours }}</br>
+        {% if is_full_month %}
+            Повний місяць
+        {% elif is_full_and_more %}
+            Повний місяць + {{formatted_hours_difference }}
+        {% else %}
+            РАЗОМ за цей місяць: {{ formatted_total_hours }} <strong><span class="diveder">З</span></strong> {{ hours_count|floatformat:0 }} годин
+        {% endif %}
+        
+        <div id="progress-container">
+            <div id="progress-bar"></div>
+            <span id="progress-text"></span>
         </div>
-        <div class="day-bonus">
-          {% for log in work_logs %} 
-          {% if log.date.day == day %} 
-          {% if log.bonus_added %}
-          <p id="bonus_minutes">(з 15хв)</p>
-          {% else %}
-          <p id="bonus_minutes">(без 15хв)</p>
-          {% endif %} {% endif %} {% endfor %}
-        </div>
-      </div>
     </div>
-    {% endif %} {% endfor %} {% endfor %}
-  </div>
+
+    <h2>Календар для {{ month }} {{ year}}</h2>
+    <div class="calendar-vertical">
+        <div class="day-row headers">
+            <div class="day-number-header"><strong>Число</strong></div>
+            <div class="day-name-header"><strong>День</strong></div>
+            <div class="day-hours-header"><strong>Год</strong></div>
+            <div class="day-minutes-header"><strong>Хв</strong></div>
+            <div class="day-bonus-header"><strong>Каса</strong></div>
+        </div>
+
+        {% for week in calendar %}
+            {% for day in week %}
+                {% if day %}
+                    <div class="day-row{% for log in work_logs %}
+                        {% if log.date.day == day and log.was_on_far_point %}
+                            far-point
+                        {% endif %}
+                    {% endfor %}" data-day="{{ day }}">
+                        <div class="day-row-top">
+                            <div class="day-number-top"></div>
+                            <div class="day-hours-top">
+                                {% for log in work_logs %}
+                                    {% if log.date.day == day %}
+                                        <form method="post" action="{% url 'delete_work_log' log.id %}" class="button-form">
+                                            {% csrf_token %}
+                                            <button type="button" class="clear-hours-button"
+                                                    onclick="showModal('Очистити записи для {{ day }} {{ month }}?', '{{ log.id }}', 'delete')">
+                                                Очистити
+                                            </button>
+                                        </form>
+                                    {% endif %}
+                                {% endfor %}
+                            </div>
+                            <div class="day-minutes-top">
+                                {% for log in work_logs %}
+                                    {% if log.date.day == day %}
+                                        <form method="post" action="{% url 'change' log.id %}" class="button-form">
+                                            {% csrf_token %}
+                                            <button type="button" class="bonus-button"
+                                                    onclick="showModal('{% if log.bonus_added %}Забрати бонус для {{ day }} {{ month }}?{% else %}Додати бонус для {{ day }} {{ month }}?{% endif %}', '{{ log.id }}', 'change')">
+                                                {% if log.bonus_added %} 
+                                                    Забрати бон. 
+                                                {% else %} 
+                                                    Додати бон. 
+                                                {%endif %}
+                                            </button>
+                                        </form>
+                                    {% endif %}
+                                {% endfor %}
+                            </div>
+                        </div>
+
+                        <div class="day-row-bottom">
+                            <div class="day-number">{{ day }}</div>
+                            <div class="day-name"></div>
+                            <div class="day-hours">
+                                {% for log in work_logs %}
+                                    {% if log.date.day == day %}
+                                        <p>{{ log.hours_worked|floatformat:0 }}</p>
+                                    {% endif %}
+                                {% endfor %}
+                            </div>
+                            <div class="day-minutes">
+                                {% for log in work_logs %}
+                                    {% if log.date.day == day %}
+                                        <p>{{ log.minutes_worked }}</p>
+                                    {% endif %}
+                                {% endfor %}
+                            </div>
+                            <div class="day-bonus">
+                                {% for log in work_logs %}
+                                    {% if log.date.day == day %}
+                                        {% if log.bonus_added %}
+                                            <p id="bonus_minutes">(з 15хв)</p>
+                                        {% else %}
+                                            <p id="bonus_minutes">(без 15хв)</p>
+                                        {% endif %}
+                                    {% endif %}
+                                {% endfor %}
+                            </div>
+                        </div>
+                    </div>
+                {% endif %}
+            {% endfor %}
+        {% endfor %}
+    </div>
 </main>
 
 <script>
-  document.addEventListener("DOMContentLoaded", function () {
-    var totalHours = parseFloat("{{ total_hours|floatformat:2 }}");
-    var hoursCount = parseFloat("{{ hours_count|floatformat:2 }}");
-    var formatted_total_hours = ("{{ formatted_total_hours }}")
-    var percentage = (totalHours / hoursCount) * 100;
-    if (percentage > 100) {
-      percentage = 100;
-    }
-    var progressBar = document.getElementById("progress-bar");
-    var progressText = document.getElementById("progress-text");
-    progressBar.style.width = percentage + "%";
-    progressText.textContent = formatted_total_hours;
-  });
+    document.addEventListener("DOMContentLoaded", function () {
+        var totalHours = parseFloat("{{ total_hours|floatformat:2 }}");
+        var hoursCount = parseFloat("{{ hours_count|floatformat:2 }}");
+        var formatted_total_hours = ("{{ formatted_total_hours }}")
+        var percentage = (totalHours / hoursCount) * 100;
+        if (percentage > 100) {
+            percentage = 100;
+        }
+        var progressBar = document.getElementById("progress-bar");
+        var progressText = document.getElementById("progress-text");
+        progressBar.style.width = percentage + "%";
+        progressText.textContent = formatted_total_hours;
+    });
 </script>
+
 {% endblock %}
