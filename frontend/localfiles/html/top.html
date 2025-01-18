@@ -4,72 +4,126 @@
     <link href="{% static 'css/top.css' %}" rel="stylesheet">
 {% endblock %}
 {% block title %}Топ{% endblock %}
-{% block maincont %}
-<body>
 
+{% block maincont %}
+<main class="maincont">
     <h1>Список зарплат</h1>
 
-    <button id="sort-button" onclick="sortSalaries()">Сортувати (за зростанням)</button>
-    <div class="salary-container" id="salary-container">
+    <div class="salary-header">
+        <div class="header-item" id="rank-header" onclick="sortHours()">№</div>
+        <div class="header-item" id="name-header">Ім'я</div>
+        <div class="header-item" id="hours-header" onclick="sortHours()">Відпрацьовано (год і хв)</div>
+        <div class="header-item" id="salary-header" onclick="sortHours()">Зарплата (грн)</div>
+    </div>
+    <div id="salary-container">
         {% for item in salary_data %}
-        <div class="salary-card" data-salary="{{ item.salary }}">
-            <div>{{ item.first_name }} {{ item.last_name }}</div>
-            <div>Відпрацьовано: {{ item.formatted_total_hours }}</div>
-            <div>Зарплата: {{ item.salary|floatformat:0 }} грн</div>
-        </div>
+            <div class="salary-row" data-salary="{{ item.salary }}">
+                <div class="salary-item">{{ forloop.counter }}</div>
+                <div class="salary-item">{{ item.first_name }} {{ item.last_name }}</div>
+                <div class="salary-item">{{ item.formatted_total_hours }}</div>
+                <div class="salary-item">{{ item.salary|floatformat:0 }}</div>
+            </div>
         {% endfor %}
     </div>
+</main>
 
-    <script>
-        let isAscending = false;
+<script>
+    let isAscendingSalary = false;
+let isAscendingHours = false;
 
-        function sortSalaries() {
-            const container = document.getElementById('salary-container');
-            const cards = Array.from(container.getElementsByClassName('salary-card'));
+function timeToMinutes(timeStr) {
+    const regex = /(\d+)\s*год(?:ин)?\s*(\d+)\s*хв/;
+    const match = timeStr.match(regex);
+    if (match) {
+        const hours = parseInt(match[1]);
+        const minutes = parseInt(match[2]);
+        return hours * 60 + minutes;
+    }
+    return 0; 
+}
 
-            const salaries = cards.map(card => parseFloat(card.getAttribute('data-salary')));
-            cards.sort((a, b) => {
-                const salaryA = parseFloat(a.getAttribute('data-salary'));
-                const salaryB = parseFloat(b.getAttribute('data-salary'));
-                return isAscending ? salaryA - salaryB : salaryB - salaryA;
-            });
+function sortSalaries() {
+    const container = document.getElementById('salary-container');
+    const rows = Array.from(container.getElementsByClassName('salary-row'));
 
-            container.innerHTML = '';
+    rows.sort((a, b) => {
+        const salaryA = parseFloat(a.getAttribute('data-salary'));
+        const salaryB = parseFloat(b.getAttribute('data-salary'));
+        return isAscendingSalary ? salaryA - salaryB : salaryB - salaryA;
+    });
 
-            const topSalaries = [...salaries].sort((a, b) => b - a).slice(0, 3);
-            const minSalary = Math.min(...salaries);
+    container.innerHTML = '';
 
-            cards.forEach((card, index) => {
-                const salary = parseFloat(card.getAttribute('data-salary'));
+    rows.forEach((row, index) => {
+        const rankCell = row.children[0];
+        const salaryCell = row.children[3];
+        rankCell.textContent = index + 1;
 
-                card.style.border = 'none';
-
-                if (salary === topSalaries[0]) {
-                    card.style.border = '3px solid gold';
-                } else if (salary === topSalaries[1]) {
-                    card.style.border = '3px solid silver';
-                } else if (salary === topSalaries[2]) {
-                    card.style.border = '3px solid #cd7f32';
-                }
-
-                if (salary === minSalary) {
-                    card.style.border = '3px solid red';
-                }
-
-                container.appendChild(card);
-            });
-
-            const button = document.getElementById('sort-button');
-            if (isAscending) {
-                button.textContent = 'Сортувати (за спаданням)';
-            } else {
-                button.textContent = 'Сортувати (за зростанням)';
-            }
-
-            isAscending = !isAscending;
+        if (index === 0) {
+            row.style.border = '2px solid gold';  
+        } else if (index === 1) {
+            row.style.border = '2px solid silver';
+        } else if (index === 2) {
+            row.style.border = '2px solid #cd7f32'; 
+        } else if (index === rows.length - 1) {
+            row.style.border = '2px solid red';  
+        } else {
+            row.style.border = ''; 
         }
 
-        window.onload = sortSalaries;
-    </script>
+        container.appendChild(row);
+    });
 
+    const button = document.getElementById('sort-button');
+    button.textContent = isAscendingSalary ? 'Сортувати (за спаданням)' : 'Сортувати (за зростанням)';
+
+    const salaryHeader = document.getElementById('salary-header');
+    const hoursHeader = document.getElementById('hours-header');
+    if (isAscendingSalary) {
+        salaryHeader.textContent = 'Зарплата (грн) ↓';
+        hoursHeader.textContent = 'Відпрацьовано (год і хв) ↓';
+    } else {
+        salaryHeader.textContent = 'Зарплата (грн) ↑';
+        hoursHeader.textContent = 'Відпрацьовано (год і хв) ↑';
+    }
+
+    isAscendingSalary = !isAscendingSalary;
+}
+
+function sortHours() {
+    const container = document.getElementById('salary-container');
+    const rows = Array.from(container.getElementsByClassName('salary-row'));
+
+    rows.sort((a, b) => {
+        const hoursA = timeToMinutes(a.getElementsByClassName('salary-item')[2].textContent);
+        const hoursB = timeToMinutes(b.getElementsByClassName('salary-item')[2].textContent);
+        return isAscendingHours ? hoursA - hoursB : hoursB - hoursA;
+    });
+
+    container.innerHTML = '';
+
+    rows.forEach((row, index) => {
+        const rankCell = row.children[0];
+        rankCell.textContent = index + 1;
+        container.appendChild(row);
+    });
+
+    const salaryHeader = document.getElementById('salary-header');
+    const hoursHeader = document.getElementById('hours-header');
+    if (isAscendingHours) {
+        salaryHeader.textContent = 'Зарплата (грн) ↑';
+        hoursHeader.textContent = 'Відпрацьовано (год і хв) ↑';
+    } else {
+        salaryHeader.textContent = 'Зарплата (грн) ↓';
+        hoursHeader.textContent = 'Відпрацьовано (год і хв) ↓';
+    }
+
+    isAscendingHours = !isAscendingHours;
+}
+
+window.onload = function () {
+    sortSalaries();
+}
+
+</script>
 {% endblock %}

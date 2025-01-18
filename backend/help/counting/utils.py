@@ -49,7 +49,7 @@ def calculate_salary(user, year, month):
         date__year=year, 
         date__month=month
     )
-    if who_are == 'ревізор':
+    if who_are == 'Ревізор':
         salary_per_hour = Decimal('19500.00') / hours_count
     else:
         salary_per_hour = Decimal('18500.00') / hours_count
