@@ -7,6 +7,7 @@ import datetime
 from .models import WorkLog
 from main.models import Revisor
 from hours_bonus.models import bonus_hours
+from .models import MoneyLog
 
 
 def format_hours(minutes_total):
@@ -14,6 +15,22 @@ def format_hours(minutes_total):
     minutes = int((minutes_total - hours) * 60)
     return f"{hours} год {minutes} хв"
 
+
+def calculate_total_money_for_month(user):
+    today = datetime.date.today()
+    year, month = today.year, today.month
+
+    logs = MoneyLog.objects.filter(
+        user=user,
+        date__year=year,
+        date__month=month
+    )
+    total_money = 0
+    for i in logs:
+        if i.money_spend > 0:
+            total_money+=i.money_spend
+
+    return total_money
 
 def calculate_salary(user, year, month):
     first_day, last_day = calendar.monthrange(year, month)

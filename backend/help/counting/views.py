@@ -1,8 +1,8 @@
 from django.shortcuts import render, redirect
-from .forms import WorkLogForm
-from .models import WorkLog
+from .forms import WorkLogForm, MoneyForm
+from .models import WorkLog, MoneyLog
 import calendar
-from .utils import calculate_salary
+from .utils import calculate_salary, calculate_total_money_for_month
 from django.contrib.auth.decorators import login_required
 import datetime
 from django.contrib.auth.models import User
@@ -18,6 +18,53 @@ MONTHS_UA = {
     5: "травня", 6: "червня", 7: "липня", 8: "серпня",
     9: "вересня", 10: "жовтня", 11: "листопада", 12: "грудня"
 }
+ukrainian_weekdays = ['Пн', 'Вт', 'Ср', 'Чт', 'Пт', 'Сб', 'Нд']
+
+@group_required('Pro')
+@login_required
+def MoneyView(request):
+    today = datetime.date.today()
+    year, month = today.year, today.month
+    total_money = calculate_total_money_for_month(request.user)
+    if total_money is None:
+        total_money = 0.0
+    money_l = MoneyLog.objects.filter(user=request.user, date__year=year, date__month=month).first()
+    if request.method == 'POST':
+        
+        form = MoneyForm(request.POST)
+        if form.is_valid():
+            if money_l:
+                money_l.delete()
+            
+            money_l = form.save(commit=False)
+            money_l.user = request.user
+            money_l.save()
+            return redirect('money')
+    else:
+        form = MoneyForm(instance=money_l)
+
+    days_in_month = calendar.monthrange(year, month)[1]
+
+    days = []
+    for day in range(1, days_in_month + 1):
+        money_log = MoneyLog.objects.filter(
+            user=request.user,
+            date__year=year,
+            date__month=month,
+            date__day=day
+        ).first()
+
+        if money_log:
+            money = money_log.money_spend
+        else:
+            money = ''
+
+        days.append({
+            "number": day,
+            "weekday": ukrainian_weekdays[calendar.weekday(year, month, day)],
+            "money": money
+        })
+    return render(request, "money.html", {"form": form, "days": days, "total_money": total_money})
 
 @login_required
 def change_bonus_minutes(request, log_id):

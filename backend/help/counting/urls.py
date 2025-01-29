@@ -9,5 +9,6 @@ urlpatterns = [
     path('user/<int:user_id>/work-log/', views.user_work_log_view, name='user_work_log_view'),
     path('work-log/<int:user_id>/change-bonus/<int:log_id>/', views.change_bonus_minutes_for_user, name='change_bonus_for_user'),
     path('work-log/<int:user_id>/delete/<int:log_id>/', views.delete_user_work_log, name='delete_work_log_user'),
+    path('money', views.MoneyView, name="money"),
 
 ]

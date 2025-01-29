@@ -1,6 +1,33 @@
 from django import forms
-from .models import WorkLog
+from .models import WorkLog, MoneyLog
 from hours_bonus.models import bonus_hours
+
+
+class MoneyForm(forms.ModelForm):
+    class Meta:
+        model = MoneyLog
+        fields = ['date', 'money_spend']
+    
+        widgets = {
+            'date': forms.DateInput(attrs={
+                'type': 'date',
+                'placeholder': 'Оберіть дату',
+                'class': 'form-control date-picker',
+                'aria-label': 'Дата',
+            }),
+            'money_spend': forms.NumberInput(attrs={
+                'step': '1',
+                'placeholder': 'Вкажіть гроші',
+                'class': 'form-control',
+                'aria-label': 'Кількість грошей, які потратили',
+            }),
+        }
+
+        labels = {
+            'date': 'Дата',
+            'money_spend': 'Грошей потрачено'
+        }
+    
 class WorkLogForm(forms.ModelForm):
     class Meta:
         model = WorkLog
@@ -91,3 +118,5 @@ class BonusForm(forms.ModelForm):
         if commit:
             instance.save()
         return instance
+    
+    

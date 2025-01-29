@@ -32,3 +32,9 @@ class WorkLog(models.Model):
 
     def __str__(self):
         return f"{self.user.username} - {self.date} - {self.hours_worked} годин, {self.minutes_worked} хвилин."
+    
+class MoneyLog(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE, default=1)
+    date = models.DateField(default=timezone.now)
+    money_spend = models.IntegerField(default=0)
+    

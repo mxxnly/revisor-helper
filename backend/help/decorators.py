@@ -11,3 +11,4 @@ def group_required(*group_names):
                 return redirect('perm_error')
         return _wrapped_view
     return decorator
+
