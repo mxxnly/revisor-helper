@@ -30,15 +30,15 @@ def MoneyView(request):
         total_money = 0.0
     money_l = MoneyLog.objects.filter(user=request.user, date__year=year, date__month=month).first()
     if request.method == 'POST':
-        
         form = MoneyForm(request.POST)
         if form.is_valid():
             if money_l:
-                money_l.delete()
-            
-            money_l = form.save(commit=False)
-            money_l.user = request.user
-            money_l.save()
+                money_l.money_spend = form.cleaned_data['money_spend']
+                money_l.save()
+            else:
+                money_l = form.save(commit=False)
+                money_l.user = request.user
+                money_l.save()
             return redirect('money')
     else:
         form = MoneyForm(instance=money_l)
@@ -65,6 +65,7 @@ def MoneyView(request):
             "money": money
         })
     return render(request, "money.html", {"form": form, "days": days, "total_money": total_money})
+
 
 @login_required
 def change_bonus_minutes(request, log_id):
