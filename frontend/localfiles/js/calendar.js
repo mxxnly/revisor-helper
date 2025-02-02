@@ -86,20 +86,34 @@
     const dayNames = ["нд", "пн", "вт", "ср", "чт", "пт", "сб"];
     const dayRows = document.querySelectorAll(".day-row");
 
+    // Отримуємо параметри місяця та року з URL або використовуємо поточну дату
+    const urlParams = new URLSearchParams(window.location.search);
+    let year = parseInt(urlParams.get('year'), 10);
+    let month = parseInt(urlParams.get('month'), 10);
+
+    // Якщо параметри не задані, використовуємо поточний рік і місяць
+    const currentDate = new Date();
+    if (isNaN(year)) {
+        year = currentDate.getFullYear();
+    }
+    if (isNaN(month)) {
+        month = currentDate.getMonth() + 1; // Місяці в URL передаються з 1 (січень = 1)
+    }
+
     dayRows.forEach((row) => {
-      const dayNumber = parseInt(row.getAttribute("data-day"), 10);
+        const dayNumber = parseInt(row.getAttribute("data-day"), 10);
+        if (!isNaN(dayNumber)) {
+            // Створюємо дату для конкретного дня
+            const date = new Date(year, month - 1, dayNumber); // Місяці в JavaScript рахуються з 0
+            const dayName = dayNames[date.getDay()];
+            row.querySelector(".day-name").textContent = dayName;
 
-      if (!isNaN(dayNumber)) {
-        const today = new Date();
-        const year = today.getFullYear();
-        const month = today.getMonth();
-        const date = new Date(year, month, dayNumber);
-        const dayName = dayNames[date.getDay()];
-        row.querySelector(".day-name").textContent = dayName;
-
-        if (date.getDay() === 0 || date.getDay() === 6) {
-          row.classList.add("weekend-day");
+            // Додаємо клас для вихідних днів (субота та неділя)
+            if (date.getDay() === 0 || date.getDay() === 6) {
+                row.classList.add("weekend-day");
+            } else {
+                row.classList.remove("weekend-day");
+            }
         }
-      }
     });
-  });
+});

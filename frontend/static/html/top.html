@@ -21,7 +21,7 @@
                 <div class="salary-item">{{ forloop.counter }}</div>
                 <div class="salary-item">{{ item.first_name }} {{ item.last_name }}</div>
                 <div class="salary-item">{{ item.formatted_total_hours }}</div>
-                <div class="salary-item">{{ item.salary|floatformat:0 }}</div>
+                <div class="salary-item">{{ item.salary|floatformat:0 }} грн</div>
             </div>
         {% endfor %}
     </div>

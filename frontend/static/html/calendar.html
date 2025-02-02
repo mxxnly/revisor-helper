@@ -162,6 +162,14 @@
             {% endfor %}
         {% endfor %}
     </div>
+    <div class="navigation-buttons">
+        <a href="?year={{ prev_year }}&month={{ prev_month }}" class="prev">
+            <i class="fas fa-arrow-left"></i> <span>Попередній місяць</span>
+        </a>
+        <a href="?year={{ next_year }}&month={{ next_month }}" class="next">
+            <span>Наступний місяць</span> <i class="fas fa-arrow-right"></i>
+        </a>
+    </div>
 </main>
 
 <script>

@@ -23,14 +23,14 @@ BASE_DIR = Path(__file__).resolve().parent.parent.parent.parent
 SECRET_KEY = '0%c)v-ih!(0hzdhh0fd08u06!f5nkds!vp053a=u0sfaiyu7@-'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
+DEBUG = True
 
 ALLOWED_HOSTS = [
     'mxxnly.cloud', '62.72.22.94', 'www.mxxnly.cloud','127.0.0.1', 'localhost', '0.0.0.0', '192.168.31.164'
 ]
 
 
-SECURE_SSL_REDIRECT = True
+SECURE_SSL_REDIRECT = False
 
 
 INSTALLED_APPS = [

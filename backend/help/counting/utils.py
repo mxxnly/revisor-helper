@@ -16,21 +16,11 @@ def format_hours(minutes_total):
     return f"{hours} год {minutes} хв"
 
 
-def calculate_total_money_for_month(user):
-    today = datetime.date.today()
-    year, month = today.year, today.month
-
-    logs = MoneyLog.objects.filter(
-        user=user,
-        date__year=year,
-        date__month=month
-    )
-    total_money = 0
-    for i in logs:
-        if i.money_spend > 0:
-            total_money+=i.money_spend
-
+def calculate_total_money_for_month(user, year, month):
+    logs = MoneyLog.objects.filter(user=user, date__year=year, date__month=month)
+    total_money = sum(log.money_spend for log in logs if log.money_spend > 0)
     return total_money
+
 
 def calculate_salary(user, year, month):
     first_day, last_day = calendar.monthrange(year, month)

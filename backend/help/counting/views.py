@@ -10,6 +10,8 @@ from decimal import Decimal
 from decorators import group_required
 from django.shortcuts import get_object_or_404
 from django.http import HttpResponse, HttpResponseForbidden
+from django.utils.timezone import now
+from django.urls import reverse
 
 
 current_date = datetime.datetime.today()
@@ -23,48 +25,71 @@ ukrainian_weekdays = ['Пн', 'Вт', 'Ср', 'Чт', 'Пт', 'Сб', 'Нд']
 @group_required('Pro')
 @login_required
 def MoneyView(request):
-    today = datetime.date.today()
-    year, month = today.year, today.month
-    total_money = calculate_total_money_for_month(request.user)
-    if total_money is None:
-        total_money = 0.0
-    money_l = MoneyLog.objects.filter(user=request.user, date__year=year, date__month=month).first()
-    if request.method == 'POST':
-        form = MoneyForm(request.POST)
-        if form.is_valid():
-            if money_l:
-                money_l.money_spend = form.cleaned_data['money_spend']
-                money_l.save()
-            else:
-                money_l = form.save(commit=False)
-                money_l.user = request.user
-                money_l.save()
-            return redirect('money')
+    if request.user.is_authenticated:
+        is_admin = request.user.groups.filter(name='Admin').exists()
     else:
-        form = MoneyForm(instance=money_l)
+        is_admin = False
+    today = datetime.date.today()
+    
+    year = request.GET.get("year", today.year)
+    month = request.GET.get("month", today.month)
 
+    try:
+        year, month = int(year), int(month)
+    except ValueError:
+        year, month = today.year, today.month
+
+    prev_month = month - 1 if month > 1 else 12
+    prev_year = year if month > 1 else year - 1
+
+    next_month = month + 1 if month < 12 else 1
+    next_year = year if month < 12 else year + 1
+
+    total_money = calculate_total_money_for_month(request.user, year, month)
+    
     days_in_month = calendar.monthrange(year, month)[1]
-
     days = []
+    
     for day in range(1, days_in_month + 1):
-        money_log = MoneyLog.objects.filter(
-            user=request.user,
-            date__year=year,
-            date__month=month,
-            date__day=day
-        ).first()
-
-        if money_log:
-            money = money_log.money_spend
-        else:
-            money = ''
-
+        money_log = MoneyLog.objects.filter(user=request.user, date__year=year, date__month=month, date__day=day).first()
         days.append({
             "number": day,
             "weekday": ukrainian_weekdays[calendar.weekday(year, month, day)],
-            "money": money
+            "money": money_log.money_spend if money_log else "",
         })
-    return render(request, "money.html", {"form": form, "days": days, "total_money": total_money})
+    
+    if request.method == 'POST':
+        form = MoneyForm(request.POST)
+        if form.is_valid():
+            date = form.cleaned_data['date']
+            
+            money_log = MoneyLog.objects.filter(user=request.user, date=date).first()
+
+            if money_log:
+                money_log.money_spend = form.cleaned_data['money_spend']
+                money_log.save()
+            else:
+                money_log = form.save(commit=False)
+                money_log.user = request.user
+                money_log.save()
+
+            return redirect(f"{reverse('money')}?year={year}&month={month}")
+    else:
+        money_l = MoneyLog.objects.filter(user=request.user, date__year=year, date__month=month).first()
+        form = MoneyForm(instance=money_l)
+
+    return render(request, "money.html", {
+        "form": form,
+        "days": days,
+        "total_money": total_money,
+        "current_year": year,
+        "current_month": month,
+        "prev_year": prev_year,
+        "prev_month": prev_month,
+        "next_year": next_year,
+        "next_month": next_month,
+        'is_admin':is_admin,
+    })
 
 
 @login_required
@@ -93,7 +118,6 @@ def change_bonus_minutes(request, log_id):
     return HttpResponseForbidden("Invalid request method.")
 @login_required
 def work_log_view(request):
-    
     if request.user.is_authenticated:
         is_admin = request.user.groups.filter(name='Admin').exists()
     else:
@@ -112,7 +136,18 @@ def work_log_view(request):
         month = today.month
 
     first_day, last_day = calendar.monthrange(year, month)
-    
+    if month == 1:
+        prev_year = year - 1
+        prev_month = 12
+    else:
+        prev_year = year
+        prev_month = month - 1
+    if month == 12:
+        next_year = year + 1
+        next_month = 1
+    else:
+        next_year = year
+        next_month = month + 1
 
     salary_data = calculate_salary(request.user, year, month)
 
@@ -142,7 +177,7 @@ def work_log_view(request):
                 existing_log.delete()
 
             work_log.save()
-            return redirect('work_log')
+            return redirect(f"{reverse('work_log')}?year={year}&month={month}")
     else:
         form = WorkLogForm()
     
@@ -168,8 +203,13 @@ def work_log_view(request):
         'months': list(range(1, 13)),
         'is_admin':is_admin,
         'month': current_month,
+        'prev_year': prev_year,
+        'prev_month': prev_month,
+        'next_year': next_year,
+        'next_month': next_month,
     }
     return render(request, 'calendar.html', context)
+
 @login_required
 @group_required('Admin', 'God')
 def user_work_log_view(request, user_id):

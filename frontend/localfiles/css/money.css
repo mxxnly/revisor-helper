@@ -115,7 +115,52 @@ input:valid {
 input:invalid {
     border-color: #dc3545; /* Червоний бордер для невалідних полів */
 }
+.navigation-buttons {
+    position: fixed;
+    bottom: 20px;
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    padding: 0 20px;
+    pointer-events: none; /* Щоб елементи під кнопками залишались клікабельними */
+}
 
+.navigation-buttons a {
+    pointer-events: all; /* Дозволяє кліки */
+    background-color: rgba(20, 20, 20, 0.7);
+    color: white;
+    padding: 12px 18px;
+    border-radius: 8px;
+    text-decoration: none;
+    font-size: 16px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+    transition: background-color 0.3s, transform 0.2s;
+}
+
+.navigation-buttons a:hover {
+    background-color: rgba(20, 20, 20, 0.9);
+    transform: scale(1.1);
+}
+
+.navigation-buttons .prev {
+    position: fixed;
+    left: 20px;
+    bottom: 20px;
+}
+
+.navigation-buttons .next {
+    position: fixed;
+    right: 20px;
+    bottom: 20px;
+}
+@media (max-width: 600px) {
+    .navigation-buttons a span {
+        display: none;
+    }
+}
 @media (max-width: 768px) {
     .calendar-vertical {
         grid-template-columns: 1fr 1fr 1fr; /* Зменшуємо кількість колонок */
