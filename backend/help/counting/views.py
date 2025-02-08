@@ -212,18 +212,20 @@ def work_log_view(request):
 
 @login_required
 @group_required('Admin', 'God')
-def user_work_log_view(request, user_id):
+def user_work_log_view(request, user_id, year=None, month=None):
     if request.user.is_authenticated:
         is_admin = request.user.groups.filter(name='Admin').exists()
     else:
         is_admin = False
+    
     user = get_object_or_404(User, id=user_id)
+
     today = datetime.date.today()
-    year = today.year
-    month = today.month
+    year = int(request.GET.get('year', today.year))
+    month = int(request.GET.get('month', today.month))
+
     first_day, last_day = calendar.monthrange(year, month)
     salary_data = calculate_salary(user, year, month)
-
     cal = calendar.Calendar().monthdayscalendar(year, month)
 
     if request.method == 'POST':
@@ -239,7 +241,6 @@ def user_work_log_view(request, user_id):
                 work_log.adjust_time()
                 work_log.save()
 
-
             existing_log = WorkLog.objects.filter(
                 user=work_log.user,
                 date=work_log.date
@@ -249,9 +250,15 @@ def user_work_log_view(request, user_id):
                 existing_log.delete()
 
             work_log.save()
-            return redirect('user_work_log_view', user_id=user_id)
+            return redirect(reverse('user_work_log_view', kwargs={'user_id': user_id, 'year': year, 'month': month}))
     else:
         form = WorkLogForm()
+
+    prev_month = month - 1 if month > 1 else 12
+    prev_year = year if month > 1 else year - 1
+
+    next_month = month + 1 if month < 12 else 1
+    next_year = year if month < 12 else year + 1
 
     context = {
         'form': form,
@@ -270,7 +277,11 @@ def user_work_log_view(request, user_id):
         'is_full_and_more': salary_data['is_full_and_more'],
         'salary': salary_data['salary'],
         'plus_or_minus': salary_data['plus_or_minus'],
-        'is_admin':is_admin,
+        'is_admin': is_admin,
+        'prev_year': prev_year,
+        'prev_month': prev_month,
+        'next_year': next_year,
+        'next_month': next_month,
     }
     return render(request, 'user_calendar.html', context)
 
