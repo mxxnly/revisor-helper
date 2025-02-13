@@ -1,30 +1,24 @@
-.spaced {
-    margin-right: 10px; 
-    border: 2px solid #1990dfad;
-    border-radius: 4px;
-    padding: 5px;
-}
-#formdiv {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-}
 .info-button {
-    background-color: #007bff;
+    background-color: #3a7ca5;
     color: white;
-    border: none;
-    border-radius: 5px;
-    padding: 5px 10px;
+    border: 2px solid #2d5d77;
+    border-radius: 8px;
+    padding: 6px 14px;
     cursor: pointer;
-    font-size: 14px;
-    margin-left: 5px; 
-    transition: background-color 0.3s;
+    font-size: 16px;
+    margin-left: 8px; 
+    transition: background-color 0.3s, transform 0.2s ease;
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
 }
+
 .info-button:hover {
-    background-color: #0056b3;
+    background-color: #2b5b7b;
+    transform: scale(1.05);
 }
+
 .modal {
-    padding-top: 10px;
+    display: none;
+    padding-top: 20px;
     display: none;
     position: fixed;
     z-index: 1000;
@@ -33,51 +27,52 @@
     width: 100%;
     height: 100%;
     overflow: auto;
-    background-color: rgba(0, 0, 0, 0.8);
-    align-items: center;
+    background-color: rgba(0, 0, 0, 0.85);
+    display: flex;
     justify-content: center;
+    align-items: center;
 }
 
 .view-media-button {
-    background-color: #4A90E2; 
+    background-color: #5c8fbf; 
     color: #fff; 
-    padding: 10px 20px;
-    font-size: 16px;
+    padding: 12px 24px;
+    font-size: 18px;
     font-weight: bold;
-    border: none;
-    border-radius: 8px;
+    border: 2px solid #46759b;
+    border-radius: 12px;
     cursor: pointer;
-    transition: background-color 0.3s, transform 0.2s;
-    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.2);
+    transition: background-color 0.3s, transform 0.2s ease;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
 }
 
 .view-media-button:hover {
-    background-color: #357ABD; 
-    transform: scale(1.05); 
+    background-color: #426f8e; 
+    transform: scale(1.08);
 }
 
 .view-media-button:active {
-    background-color: #2A5B8C; 
+    background-color: #345e7c; 
     transform: scale(0.98); 
 }
+
 .modal-content {
-    background-color: #333;
+    background-color: #222;
     color: white;
-    border-radius: 10px;
-    padding: 20px;
-    width: 80%;
-    max-width: 800px;
+    border-radius: 15px;
+    padding: 25px;
+    width: 85%;
+    max-width: 850px;
     margin: auto;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.5);
+    box-shadow: 0px 5px 12px rgba(0, 0, 0, 0.6);
     display: flex;
     flex-direction: column;
 }
 
-
 .modal .close {
-    color: #ff0000;
+    color: #ff4747;
     float: right;
-    font-size: 28px;
+    font-size: 32px;
     font-weight: bold;
 }
 
@@ -88,46 +83,48 @@
     cursor: pointer;
 }
 
-
 .modal-details {
     display: flex;
     flex-direction: column;
-    gap: 20px; 
+    gap: 25px; 
 }
-
 
 .modal-row {
     display: flex;
     flex-wrap: wrap;
-    gap: 10px;
+    gap: 15px;
 }
 
 .modal-item {
-    flex: 1 1 calc(50% - 10px);
-    padding: 10px;
-    border: 1px solid #555;
-    border-radius: 5px;
-    background-color: #444;
+    flex: 1 1 calc(50% - 15px);
+    padding: 12px;
+    border: 2px solid #555;
+    border-radius: 8px;
+    background-color: #333;
 }
 
 .modal-item label {
     font-weight: bold;
+    color: #ccc;
 }
 
 .progress-bar {
     position: relative;
-    height: 20px;
-    background-color: #555;
-    border-radius: 5px;
+    height: 22px;
+    background-color: #444;
+    border-radius: 8px;
     overflow: hidden;
-    margin-bottom: 10px;
+    margin-bottom: 12px;
 }
+#shopModal {
+    display: none; 
 
+}
 .progress-fill {
     height: 100%;
     background-color: #4caf50;
     width: 0%;
-    border-radius: 5px;
+    border-radius: 8px;
 }
 
 .progress-bar label {
@@ -143,83 +140,6 @@
     font-weight: bold;
 }
 
-.form-container {
-    margin: 20px;
-    padding: 20px;
-    border: 1px solid rgba(255, 255, 255, 0.2);
-    border-radius: 8px;
-    background-color: rgba(0, 0, 0, 0.6);
-    max-width: 500px;
-    width: 100%;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.5);
-}
-
-.form-row {
-    display: flex;
-    flex-direction: column;
-}
-
-.form-list {
-    list-style: none;
-    padding: 0;
-    margin: 0;
-    width: 100%;
-}
-
-.form-list li {
-    margin-bottom: 15px;
-    width: 100%;
-}
-
-.form-label {
-    display: block;
-    color: #ccc; 
-    margin-bottom: 5px;
-}
-
-input[type="text"], select {
-    width: 100%;
-    padding: 10px;
-    border-radius: 5px;
-    border: 1px solid rgba(255, 255, 255, 0.2);
-    box-sizing: border-box;
-}
-
-input[type="text"] {
-    background-color: rgba(255, 255, 255, 0.1);
-    color: #fff;
-}
-
-select {
-    background-color: rgba(255, 255, 255, 0.2);
-    color: #fff;
-}
-
-select option {
-    background-color: #000;
-    color: #fff;
-}
-
-input[type="text"]:focus, select:focus {
-    outline: none;
-    border-color: #4CAF50;
-    background-color: rgba(255, 255, 255, 0.3);
-}
-
-input[type="submit"] {
-    background-color: #4CAF50;
-    color: white;
-    padding: 10px;
-    border-radius: 5px;
-    border: none;
-    width: 100%;
-    cursor: pointer;
-}
-
-input[type="submit"]:hover {
-    background-color: #45a049;
-}
-
 #shop-list {
     list-style: none;
     padding: 0;
@@ -233,32 +153,35 @@ input[type="submit"]:hover {
     display: flex;
     justify-content: flex-end;
     align-items: center;
-    padding: 10px;
-    margin-bottom: 10px;
+    padding: 12px;
+    margin-bottom: 12px;
     background-color: rgba(255, 255, 255, 0.1);
-    border-radius: 8px;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-    width: 70%;
+    border-radius: 10px;
+    box-shadow: 0 3px 6px rgba(0, 0, 0, 0.2);
+    width: 75%;
+    border: 2px solid #555;
 }
 
 #shop-list li a,
 #shop-list li form {
-    margin-left: 10px;
+    margin-left: 12px;
 }
 
 #shop-list li form button {
     background-color: #e74c3c;
     color: white;
     border: none;
-    padding: 5px 10px;
-    border-radius: 4px;
+    padding: 8px 14px;
+    border-radius: 6px;
     cursor: pointer;
-    font-size: 14px;
-    transition: background-color 0.5s;
+    font-size: 16px;
+    transition: background-color 0.3s, transform 0.2s ease;
+    box-shadow: 0px 3px 6px rgba(0, 0, 0, 0.2);
 }
 
 #shop-list li form button:hover {
     background-color: #c0392b;
+    transform: scale(1.05);
 }
 
 #shop-list li a {
@@ -266,14 +189,16 @@ input[type="submit"]:hover {
     color: white;
     text-decoration: none;
     cursor: pointer;
-    padding: 5px 10px;
-    border-radius: 4px;
-    font-size: 14px;
-    transition: background-color 0.5s;
+    padding: 8px 14px;
+    border-radius: 6px;
+    font-size: 16px;
+    transition: background-color 0.3s, transform 0.2s ease;
+    box-shadow: 0px 3px 6px rgba(0, 0, 0, 0.2);
 }
 
 #shop-list li a:hover {
     background-color: #2980b9;
+    transform: scale(1.05);
 }
 
 #shop-list li .shop-name {
@@ -289,7 +214,7 @@ input[type="submit"]:hover {
 
 .new-shop:hover {
     transform: scale(1.05);
-    box-shadow: 0 0 10px #0cb6ff9a;
+    box-shadow: 0 0 12px #0cb6ff9a;
 }
 
 .transported-shop {
@@ -301,7 +226,7 @@ input[type="submit"]:hover {
 
 .transported-shop:hover {
     transform: scale(1.05);
-    box-shadow: 0 0 10px #8a0dd2a9;
+    box-shadow: 0 0 12px #8a0dd2a9;
 }
 
 .c1-shop {
@@ -313,7 +238,7 @@ input[type="submit"]:hover {
 
 .c1-shop:hover {
     transform: scale(1.05);
-    box-shadow: 0 0 10px #fb7908af;
+    box-shadow: 0 0 12px #fb7908af;
 }
 
 .away-shop {
@@ -325,7 +250,7 @@ input[type="submit"]:hover {
 
 .away-shop:hover {
     transform: scale(1.05);
-    box-shadow: 0 0 10px #00ff1ea7;
+    box-shadow: 0 0 12px #00ff1ea7;
 }
 
 .normal-shop {
@@ -337,53 +262,7 @@ input[type="submit"]:hover {
 
 .normal-shop:hover {
     transform: scale(1.05);
-    box-shadow: 0 0 10px #fefefe;
-}
-
-
-.edit-form {
-    display: none;
-    flex: 1;
-    display: flex;
-    flex-direction: column;
-    background-color: rgba(255, 255, 255, 0.1);
-    padding: 15px;
-    border-radius: 8px;
-    width: 100%;
-}
-
-.edit-form input[type="text"], .edit-form select {
-    flex: 1;
-    margin-right: 10px;
-    background-color: rgba(255, 255, 255, 0.1);
-}
-
-.edit-form button {
-    margin-top: 5px;
-    background-color: #4CAF50;
-    color: white;
-    padding: 10px;
-    border-radius: 5px;
-    border: none;
-    cursor: pointer;
-}
-
-.edit-form button:hover {
-    background-color: #45a049;
-}
-
-.cancel-edit {
-    background-color: #e74c3c;
-    color: white;
-    padding: 10px;
-    border-radius: 5px;
-    border: none;
-    cursor: pointer;
-    margin-top: 5px;
-}
-
-.cancel-edit:hover {
-    background-color: #c0392b;
+    box-shadow: 0 0 12px #fefefe;
 }
 
 .shop-name {
@@ -391,51 +270,53 @@ input[type="submit"]:hover {
     display: inline-block;
 }
 
+#delete-form {
+    display: inline-block;
+    margin: 0;
+    padding: 0;
+    border: none;
+    background: none;
+    box-shadow: none;
+    width: fit-content;
+}
+
+#delete-form button.delete-button {
+    background-color: #e74c3c;
+    color: white;
+    border: none;
+    padding: 8px 16px;
+    font-size: 14px;
+    cursor: pointer;
+    border-radius: 8px;
+    transition: background-color 0.3s ease;
+}
+
+#delete-form button.delete-button:hover {
+    background-color: #c0392b;
+}
+
+#delete-form button.delete-button:focus {
+    outline: none;
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.3);
+}
+
+#delete-form button.delete-button:active {
+    background-color: #e60000;
+}
 
 @media (max-width: 600px) {
     #shop-list li {
         flex-direction: column;
         align-items: flex-start;
-        width: 95%;
+        text-align: left;
     }
 
-    #shop-list li a,
-    #shop-list li form {
-        margin-left: 0;
-        margin-top: 5px;
-        width: 100%;
+    #shop-list li form button {
+        font-size: 14px;
+        padding: 6px 12px;
     }
 
-    #shop-list li form button,
-    #shop-list li a {
-        width: 100%;
-        text-align: center;
-    }
-}
-@media screen and (max-width: 600px) {
-    #shop-list li {
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        margin-bottom: 25px;
-    }
-    #shop-list li span {
-        margin-bottom: 3px;
-    }
     .modal-content {
-        margin-top: 3px;
-        width: 95%;
-        padding: 15px;
-    }
-
-    .modal-item {
-        flex: 1 1 100%; 
-        margin: 5px 0;
-    }
-
-    .info-button {
-        font-size: 12px;
-        margin-right: 6px;
-        width: 100%;
+        width: 90%;
     }
 }

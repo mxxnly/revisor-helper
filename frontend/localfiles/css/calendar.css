@@ -1,5 +1,4 @@
 .maincont {
-    background-color: #1e1e2f;
     color: #e0e0e0;
     padding: 20px;
     border-radius: 10px;
@@ -7,34 +6,15 @@
     max-width: 1200px;
     margin: 0 auto;
     box-sizing: border-box;
+    background-color: #00000000;
+    border: none;
+    box-shadow: none;
 }
 
 h1 {
     font-size: 2rem;
     color: #f0f0f0;
     text-align: center;
-}
-
-.input-form {
-    background-color: #2e2e3f;
-    padding: 20px;
-    border-radius: 8px;
-    margin-bottom: 20px;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
-}
-
-button[type="submit"] {
-    background-color: #3a3a4a;
-    color: #f0f0f0;
-    padding: 10px 20px;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-    transition: background-color 0.3s ease;
-}
-
-button[type="submit"]:hover {
-    background-color: #4b4b5b;
 }
 
 h2 {
@@ -231,15 +211,7 @@ h2 {
     background-color: #ff1a1a;
 }
 
-form {
-    display: flex;
-    flex-direction: column;
-    width: 100%;
-    max-width: 1200px;
-    margin: 0 auto;
-    padding: 15px;
-    box-sizing: border-box;
-}
+
 
 .log-item {
     display: flex;
@@ -346,37 +318,6 @@ button[type="submit"] {
 .diveder {
     color: red !important;
 }
-.form-group {
-    background-color: rgba(255, 0, 0, 0.46);
-    border-radius: 10px;
-    margin-bottom: 15px;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    max-width: fit-content;
-    margin-bottom: 15px;
-    text-align: center;
-}
-
-.form-group span {
-    margin: 5px;
-    padding: 5px;
-    font-size: 1rem;
-    color: #f0f0f0;
-    margin-bottom: 5px;
-}
-
-.form-group label {
-    margin: 5px;
-    padding: 5px;
-    font-size: 1rem;
-    color: #f0f0f0;
-    margin-bottom: 5px;
-}
-
-
-
-
 
 h1,
 h2,
@@ -660,7 +601,9 @@ input[type="checkbox"]:checked + label::after {
     background-color: rgba(20, 20, 20, 0.9);
     transform: scale(1.1);
 }
-
+form {
+    max-width: 100%;
+}
 .navigation-buttons .prev {
     position: fixed;
     left: 20px;

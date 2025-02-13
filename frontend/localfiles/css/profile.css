@@ -5,14 +5,11 @@
     justify-content: center;
     height: 100vh;
     padding: 20px;
-    background-color: #121212;
 }
 
 .profile-container {
-    background-color: #1e1e1e;
     padding: 20px;
     border-radius: 10px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
     width: 100%;
     max-width: 800px;
 }
@@ -49,35 +46,6 @@ h1 {
     font-size: 18px;
 }
 
-.form-container {
-    background-color: #1e1e1e;
-    padding: 20px;
-    border-radius: 8px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
-    margin-bottom: 30px;
-}
-
-.form-group {
-    margin-bottom: 15px;
-}
-
-.form-group label {
-    display: block;
-    font-size: 18px;
-    color: #ecf0f1;
-    margin-bottom: 5px;
-}
-
-.form-group input {
-    background-color: #333333;
-    border: 1px solid #444444;
-    color: #ffffff;
-    padding: 10px;
-    border-radius: 4px;
-    font-size: 16px;
-    width: 100%;
-    box-sizing: border-box;
-}
 
 .card {
     background-color: #1e1e1e;

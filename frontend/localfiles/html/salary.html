@@ -7,21 +7,7 @@
 {% block maincont %}
 <body>
 
-    <form method="get" action="">
-        <label for="month">Місяць:</label>
-        <select name="month" id="month">
-            {% for i in months %}
-            <option value="{{ i }}" {% if i == month %}selected{% endif %}>{{ i }}</option>
-            {% endfor %}
-        </select>
-
-        <label for="year">Рік:</label>
-        <input type="number" name="year" id="year" value="{{ year }}">
-
-        <button type="submit">Подивитись</button>
-    </form>
-
-    <h1>Список зарплат</h1>
+    <h1 class="my-own">Список зарплат</h1>
     <div class="salary-container">
         {% for item in salary_data %}
         <div class="salary-card">
@@ -32,12 +18,12 @@
         </div>
         {% endfor %}
     </div>
-    <h2>Переглянути звіт користувача</h2>
+    <h2 class="my-own">Переглянути звіт користувачів</h2>
     <ul class="work-log-view">
         {% for user in users %}
-            <li>
+            <li class="log-data">
                 <a href="{% url 'user_work_log_view' user.id %}">
-                    {{ user.username }}
+                {{ user.revisor.firstname }} {{ user.revisor.lastname }}
                 </a>
             </li>
         {% endfor %}

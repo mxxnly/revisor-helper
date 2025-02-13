@@ -6,11 +6,11 @@
 {% block title%}Додати користувача{% endblock %}
 {% block maincont %}
   <div class="container">
-    <h2>Register</h2>
+    <h2 class="my-own">Реєстрація користувача</h2>
     <form method="post">
       {% csrf_token %}
       {{ form.as_p }}
-      <button type="submit">Register</button>
+      <button type="submit">Зареєструвати</button>
     </form>
   </div>
 {% endblock %}

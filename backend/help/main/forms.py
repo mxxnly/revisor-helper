@@ -4,11 +4,20 @@ from main.models import Photo, Video
 
 class RevisorForm(forms.ModelForm):
     date_hired = forms.DateField(
-        widget=forms.DateInput(attrs={'type': 'date'}) 
+        widget=forms.DateInput(attrs={'type': 'date', 'placeholder': 'Дата прийому на роботу'}),
+        label="Дата прийому"
     )
     class Meta:
         model = Revisor
         fields = ['firstname', 'lastname', 'email', 'phone_number', 'date_hired']
+        
+        labels = {
+            'firstname': "Ім'я",
+            'lastname': 'Прізвище',
+            'email':'Електрона пошта',
+            'phone_number':'Номер телефону',
+            'date_hired':'Дата прийому',
+        }
 
 class PhotoForm(forms.ModelForm):
     class Meta:

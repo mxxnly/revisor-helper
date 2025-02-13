@@ -5,6 +5,15 @@ form {
     box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.5);
     margin-bottom: 20px;
 }
+body {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    min-height: 100vh;
+    margin: 0;
+}
 
 form label {
     margin-right: 10px;
@@ -46,6 +55,8 @@ h1 {
     display: flex;
     flex-wrap: wrap;
     gap: 10px;
+    max-width: 90%;
+
 }
 
 .salary-card {
@@ -73,28 +84,75 @@ h1 {
 }
 
 .work-log-view {
-    list-style-type: none;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
     padding: 0;
+    list-style: none;
+    max-width: 90%;
 }
 
 .work-log-view li {
-    background-color: #1e1e1e;
-    margin: 10px 0;
-    border-radius: 5px;
-    transition: background-color 0.3s;
+    flex: 1 1 calc(25% - 10px);
+    max-width: calc(25% - 10px);
+    text-align: center;
+    background: #222;
+    color: #bb86fc;
+    padding: 10px;
+    border-radius: 8px;
+    box-shadow: 0 2px 5px rgba(255, 255, 255, 0.1);
+    transition: background-color 0.3s ease-in-out;
 }
 
 .work-log-view a {
-    display: block;
-    padding: 15px;
-    color: #ffffff;
+    color: #bb86fc;
     text-decoration: none;
+    font-weight: bold;
+}
+.work-log-view li:hover {
+    background-color: #ffffff;
 }
 
-.work-log-view a:hover {
-    background-color: #333333;
+.my-own {
+    color: #ffffff;
+    background: linear-gradient(45deg, #222, #444);
+    padding: 10px 20px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    margin: 20px auto;
+    max-width: fit-content;
+    max-width: 80%;
+    border-radius: 8px;
+    text-align: center;
+    font-size: 1.5em;
+    font-weight: bold;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+    transition: all 0.3s ease-in-out;
 }
 
-.work-log-view li {
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+.my-own:hover {
+    background: linear-gradient(45deg, #333, #555);
+    transform: scale(1.05);
 }
+
+
+.work-log-view li:hover {
+    animation: fadeIn 0.3s ease-in-out;
+}
+@media (max-width: 768px) {
+    .work-log-view li {
+        flex: 1 1 calc(50% - 10px);
+        max-width: calc(50% - 10px);
+    }
+}
+
+@media (max-width: 480px) {
+    .work-log-view li {
+        flex: 1 1 100%;
+        max-width: 100%;
+    }
+}
+

@@ -9,21 +9,21 @@
 {% block maincont %}
 <main class="main container">
     <div class="form-container form-container--first">
-        <h1>Add a New Revisor</h1>
+        <h1 class="my-own">Додати нового ревізора</h1>
         <form method="post" action="{% url 'add_revisor' %}">
             {% csrf_token %}
             {{ form.as_p }}
-            <button type="submit">Add Revisor</button>
+            <button type="submit">Додати</button>
         </form>
     </div>
-    <h1 class="text-center">Revisor List</h1>
+    <h1 class="text-center my-own">Список ревізорів</h1>
     <div class="container text-center" id="formContainer">
         <div class="formWrapper row row-cols-1 row-cols-md-4">
             {% for revisor in revisors %}
             <div class="card mb-3">
                 <div class="card-body">
                     <h5 class="card-title">{{ revisor.firstname }} {{ revisor.lastname }}</h5>
-                    <p class="card-text">Email: {{ revisor.email }}</p>
+                    <p class="card-text">Електрона пошта: {{ revisor.email }}</p>
                     <p class="card-text">Номер телефону: {{ revisor.phone_number }}</p>
                     <p class="card-text">Почав працювати з:<br>{{ revisor.date_hired }}</p>
                     <p class="card-text">Зараз рахує: {{ revisor.now_shop }}</p>
@@ -55,7 +55,7 @@
                         <p class="card-text">Статус: {{ revisor.who_are }}</p>
                     <form action="{% url 'delete_revisor' revisor.id %}" method="post" style="display:inline;">
                         {% csrf_token %}
-                        <button type="submit">Delete</button>
+                        <button type="submit">Видалити</button>
                     </form>
                 </div>
             </div>

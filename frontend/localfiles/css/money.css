@@ -1,7 +1,7 @@
 .calendar-vertical {
     display: grid;
-    grid-template-columns: 1fr 2fr 1fr; /* Розмір стовпців для числа, дня та грошей */
-    gap: 10px; /* Відстань між елементами */
+    grid-template-columns: 1fr 2fr 1fr; 
+    gap: 10px; 
     margin: 20px 0;
     border: 1px solid #ccc;
     padding: 10px;
@@ -11,7 +11,7 @@
 
 .calendar-header {
     display: grid;
-    grid-template-columns: 1fr 2fr 1fr; /* Заголовки мають такі ж стовпці */
+    grid-template-columns: 1fr 2fr 1fr; 
     gap: 10px;
     padding: 10px;
     background: linear-gradient(135deg, #2a2a72, #009ffd);
@@ -33,7 +33,7 @@
 }
 
 .calendar-row:last-child {
-    border-bottom: none; /* Останній рядок без нижнього бордера */
+    border-bottom: none; 
 }
 
 .calendar-item {
@@ -49,72 +49,6 @@ span.calendar-day-money-value {
     padding: 5px;
     display: inline-block;
 }
-form {
-    max-width: 600px; /* Максимальна ширина форми */
-    margin: 0 auto; /* Центруємо форму */
-    padding: 20px;
-    background-color: #060113a1; /* Легкий фон форми */
-    border-radius: 8px; /* Заокруглені кути */
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1); /* Тінь навколо форми */
-}
-
-
-
-label {
-    display: block;
-    font-weight: bold;
-    margin-bottom: 5px; /* Відступ для лейблів */
-    color: #333; /* Колір тексту лейбла */
-}
-
-input {
-    width: 100%; /* Ширина на весь блок */
-    padding: 10px;
-    font-size: 16px; /* Розмір шрифту */
-    border: 1px solid #ddd; /* Легкий бордер */
-    border-radius: 4px; /* Заокруглені кути */
-    box-sizing: border-box; /* Щоб padding не виходив за межі */
-    transition: border-color 0.3s ease; /* Плавна зміна бордера */
-}
-
-input:focus {
-    outline: none; /* Видалити стандартний outline */
-    border-color: #007bff; /* Зміна кольору бордера при фокусі */
-    box-shadow: 0 0 5px rgba(0, 123, 255, 0.5); /* Тінь при фокусі */
-}
-
-/* Стиль для кнопки */
-button {
-    width: 100%;
-    padding: 12px;
-    background-color: #007bff; /* Синій фон */
-    color: white; /* Білий текст */
-    font-size: 16px;
-    border: none;
-    border-radius: 4px; /* Заокруглені кути */
-    cursor: pointer;
-    transition: background-color 0.3s ease;
-}
-
-button:hover {
-    background-color: #0056b3; /* Трохи темніший синій на hover */
-}
-
-/* Стиль для помилок (якщо вони є) */
-.error-message {
-    color: red;
-    font-size: 14px;
-    margin-top: 5px;
-}
-
-/* Стиль для полів з успішною валідацією */
-input:valid {
-    border-color: #28a745; /* Зелений бордер для валідних полів */
-}
-
-input:invalid {
-    border-color: #dc3545; /* Червоний бордер для невалідних полів */
-}
 .navigation-buttons {
     position: fixed;
     bottom: 20px;
@@ -122,11 +56,11 @@ input:invalid {
     display: flex;
     justify-content: space-between;
     padding: 0 20px;
-    pointer-events: none; /* Щоб елементи під кнопками залишались клікабельними */
+    pointer-events: none;
 }
 
 .navigation-buttons a {
-    pointer-events: all; /* Дозволяє кліки */
+    pointer-events: all;
     background-color: rgba(20, 20, 20, 0.7);
     color: white;
     padding: 12px 18px;
@@ -163,15 +97,15 @@ input:invalid {
 }
 @media (max-width: 768px) {
     .calendar-vertical {
-        grid-template-columns: 1fr 1fr 1fr; /* Зменшуємо кількість колонок */
+        grid-template-columns: 1fr 1fr 1fr; 
     }
 
     .calendar-header {
-        grid-template-columns: 1fr 1fr 1fr; /* Зменшуємо кількість колонок */
+        grid-template-columns: 1fr 1fr 1fr; 
     }
 
     .calendar-row {
-        grid-template-columns: 1fr 1fr 1fr; /* Зменшуємо кількість колонок */
+        grid-template-columns: 1fr 1fr 1fr; 
     }
 
     .calendar-item {
@@ -180,7 +114,7 @@ input:invalid {
     }
 
     .calendar-day-number, .calendar-day-name, .calendar-day-money {
-        font-size: 14px; /* Зменшуємо шрифт на мобільних пристроях */
+        font-size: 14px;
     }
 
     span.calendar-day-money-value {
@@ -191,7 +125,7 @@ input:invalid {
 
 @media (max-width: 480px) {
     .calendar-day-number, .calendar-day-name, .calendar-day-money {
-        font-size: 12px; /* Додаткове зменшення шрифта на дуже малих екранах */
+        font-size: 12px;
     }
 
     span.calendar-day-money-value {

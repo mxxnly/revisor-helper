@@ -18,7 +18,10 @@ body {
     background-color: #121212;
     color: #ffffff;
 }
-
+.maincont {
+    border: none !important;
+    box-shadow: none !important;
+}
 footer {
     width: 100%;
 }
@@ -28,7 +31,84 @@ footer {
     margin-bottom: 16px;
     flex: 1;
 }
+form {
+    background: linear-gradient(135deg, #222222cb, #333333cb);
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 4px 10px rgb(189, 178, 178);
+    max-width: 400px;
+    width: 100%;
+    margin: 20px auto;
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
 
+label {
+    color: #fff;
+    font-weight: bold;
+    font-size: 1rem;
+}
+
+input, select, textarea {
+    background: #111;
+    color: #fff;
+    border: 1px solid #444;
+    padding: 10px;
+    border-radius: 5px;
+    font-size: 1rem;
+    width: 100%;
+    transition: 0.3s;
+}
+
+input:focus, select:focus, textarea:focus {
+    border-color: #00bcd4;
+    box-shadow: 0 0 10px rgba(0, 188, 212, 0.5);
+    outline: none;
+}
+
+button {
+    background: #4cac20ce;
+    color: #fff;
+    border: none;
+    padding: 10px 15px;
+    border-radius: 5px;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+button:hover {
+    background: #54ca1d;
+    transition: 0.3s;
+}
+
+button:active {
+    transform: scale(1);
+}
+
+textarea {
+    min-height: 100px;
+    resize: vertical;
+}
+
+.my-own {
+    color: #ffffff;
+    background: linear-gradient(45deg, #222, #444);
+    padding: 10px 20px;
+    border-radius: 8px;
+    font-size: 1.5em;
+    font-weight: bold;
+    text-align: center;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+    transition: all 0.3s ease-in-out;
+}
+
+.my-own:hover {
+    background: linear-gradient(45deg, #333, #555);
+    transform: scale(1.05);
+}
 @media screen and (max-width: 1024px) {
     html {
         font-size: 14px;

@@ -1,5 +1,5 @@
 
-from django.shortcuts import redirect, render
+from django.shortcuts import get_object_or_404, redirect, render
 import json
 from django.http import JsonResponse
 from django.views.decorators.csrf import csrf_exempt
@@ -58,8 +58,15 @@ def shop_edit(request, shop_id):
     return render(request, 'q.html', {'form': form})
 @group_required('Admin', 'God')
 def shop_delete(request, shop_id):
-    shop = Shop.objects.get(id=shop_id)
+    shop = get_object_or_404(Shop, id=shop_id)
+    
     if request.method == 'POST':
-        shop.delete()
-        return redirect('shop_list')
+        try:
+            shop.delete()
+            if request.headers.get('X-Requested-With') == 'XMLHttpRequest':
+                return JsonResponse({'success': True})
+            return redirect('shop_list')
+        except Exception as e:
+            return JsonResponse({'success': False, 'error': str(e)}, status=500)
+
     return render(request, 'q.html', {'shop': shop})
